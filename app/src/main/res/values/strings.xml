@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Gallery</string>
+
+
+    <!-- Photos Fragment -->
+    <string name="photos_new">New</string>
+    <string name="photos_popular">Popular</string>
+
+    <string name="network_error_title">Oh shucks!</string>
+    <string name="network_error_desc">Slow or no internet connection.\nPlease check your internet settings.</string>
+</resources>

@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallery
+package com.shepelevkirill.gallerytest
 
 import org.junit.Test
 

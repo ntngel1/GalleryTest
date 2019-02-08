@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallery
+package com.shepelevkirill.gallerytest
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -6,8 +6,8 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.shepelevkirill.gallery.server.response.photos.GetPhotosResponse
-import com.shepelevkirill.gallery.server.response.photos.Image
+import com.shepelevkirill.gallerytest.server.response.photos.GetPhotosResponse
+import com.shepelevkirill.gallerytest.server.response.photos.Image
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_photos.*
 import kotlinx.android.synthetic.main.fragment_photos.view.*

@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallery.server.response.photos
+package com.shepelevkirill.gallerytest.server.response.photos
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

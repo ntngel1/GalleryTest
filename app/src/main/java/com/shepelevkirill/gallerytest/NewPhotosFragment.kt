@@ -1,15 +1,15 @@
-package com.shepelevkirill.gallery
+package com.shepelevkirill.gallerytest
 
 import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
-import com.shepelevkirill.gallery.server.Server
+import com.shepelevkirill.gallerytest.server.Server
 
-class PopularPhotosFragment : PhotosFragment() {
+class NewPhotosFragment : PhotosFragment() {
     companion object {
-        private const val FRAGMENT_TITLE = "Popular"
+        private const val FRAGMENT_TITLE = "New"
 
-        fun newInstance(): PopularPhotosFragment {
-            val fragment = PopularPhotosFragment()
+        fun newInstance(): NewPhotosFragment {
+            val fragment = NewPhotosFragment()
 
             val args = Bundle()
             args.putString("title", FRAGMENT_TITLE)
@@ -22,7 +22,7 @@ class PopularPhotosFragment : PhotosFragment() {
     override var contentLoader: ContentLoader = object : ContentLoader {
         override fun LoadContent(recyclerView: RecyclerView) {
             val page = recyclerView.adapter!!.itemCount / ITEMS_PER_PAGE + 1 // page we need to get
-            Server.instance.getApi().getPhotos(page, ITEMS_PER_PAGE, null, true)
+            Server.instance.getApi().getPhotos(page, ITEMS_PER_PAGE, true, null)
                 .enqueue(requestCallback)
         }
     }

@@ -1,9 +1,11 @@
-package com.shepelevkirill.gallery
+package com.shepelevkirill.gallerytest
 
+import android.Manifest
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -49,5 +51,11 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        // Trying to get permission
+        // TODO Repair this permission
+        val permissions = RxPermissions(this)
+        permissions.request(Manifest.permission.INTERNET)
+            .subscribe()
     }
 }

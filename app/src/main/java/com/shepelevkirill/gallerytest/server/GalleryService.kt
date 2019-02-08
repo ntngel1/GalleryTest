@@ -1,6 +1,6 @@
-package com.shepelevkirill.gallery.server
+package com.shepelevkirill.gallerytest.server
 
-import com.shepelevkirill.gallery.server.response.photos.GetPhotosResponse
+import com.shepelevkirill.gallerytest.server.response.photos.GetPhotosResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

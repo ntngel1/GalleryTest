@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallery.server
+package com.shepelevkirill.gallerytest.server
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

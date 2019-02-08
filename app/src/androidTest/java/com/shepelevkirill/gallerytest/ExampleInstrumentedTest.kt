@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallery
+package com.shepelevkirill.gallerytest
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4

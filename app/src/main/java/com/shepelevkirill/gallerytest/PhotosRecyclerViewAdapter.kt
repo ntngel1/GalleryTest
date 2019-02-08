@@ -1,11 +1,11 @@
-package com.shepelevkirill.gallery
+package com.shepelevkirill.gallerytest
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.shepelevkirill.gallery.server.response.photos.Image
+import com.shepelevkirill.gallerytest.server.response.photos.Image
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.cardview_item_photo.view.*
 

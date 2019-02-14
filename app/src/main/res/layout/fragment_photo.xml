@@ -1,41 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-android:background="@color/colorBackground">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorBackground" android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/background_light"
             android:theme="?attr/actionBarTheme"
             android:minHeight="?attr/actionBarSize"
-            android:id="@+id/toolbar" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/toolbar"
             app:navigationIcon="?attr/homeAsUpIndicator"/>
-    <ImageView
-            android:layout_width="0dp"
-            app:srcCompat="@drawable/ic_launcher_background"
-            android:id="@+id/ui_image"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_height="240dp"
-            android:scaleType="centerCrop"/>
-    <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" android:id="@+id/ui_title"
-            android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/ui_image" android:fontFamily="@font/sf_compact_display_semibold"
-            android:textSize="20sp" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"
-            android:textColor="@color/colorTitle" tools:text="Title"/>
-    <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" android:id="@+id/ui_description"
-            android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/ui_title" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="20dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="20dp"
-            android:textColor="@color/colorParagraph" tools:text="Description" android:textSize="12sp"
-            android:fontFamily="@font/sf_compact_display_regular"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="vertical">
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:id="@+id/ui_image"
+                    android:layout_height="240dp"
+                    android:scaleType="centerCrop" android:contentDescription="@string/imageContentDesc"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/ui_title"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/sf_compact_display_semibold"
+                    android:textSize="20sp" android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:textColor="@color/colorTitle"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/ui_description"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:textColor="@color/colorParagraph" android:textSize="12sp"
+                    android:fontFamily="@font/sf_compact_display_regular"
+                    tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sollicitudin enim vel ornare sagittis. Quisque enim est, venenatis laoreet maximus sit amet, placerat sit amet orci. Nullam scelerisque enim eget sem sodales, at hendrerit sem consectetur. Nullam lacinia sagittis nisi mattis eleifend. Donec a diam dui. Sed tincidunt blandit mollis. Pellentesque semper ultricies justo non blandit. Proin iaculis fermentum tortor vestibulum ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce sed tincidunt mi. Donec a orci ornare, congue purus sed, venenatis quam.  Donec quis suscipit sem. Aenean sed nisl cursus, accumsan mauris et, porta arcu. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur sit amet elit quis neque sodales posuere vitae id augue. Phasellus ullamcorper neque in volutpat facilisis. Suspendisse dui nunc, consequat quis mollis vel, commodo non justo. Etiam accumsan dui eget cursus maximus. Suspendisse nisl libero, mollis eget ipsum eget, accumsan laoreet tellus. Duis libero lacus, sollicitudin eu purus sit amet, elementum imperdiet urna. Integer porta dictum orci ac euismod. Mauris efficitur aliquet lectus in sodales."
+                    android:layout_marginBottom="8dp"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

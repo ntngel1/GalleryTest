@@ -53,11 +53,7 @@ class PhotosRecyclerViewAdapter :
                 .into(imageView)
 
             this.itemView.setOnClickListener {
-                //onPhotoClickedListener?.invoke(image)
-                if (onPhotoClickedListener == null) throw RuntimeException("OnPhotoClicked callback isn't defined!")
-
-                onPhotoClickedListener?.invoke(image)
-                // TODO FORCE CALL
+                onPhotoClickedListener?.invoke(image) ?: throw RuntimeException("OnPhotoClicked callback isn't defined!")
             }
         }
     }

@@ -10,15 +10,12 @@ import com.google.gson.annotations.SerializedName
  */
 
 class GetPhotosResponse {
-    @SerializedName("totalItems")
     @Expose
     var totalItems: Int = 0
 
-    @SerializedName("itemsPerPage")
     @Expose
     var itemsPerPage: Int = 0
 
-    @SerializedName("countOfPages")
     @Expose
     var countOfPages: Int = 0
 

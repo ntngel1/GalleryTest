@@ -25,6 +25,7 @@ abstract class PhotosFragment : Fragment() {
     private var isLoading = false // Flag - we are sending request to the server now and don't need to send another one
     private var itemsOnServer = -1 // Count of images on server, so it's used for duct tape
 
+    private var recyclerViewAdapter: PhotosRecyclerViewAdapter = PhotosRecyclerViewAdapter()
     /*
      ContentLoader is just a way to delegate children classes logic of fetching data from a server.
      Every class can have different parameters for requests, so it is obvious choice
@@ -40,7 +41,6 @@ abstract class PhotosFragment : Fragment() {
         view.ui_title.text = arguments?.getString("title") ?: "UNDEFINED"
 
         // RecyclerView setup
-        val recyclerViewAdapter = PhotosRecyclerViewAdapter()
         view.ui_photos.setHasFixedSize(true)
         view.ui_photos.layoutManager = GridLayoutManager(view.context, 2)
         view.ui_photos.adapter = recyclerViewAdapter
@@ -118,7 +118,6 @@ abstract class PhotosFragment : Fragment() {
     // Basic on request response callback
     fun onResponse(call: Call<GetPhotosResponse>, response: Response<GetPhotosResponse>) {
         val result = response.body()
-        val recyclerViewAdapter = ui_photos.adapter as PhotosRecyclerViewAdapter
 
         ui_progressbar?.visibility = View.INVISIBLE
         ui_swipeRefreshLayout.isRefreshing = false
@@ -138,7 +137,6 @@ abstract class PhotosFragment : Fragment() {
 
     // Listener for refresh on swipe
     private val onRefreshListener = {
-        val recyclerViewAdapter = view!!.ui_photos.adapter as PhotosRecyclerViewAdapter
         recyclerViewAdapter.images.clear()
         recyclerViewAdapter.notifyDataSetChanged()
         loadContent()
@@ -197,7 +195,6 @@ abstract class PhotosFragment : Fragment() {
           Clearing images dataset in RecyclerView to make it's area clear
           If we just make it transparent, it will cause non-working SwipeRefreshLayout
         */
-        val recyclerViewAdapter = ui_photos.adapter as PhotosRecyclerViewAdapter
         recyclerViewAdapter.images.clear()
         recyclerViewAdapter.notifyDataSetChanged()
 

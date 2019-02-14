@@ -8,13 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.gallerytest.server.response.photos.Image
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.cardview_item_photo.view.*
+import java.lang.RuntimeException
 
 class PhotosRecyclerViewAdapter :
     RecyclerView.Adapter<PhotosRecyclerViewAdapter.ViewHolder>() {
 
 
     val images: ArrayList<Image> = ArrayList() // Dataset
-    var onPhotoClickedListener: OnPhotoClickedListener? = null
+    var onPhotoClickedListener: ((Image) -> Int)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -52,12 +53,12 @@ class PhotosRecyclerViewAdapter :
                 .into(imageView)
 
             this.itemView.setOnClickListener {
-                onPhotoClickedListener!!.onPhotoClicked(image)
+                //onPhotoClickedListener?.invoke(image)
+                if (onPhotoClickedListener == null) throw RuntimeException("OnPhotoClicked callback isn't defined!")
+
+                onPhotoClickedListener?.invoke(image)
+                // TODO FORCE CALL
             }
         }
-    }
-
-    interface OnPhotoClickedListener {
-        fun onPhotoClicked(image: Image)
     }
 }

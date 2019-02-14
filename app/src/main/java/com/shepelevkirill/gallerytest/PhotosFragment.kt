@@ -29,7 +29,7 @@ abstract class PhotosFragment : Fragment() {
      ContentLoader is just a way to delegate children classes logic of fetching data from a server.
      Every class can have different parameters for requests, so it is obvious choice
       */
-    abstract var contentLoader: ContentLoader
+    abstract var contentLoader: (RecyclerView) -> Unit
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_photos, container, false)
@@ -103,7 +103,7 @@ abstract class PhotosFragment : Fragment() {
         if (!canLoadContent(ui_photos))
             return
 
-        contentLoader.LoadContent(ui_photos)
+        contentLoader(ui_photos)
     }
 
     // Basic on request failure callback
@@ -145,15 +145,14 @@ abstract class PhotosFragment : Fragment() {
     }
 
     // Listener for click on photo in RecyclerView
-    private val onPhotoClickedListener = object: PhotosRecyclerViewAdapter.OnPhotoClickedListener {
-        override fun onPhotoClicked(image: Image) {
+    private val onPhotoClickedListener = { image: Image ->
             // Opens PhotoFragment to see details
             activity!!.supportFragmentManager.beginTransaction()
                 .add(activity!!.fragment_container.id, PhotoFragment.newInstance(image))
                 .addToBackStack(null)
                 .commit()
         }
-    }
+
 
     // Listener for RecycleView scroll
     private val onRecycleViewScrollListener = object: RecyclerView.OnScrollListener() {
@@ -203,9 +202,5 @@ abstract class PhotosFragment : Fragment() {
         recyclerViewAdapter.notifyDataSetChanged()
 
         ui_network_error_layout?.visibility = View.VISIBLE
-    }
-
-    interface ContentLoader {
-        fun LoadContent(recyclerView: RecyclerView)
     }
 }

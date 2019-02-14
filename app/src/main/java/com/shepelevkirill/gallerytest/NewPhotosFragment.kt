@@ -19,11 +19,9 @@ class NewPhotosFragment : PhotosFragment() {
         }
     }
 
-    override var contentLoader: ContentLoader = object : ContentLoader {
-        override fun LoadContent(recyclerView: RecyclerView) {
-            val page = recyclerView.adapter!!.itemCount / ITEMS_PER_PAGE + 1 // page we need to get
-            Server.instance.getApi().getPhotos(page, ITEMS_PER_PAGE, true, null)
-                .enqueue(requestCallback)
-        }
+    override var contentLoader = { recyclerView: RecyclerView ->
+        val page = recyclerView.adapter!!.itemCount / ITEMS_PER_PAGE + 1 // page we need to get
+        Server.instance.getApi().getPhotos(page, ITEMS_PER_PAGE, true, null)
+            .enqueue(requestCallback)
     }
 }

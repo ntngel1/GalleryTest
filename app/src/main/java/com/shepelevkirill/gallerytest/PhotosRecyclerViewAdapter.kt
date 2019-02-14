@@ -28,7 +28,7 @@ class PhotosRecyclerViewAdapter :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(images[position], onPhotoClickedListener)
+        holder.bind(images[position])
     }
 
     override fun getItemId(position: Int): Long {
@@ -39,11 +39,11 @@ class PhotosRecyclerViewAdapter :
         return position
     }
 
-    class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+    inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         private val imageView: ImageView = itemView.ui_image
         private var image: Image? = null
 
-        fun bind(image: Image, onPhotoClickedListener: OnPhotoClickedListener?) {
+        fun bind(image: Image) {
             this.image = image
             Picasso.get()
                 .load(image.image!!.getFullUrl())

@@ -4,15 +4,12 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 class Image {
-    @SerializedName("id")
     @Expose
     var id: Int = 0
 
-    @SerializedName("name")
     @Expose
     var name: String? = null
 
-    @SerializedName("description")
     @Expose
     var description: String? = null
 
@@ -24,7 +21,6 @@ class Image {
     @Expose
     var isPopular: Boolean = false
 
-    @SerializedName("image")
     @Expose
     var image: ImageContent? = null
 }

@@ -189,7 +189,7 @@ abstract class PhotosFragment : Fragment() {
         }
     }
 
-    private fun showNetworkErrorScreen() {
+    public fun showNetworkErrorScreen() {
         // TODO Show Network Error Screen correctly
         /*
           Clearing images dataset in RecyclerView to make it's area clear

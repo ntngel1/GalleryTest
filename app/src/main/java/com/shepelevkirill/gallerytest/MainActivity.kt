@@ -12,7 +12,6 @@ class MainActivity : AppCompatActivity() {
 
     private val newPhotosFragment = NewPhotosFragment.newInstance()
     private val popularPhotoFragment = PopularPhotosFragment.newInstance()
-    private var currentFragment: Fragment = newPhotosFragment
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -29,13 +28,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openFragment(fragment: Fragment) {
-        supportFragmentManager.popBackStack()
         supportFragmentManager.beginTransaction()
-            .hide(currentFragment)
-            .show(fragment)
+            .replace(fragment_container.id, fragment)
             .commit()
-
-        currentFragment = fragment
     }
 
 
@@ -44,16 +39,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction()
-            .add(fragment_container.id, newPhotosFragment, "newPhotos").hide(newPhotosFragment)
-            .add(fragment_container.id, popularPhotoFragment, "popularPhotos").hide(popularPhotoFragment)
-            .show(currentFragment)
-            .commit()
+        openFragment(newPhotosFragment)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-        // Trying to get permission
-        // TODO Repair this permission
+        
         val permissions = RxPermissions(this)
         permissions.request(Manifest.permission.INTERNET)
             .subscribe()

@@ -184,7 +184,7 @@ abstract class PhotosFragment : Fragment() {
 
             // Top margin
             if (position != 0 && position != 1) {
-                outRect.top = (17 * 2.5).toInt()
+                outRect.top = 17
             }
 
             // Last row bottom margin

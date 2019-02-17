@@ -25,8 +25,6 @@ class PhotoFragment : Fragment() {
 
         // Loading image
         Picasso.get().load(arguments!!.getString("url"))
-            .fit()
-            .centerCrop()
             .into(view.ui_image)
     }
 

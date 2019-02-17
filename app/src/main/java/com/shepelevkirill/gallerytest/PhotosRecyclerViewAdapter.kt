@@ -1,5 +1,6 @@
 package com.shepelevkirill.gallerytest
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,14 +42,16 @@ class PhotosRecyclerViewAdapter :
     }
 
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        private val imageView: ImageView = itemView.ui_image
+        private val imageView: RatioImageView = itemView.ui_image
         private var image: Image? = null
 
         fun bind(image: Image) {
             this.image = image
+            //imageView.setHeightRatio(0.71)
+            Log.d("BindingViewHolder", "$this")
             Picasso.get()
                 .load(image.image!!.getFullUrl())
-                .resize(180, 128) // TODO Adaptive image resizing based on screen resolution
+                .fit()
                 .centerCrop()
                 .into(imageView)
 

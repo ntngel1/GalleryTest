@@ -1,5 +1,6 @@
 package com.shepelevkirill.gallerytest
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +47,8 @@ class PhotosRecyclerViewAdapter :
 
         fun bind(image: Image) {
             this.image = image
-            imageView.setHeightRatio(0.71)
+            //imageView.setHeightRatio(0.71)
+            Log.d("BindingViewHolder", "$this")
             Picasso.get()
                 .load(image.image!!.getFullUrl())
                 .fit()

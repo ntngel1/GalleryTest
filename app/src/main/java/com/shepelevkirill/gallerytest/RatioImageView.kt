@@ -1,32 +1,50 @@
 package com.shepelevkirill.gallerytest
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
+import androidx.annotation.StyleRes
+import java.lang.RuntimeException
 
-class RatioImageView(context: Context, attributeSet: AttributeSet) : ImageView(context, attributeSet) {
-    private var heightRatio: Double = 0.0
-    private var widthRatio: Double = 0.0
+class RatioImageView : ImageView {
+    private var heightRatio: Float = 0.0F
+    private var widthRatio: Float = 0.0F
 
-    fun setHeightRatio(ratio: Double) {
+    constructor(context: Context) : super(context) {
+        init(null)
+    }
+
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init(attrs)
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        init(attrs)
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+        init(attrs)
+    }
+
+    private fun setHeightRatio(ratio: Float) {
         if (ratio != heightRatio) {
-            widthRatio = 0.0
+            widthRatio = 0.0F
             heightRatio = ratio
             requestLayout()
         }
     }
 
-    fun setWidthRatio(ratio: Double) {
+    private fun setWidthRatio(ratio: Float) {
         if (ratio != widthRatio) {
-            heightRatio = 0.0
+            heightRatio = 0.0F
             widthRatio = ratio
             requestLayout()
         }
     }
 
-    @SuppressLint("DrawAllocation")
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         var width = MeasureSpec.getSize(widthMeasureSpec)
         var height = MeasureSpec.getSize(heightMeasureSpec)
@@ -38,8 +56,21 @@ class RatioImageView(context: Context, attributeSet: AttributeSet) : ImageView(c
             width = (height * widthRatio).toInt()
 
         setMeasuredDimension(width, height)
-
-        Log.d("MEASURED FOR IMAGEVIEW ${this.hashCode()}", "w $width h $height")
     }
 
+    private fun init(attributeSet: AttributeSet?) {
+        attributeSet ?: return
+
+        val ta = context.obtainStyledAttributes(attributeSet, R.styleable.RatioImageView)
+        val wr = ta.getFloat(R.styleable.RatioImageView_widthRatio, 0.0F)
+        val hr = ta.getFloat(R.styleable.RatioImageView_heightRatio, 0.0F)
+
+        if (wr > 0.0F && hr > 0.0F) {
+            throw RuntimeException("You should specify only one ratio!")
+        }
+
+        setWidthRatio(wr)
+        setHeightRatio(hr)
+        ta.recycle()
+    }
 }

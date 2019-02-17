@@ -21,8 +21,9 @@
             <ImageView
                     android:layout_width="match_parent"
                     android:id="@+id/ui_image"
-                    android:layout_height="240dp"
-                    android:scaleType="centerCrop" android:contentDescription="@string/imageContentDesc"/>
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/imageContentDesc" android:scaleType="centerCrop"
+            />
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/ui_title"

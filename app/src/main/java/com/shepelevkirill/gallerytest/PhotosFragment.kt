@@ -174,27 +174,27 @@ abstract class PhotosFragment : Fragment() {
 
             // left element margine
             if (position % 2 == 0) {
-                outRect.right = 9
+                outRect.right = (9 * resources.displayMetrics.density).toInt()
             }
 
             // right element margine
             if (position % 2 != 0) {
-                outRect.left = 9
+                outRect.left = (9 * resources.displayMetrics.density).toInt()
             }
 
             // Top margin
             if (position != 0 && position != 1) {
-                outRect.top = 17
+                outRect.top = (17 * resources.displayMetrics.density).toInt()
             }
 
             // Last row bottom margin
             if (parent.adapter!!.itemCount % 2 == 0) // if last row is full (consists of two elements)
                 if (position == parent.adapter!!.itemCount - 2 || position == parent.adapter!!.itemCount - 1) {
-                    outRect.bottom = 50
+                    outRect.bottom = (17 * resources.displayMetrics.density).toInt()
                 }
             if (parent.adapter!!.itemCount % 2 != 0) // if last row isn't full (consists of one element)
                 if (position == parent.adapter!!.itemCount - 1) {
-                    outRect.bottom = 50
+                    outRect.bottom = (17 * resources.displayMetrics.density).toInt()
 
                 }
         }

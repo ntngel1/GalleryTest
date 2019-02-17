@@ -172,9 +172,14 @@ abstract class PhotosFragment : Fragment() {
 
             val position = parent.getChildLayoutPosition(view)
 
-            // Left margin
+            // left element margine
+            if (position % 2 == 0) {
+                outRect.right = 9
+            }
+
+            // right element margine
             if (position % 2 != 0) {
-                outRect.left = 17
+                outRect.left = 9
             }
 
             // Top margin

@@ -188,9 +188,15 @@ abstract class PhotosFragment : Fragment() {
             }
 
             // Last row bottom margin
-            if (position == parent.adapter!!.itemCount || position == parent.adapter!!.itemCount - 1) {
-                outRect.bottom = (17 * 2.5).toInt()
-            }
+            if (parent.adapter!!.itemCount % 2 == 0) // if last row is full (consists of two elements)
+                if (position == parent.adapter!!.itemCount - 2 || position == parent.adapter!!.itemCount - 1) {
+                    outRect.bottom = 50
+                }
+            if (parent.adapter!!.itemCount % 2 != 0) // if last row isn't full (consists of one element)
+                if (position == parent.adapter!!.itemCount - 1) {
+                    outRect.bottom = 50
+
+                }
         }
     }
 

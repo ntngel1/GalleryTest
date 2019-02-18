@@ -58,6 +58,11 @@ abstract class PhotosFragment : Fragment() {
         ui_swipeRefreshLayout.setOnRefreshListener(onRefreshListener)
 
         // Load some content
+        //loadContent()
+    }
+
+    override fun onStart() {
+        super.onStart()
         loadContent()
     }
 

@@ -54,7 +54,7 @@ interface Api {
     // PHOTO
 
     @GET("/api/photos")
-    fun getPhotos(page: Int, limit: Int): Single<List<PhotoModel>>
+    fun getPhotos(page: Int, limit: Int, new: Boolean, popular: Boolean): Single<List<PhotoModel>>
 
     @POST("/api/photos")
     fun createPhoto(photo: PhotoCreateRequestModel): Single<PhotoModel>

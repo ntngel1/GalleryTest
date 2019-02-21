@@ -9,29 +9,26 @@ import androidx.fragment.app.Fragment
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_main.*
 import android.net.ConnectivityManager
+import com.shepelevkirill.gallerytest.core.Main
 
 
-
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Main.View {
+    private lateinit var presenter: Main.Presenter
 
     private val newPhotosFragment = NewPhotosFragment.newInstance()
     private val popularPhotosFragment = PopularPhotosFragment.newInstance()
-    private var currentFragment: PhotosFragment = newPhotosFragment
+    private var currentFragment: Fragment = newPhotosFragment
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_new -> currentFragment = newPhotosFragment
-            R.id.navigation_popular -> currentFragment = popularPhotosFragment
+        val newFragment = when (item.itemId) {
+            R.id.navigation_new -> newPhotosFragment
+            R.id.navigation_popular -> popularPhotosFragment
             else -> return@OnNavigationItemSelectedListener  false
         }
 
-        val cm = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        presenter.onFragmentChanged(newFragment, currentFragment)
 
-        val netInfo = cm.activeNetworkInfo
-
-        if (netInfo == null || !netInfo.isConnected) currentFragment.showNetworkErrorScreen()
-
-        openFragment(currentFragment)
+        openFragment(newFragment)
 
         return@OnNavigationItemSelectedListener true
     }
@@ -40,20 +37,24 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(fragment_container.id, fragment)
             .commit()
+
+        currentFragment = fragment
     }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        openFragment(currentFragment)
-
+        openFragment(newPhotosFragment)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        val permissions = RxPermissions(this)
-        permissions.request(Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE)
-            .subscribe()
+        presenter.attachView(this)
+        presenter.onCreate()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        presenter.detachView()
     }
 }

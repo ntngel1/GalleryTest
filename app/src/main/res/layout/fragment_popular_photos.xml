@@ -13,7 +13,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="21dp" tools:text="New"/>
+            android:layout_marginStart="21dp" tools:text="New" android:text="@string/photos_popular"/>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:layout_height="0dp"
                                                            android:layout_width="0dp"
                                                            app:layout_constraintStart_toStartOf="parent"

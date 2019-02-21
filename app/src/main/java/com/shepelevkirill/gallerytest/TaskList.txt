@@ -1,3 +1,0 @@
-TODO Adaptive layout
-TODO Custom progress bar and custom SwipeRefreshLayout
-TODO Optional: when image is loading from server, set some placeholder to ImageView

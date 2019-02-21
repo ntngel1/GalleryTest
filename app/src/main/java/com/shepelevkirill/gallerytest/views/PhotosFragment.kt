@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.gallerytest.server.response.photos.GetPhotosResponse
 import com.shepelevkirill.gallerytest.server.response.photos.Image
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_photos.*
-import kotlinx.android.synthetic.main.fragment_photos.view.*
+import kotlinx.android.synthetic.main.fragment_new_photos.*
+import kotlinx.android.synthetic.main.fragment_new_photos.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,7 +33,7 @@ abstract class PhotosFragment : Fragment() {
     abstract var contentLoader: (RecyclerView) -> Unit
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_photos, container, false)
+        return inflater.inflate(R.layout.fragment_new_photos, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

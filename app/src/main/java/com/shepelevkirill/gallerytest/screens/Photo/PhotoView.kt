@@ -1,15 +1,20 @@
-package com.shepelevkirill.gallerytest
+package com.shepelevkirill.gallerytest.screens.Photo
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.shepelevkirill.gallerytest.server.response.photos.Image
-import com.squareup.picasso.Picasso
+import com.shepelevkirill.core.models.PhotoModel
+import com.shepelevkirill.gallerytest.R
+import com.shepelevkirill.gallerytest.core.Photo
+import kotlinx.android.synthetic.main.fragment_photo.*
 import kotlinx.android.synthetic.main.fragment_photo.view.*
 
-class PhotoFragment : Fragment() {
+class PhotoView : Fragment(), Photo.View {
+    private lateinit var presenter: Photo.Presenter
+    private var photoModel: PhotoModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_photo, container, false)
@@ -20,12 +25,10 @@ class PhotoFragment : Fragment() {
         view.toolbar.setNavigationOnClickListener(onBackButtonPressedListener)
 
         // Setting up our title and description
-        view.ui_title.text = arguments!!.getString("title")
-        view.ui_description.text = arguments!!.getString("description")
+        view.ui_title.text = photoModel?.name ?: "UNDEFINED"
+        view.ui_description.text = photoModel?.description ?: "UNDEFINED"
 
-        // Loading image
-        Picasso.get().load(arguments!!.getString("url"))
-            .into(view.ui_image)
+        presenter.onViewCreated()
     }
 
     // Listener for Back button pressed
@@ -33,14 +36,18 @@ class PhotoFragment : Fragment() {
         activity!!.supportFragmentManager.popBackStack()
     }
 
+    override fun getPhotoModel(): PhotoModel = photoModel!!
+
+    override fun showPhoto(photo: Bitmap) {
+        ui_image.setImageBitmap(photo)
+    }
+
     companion object {
-        fun newInstance(image: Image): Fragment {
-            val fragment = PhotoFragment()
+        fun newInstance(image: PhotoModel): Fragment {
+            val fragment = PhotoView()
 
             val args = Bundle()
-            args.putString("title", image.name)
-            args.putString("description", image.description)
-            args.putString("url", image.image!!.getFullUrl())
+            TODO("ADD PHOTO MODEL TO BUNDLE")
             fragment.arguments = args
 
             return fragment

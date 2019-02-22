@@ -1,22 +1,21 @@
-package com.shepelevkirill.gallerytest
+package com.shepelevkirill.gallerytest.screens.Main
 
-import android.Manifest
-import android.content.Context
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.tbruyelle.rxpermissions2.RxPermissions
+import com.shepelevkirill.gallerytest.NewPhotosView
+import com.shepelevkirill.gallerytest.R
 import kotlinx.android.synthetic.main.activity_main.*
-import android.net.ConnectivityManager
 import com.shepelevkirill.gallerytest.core.Main
+import com.shepelevkirill.gallerytest.screens.PopularPhotos.PopularPhotosView
 
 
-class MainActivity : AppCompatActivity(), Main.View {
+class MainView : AppCompatActivity(), Main.View {
     private lateinit var presenter: Main.Presenter
 
-    private val newPhotosFragment = NewPhotosFragment.newInstance()
-    private val popularPhotosFragment = PopularPhotosFragment.newInstance()
+    private val newPhotosFragment = NewPhotosView.newInstance()
+    private val popularPhotosFragment = PopularPhotosView.newInstance()
     private var currentFragment: Fragment = newPhotosFragment
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

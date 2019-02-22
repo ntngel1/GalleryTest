@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.presenters
+package com.shepelevkirill.gallerytest.screens.Main
 
 import android.Manifest
 import android.content.Context
@@ -6,8 +6,7 @@ import android.net.ConnectivityManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.shepelevkirill.gallerytest.core.Main
-import com.shepelevkirill.gallerytest.core.NewPhotos
-import com.shepelevkirill.gallerytest.core.PopularPhotos
+import com.shepelevkirill.gallerytest.core.Photos
 import com.tbruyelle.rxpermissions2.RxPermissions
 
 class MainPresenter : Main.Presenter {
@@ -28,9 +27,10 @@ class MainPresenter : Main.Presenter {
     }
 
     override fun onFragmentChanged(newFragment: Fragment, oldFragment: Fragment) {
+        TODO("Check internet connection for not to flash")
         /*
         val activity = view as FragmentActivity
-        if (newFragment is NewPhotos.View || newFragment is PopularPhotos.View) {
+        if (newFragment is Photos.View) {
             val cm = activity.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val netInfo = cm.activeNetworkInfo
             if (netInfo == null || !netInfo.isConnected)

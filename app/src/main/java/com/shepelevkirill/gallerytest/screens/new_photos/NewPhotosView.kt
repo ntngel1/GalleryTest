@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.screens.PopularPhotos
+package com.shepelevkirill.gallerytest.screens.new_photos
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -10,17 +10,21 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.core.PopularPhotos
+import com.shepelevkirill.gallerytest.core.NewPhotos
 import com.shepelevkirill.gallerytest.screens.PhotosRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_new_photos.*
 import kotlinx.android.synthetic.main.fragment_new_photos.view.*
 
-class PopularPhotosView : Fragment(), PopularPhotos.View {
-    private lateinit var presenter: PopularPhotos.Presenter
-    private lateinit var recyclerAdapter: RecyclerView.Adapter<PhotosRecyclerViewAdapter.ViewHolder>
+class NewPhotosView : Fragment(), NewPhotos.View {
+    override fun clearPhotos() {
+        recyclerAdapter.clear()
+    }
+
+    private var presenter: NewPhotos.Presenter = NewPhotosPresenter()
+    private var recyclerAdapter: PhotosRecyclerViewAdapter = PhotosRecyclerViewAdapter(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_popular_photos, container, false)
+        return inflater.inflate(R.layout.fragment_new_photos, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,6 +53,7 @@ class PopularPhotosView : Fragment(), PopularPhotos.View {
             presenter.onRecyclerViewScrolled(recyclerView, dx, dy)
         }
     }
+
 
     // RecyclerView decorator for items' spacing
     private val recyclerViewMarginsDecorator = object: RecyclerView.ItemDecoration() {
@@ -84,7 +89,8 @@ class PopularPhotosView : Fragment(), PopularPhotos.View {
     }
 
     override fun showPhoto(photo: PhotoModel) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        recyclerAdapter.add(photo)
+        recyclerAdapter.notifyDataSetChanged()
     }
 
     override fun openPhoto(photo: PhotoModel) {
@@ -92,8 +98,8 @@ class PopularPhotosView : Fragment(), PopularPhotos.View {
     }
 
     companion object {
-        fun newInstance(): PopularPhotosView {
-            return PopularPhotosView()
+        fun newInstance(): NewPhotosView {
+            return NewPhotosView()
         }
     }
 

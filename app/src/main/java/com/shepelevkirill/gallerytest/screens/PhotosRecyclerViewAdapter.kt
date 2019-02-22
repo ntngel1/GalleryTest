@@ -23,6 +23,16 @@ class PhotosRecyclerViewAdapter(private val parent: Photos.View): RecyclerView.A
     override fun getItemCount(): Int = data.count()
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
 
+    fun add(photo: PhotoModel) {
+        data.add(photo)
+        notifyDataSetChanged()
+    }
+
+    fun clear() {
+        data.clear()
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(val view: View): RecyclerView.ViewHolder(view) {
         private val imageView: ImageView = view.findViewById(R.id.ui_image)
 

@@ -1,12 +1,9 @@
-package com.shepelevkirill.gallerytest.screens.Main
+package com.shepelevkirill.gallerytest.screens.main
 
 import android.Manifest
-import android.content.Context
-import android.net.ConnectivityManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.shepelevkirill.gallerytest.core.Main
-import com.shepelevkirill.gallerytest.core.Photos
 import com.tbruyelle.rxpermissions2.RxPermissions
 
 class MainPresenter : Main.Presenter {
@@ -17,7 +14,7 @@ class MainPresenter : Main.Presenter {
     }
 
     override fun detachView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        view = null
     }
 
     override fun onCreate() {

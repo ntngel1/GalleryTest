@@ -1,14 +1,11 @@
 package com.shepelevkirill.core.gateway
 
-import com.shepelevkirill.core.models.PhotoCreateRequestModel
+import com.shepelevkirill.core.models.*
 import io.reactivex.Single
-import com.shepelevkirill.core.models.PhotoModel
-import com.shepelevkirill.core.models.PhotoReplaceRequestModel
-import com.shepelevkirill.core.models.PhotoUpdateRequestModel
-import io.reactivex.Observable
 
 interface PhotoGateway {
-    fun getPhotos(page: Int, limit: Int, new: Boolean, popular: Boolean): Observable<PhotoModel>
+    fun getPhotos(page: Int, limit: Int, new: Boolean, popular: Boolean): Single<PhotosModel>
+    fun getPhotosData(new: Boolean, popular: Boolean): Single<PhotosModel>
 
     fun createPhoto(photo: PhotoCreateRequestModel): Single<PhotoModel>
     fun getPhoto(id: Int): Single<PhotoModel>

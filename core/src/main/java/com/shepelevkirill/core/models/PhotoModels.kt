@@ -1,5 +1,12 @@
 package com.shepelevkirill.core.models
 
+data class PhotosModel(
+    val totalItems: Int,
+    val itemsPerPage: Int,
+    val countOfPages: Int,
+    val data: List<PhotoModel>
+)
+
 data class PhotoModel(
     val id: Int,
     val name: String,

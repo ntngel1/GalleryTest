@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.screens.Photo
+package com.shepelevkirill.gallerytest.screens.photo
 
 import android.graphics.Bitmap
 import android.os.Bundle

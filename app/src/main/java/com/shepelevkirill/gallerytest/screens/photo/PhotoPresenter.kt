@@ -1,11 +1,10 @@
-package com.shepelevkirill.gallerytest.screens.Photo
+package com.shepelevkirill.gallerytest.screens.photo
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.core.Photo
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.RequestCreator
 import com.squareup.picasso.Target
 import java.lang.Exception
 

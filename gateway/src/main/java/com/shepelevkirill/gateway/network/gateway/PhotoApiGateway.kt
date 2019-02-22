@@ -1,19 +1,16 @@
 package com.shepelevkirill.gateway.network.gateway
 
 import com.shepelevkirill.core.gateway.PhotoGateway
-import com.shepelevkirill.core.models.PhotoCreateRequestModel
-import com.shepelevkirill.core.models.PhotoModel
-import com.shepelevkirill.core.models.PhotoReplaceRequestModel
-import com.shepelevkirill.core.models.PhotoUpdateRequestModel
+import com.shepelevkirill.core.models.*
 import com.shepelevkirill.gateway.network.Api
 import io.reactivex.Observable
 import io.reactivex.Single
 
 class PhotoApiGateway(private var api: Api) : PhotoGateway {
-    override fun getPhotos(page: Int, limit: Int, new: Boolean, popular: Boolean): Observable<PhotoModel> =
-        api.getPhotos(page, limit, new, popular)
-            .flatMapObservable { Observable.fromIterable(it) }
 
+    override fun getPhotos(page: Int, limit: Int, new: Boolean, popular: Boolean): Single<PhotosModel> = api.getPhotos(page, limit, new, popular)
+
+    override fun getPhotosData(new: Boolean, popular: Boolean): Single<PhotosModel> = getPhotos(1, 1, new, popular)
 
     override fun createPhoto(photo: PhotoCreateRequestModel): Single<PhotoModel> =
         api.createPhoto(photo)

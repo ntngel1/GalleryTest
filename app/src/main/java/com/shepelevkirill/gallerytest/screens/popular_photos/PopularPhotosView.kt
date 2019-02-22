@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest
+package com.shepelevkirill.gallerytest.screens.popular_photos
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -9,18 +9,22 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.models.PhotoModel
-import com.shepelevkirill.gallerytest.core.NewPhotos
+import com.shepelevkirill.gallerytest.R
+import com.shepelevkirill.gallerytest.core.PopularPhotos
 import com.shepelevkirill.gallerytest.screens.PhotosRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_new_photos.*
 import kotlinx.android.synthetic.main.fragment_new_photos.view.*
 
-class NewPhotosView : Fragment(), NewPhotos.View {
+class PopularPhotosView : Fragment(), PopularPhotos.View {
+    override fun clearPhotos() {
+        recyclerAdapter.clear()
+    }
 
-    private lateinit var presenter: NewPhotos.Presenter
-    private lateinit var recyclerAdapter: RecyclerView.Adapter<PhotosRecyclerViewAdapter.ViewHolder>
+    private var presenter: PopularPhotos.Presenter = PopularPhotosPresenter()
+    private var recyclerAdapter: PhotosRecyclerViewAdapter = PhotosRecyclerViewAdapter(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_new_photos, container, false)
+        return inflater.inflate(R.layout.fragment_popular_photos, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,7 +53,6 @@ class NewPhotosView : Fragment(), NewPhotos.View {
             presenter.onRecyclerViewScrolled(recyclerView, dx, dy)
         }
     }
-
 
     // RecyclerView decorator for items' spacing
     private val recyclerViewMarginsDecorator = object: RecyclerView.ItemDecoration() {
@@ -93,8 +96,8 @@ class NewPhotosView : Fragment(), NewPhotos.View {
     }
 
     companion object {
-        fun newInstance(): NewPhotosView {
-            return NewPhotosView()
+        fun newInstance(): PopularPhotosView {
+            return PopularPhotosView()
         }
     }
 

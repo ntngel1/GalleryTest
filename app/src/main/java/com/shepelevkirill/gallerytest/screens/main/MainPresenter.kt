@@ -3,7 +3,7 @@ package com.shepelevkirill.gallerytest.screens.main
 import android.Manifest
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.shepelevkirill.gallerytest.core.Main
+import com.shepelevkirill.gallerytest.core.screens.Main
 import com.tbruyelle.rxpermissions2.RxPermissions
 
 class MainPresenter : Main.Presenter {

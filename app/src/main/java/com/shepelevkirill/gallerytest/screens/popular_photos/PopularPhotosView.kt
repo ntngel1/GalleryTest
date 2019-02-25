@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.screens.popular_photos
+package com.shepelevkirill.gallerytest.scree
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -10,12 +10,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.core.PopularPhotos
+import com.shepelevkirill.gallerytest.core.screens.PopularPhotos
 import com.shepelevkirill.gallerytest.screens.PhotosRecyclerViewAdapter
+import com.shepelevkirill.gallerytest.screens.popular_photos.PopularPhotosPresenter
 import kotlinx.android.synthetic.main.fragment_new_photos.*
 import kotlinx.android.synthetic.main.fragment_new_photos.view.*
 
 class PopularPhotosView : Fragment(), PopularPhotos.View {
+    override fun stopRefreshing() {
+        view?.ui_swipeRefreshLayout?.isRefreshing = false
+    }
+
     override fun clearPhotos() {
         recyclerAdapter.clear()
     }

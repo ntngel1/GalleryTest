@@ -7,7 +7,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.core.Photos
+import com.shepelevkirill.gallerytest.core.screens.Photos
 import com.squareup.picasso.Picasso
 
 class PhotosRecyclerViewAdapter(private val parent: Photos.View): RecyclerView.Adapter<PhotosRecyclerViewAdapter.ViewHolder>() {
@@ -37,9 +37,10 @@ class PhotosRecyclerViewAdapter(private val parent: Photos.View): RecyclerView.A
         private val imageView: ImageView = view.findViewById(R.id.ui_image)
 
         fun bind(photo: PhotoModel) {
-            TODO("GET CONTENT FULL URL")
             Picasso.get()
-                .load(photo.image.contentUrl)
+                .load("http://gallery.dev.webant.ru/media/${photo.image.contentUrl}")
+                .fit()
+                .centerCrop()
                 .into(imageView)
             imageView.setOnClickListener {
                 parent.openPhoto(photo)

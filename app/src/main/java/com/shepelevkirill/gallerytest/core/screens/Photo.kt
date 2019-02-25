@@ -1,15 +1,14 @@
-package com.shepelevkirill.gallerytest.core
+package com.shepelevkirill.gallerytest.core.screens
 
 import android.graphics.Bitmap
-import android.widget.ImageView
 import com.shepelevkirill.core.models.PhotoModel
-import com.squareup.picasso.Picasso
+import com.squareup.picasso.RequestCreator
 
 interface Photo {
 
     interface View {
         fun getPhotoModel(): PhotoModel
-        fun showPhoto(photo: Bitmap)
+        fun showPhoto(picasso: RequestCreator)
     }
 
     interface Presenter {

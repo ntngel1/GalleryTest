@@ -1,11 +1,12 @@
-package com.shepelevkirill.gallerytest.core
+package com.shepelevkirill.gallerytest.core.screens
 
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.models.PhotoModel
 
-interface NewPhotos {
+interface PopularPhotos {
     interface View : Photos.View {
         fun showNetworkError()
+        fun stopRefreshing()
     }
 
     interface Presenter {

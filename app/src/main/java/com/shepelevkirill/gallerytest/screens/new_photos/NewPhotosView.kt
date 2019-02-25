@@ -10,12 +10,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.core.NewPhotos
+import com.shepelevkirill.gallerytest.core.screens.NewPhotos
 import com.shepelevkirill.gallerytest.screens.PhotosRecyclerViewAdapter
+import com.shepelevkirill.gallerytest.screens.photo.PhotoView
 import kotlinx.android.synthetic.main.fragment_new_photos.*
 import kotlinx.android.synthetic.main.fragment_new_photos.view.*
 
 class NewPhotosView : Fragment(), NewPhotos.View {
+    override fun stopRefreshing() {
+        view?.ui_swipeRefreshLayout?.isRefreshing = false
+    }
+
     override fun clearPhotos() {
         recyclerAdapter.clear()
     }
@@ -94,7 +99,10 @@ class NewPhotosView : Fragment(), NewPhotos.View {
     }
 
     override fun openPhoto(photo: PhotoModel) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        activity!!.supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, PhotoView.newInstance(photo))
+            .addToBackStack(null)
+            .commit()
     }
 
     companion object {

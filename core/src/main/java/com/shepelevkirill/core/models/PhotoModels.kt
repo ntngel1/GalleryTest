@@ -1,5 +1,7 @@
 package com.shepelevkirill.core.models
 
+import java.io.Serializable
+
 data class PhotosModel(
     val totalItems: Int,
     val itemsPerPage: Int,
@@ -14,7 +16,7 @@ data class PhotoModel(
     val new: Boolean,
     val popular: Boolean,
     val image: MediaObjectModel
-)
+) : Serializable
 
 data class PhotoCreateRequestModel(
     val name: String,

@@ -8,15 +8,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.core.Photo
+import com.shepelevkirill.gallerytest.core.screens.Photo
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.RequestCreator
 import kotlinx.android.synthetic.main.fragment_photo.*
 import kotlinx.android.synthetic.main.fragment_photo.view.*
 
 class PhotoView : Fragment(), Photo.View {
-    private lateinit var presenter: Photo.Presenter
+    private var presenter: Photo.Presenter = PhotoPresenter()
     private var photoModel: PhotoModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        photoModel = arguments?.getSerializable("photo") as PhotoModel
         return inflater.inflate(R.layout.fragment_photo, container, false)
     }
 
@@ -28,7 +31,13 @@ class PhotoView : Fragment(), Photo.View {
         view.ui_title.text = photoModel?.name ?: "UNDEFINED"
         view.ui_description.text = photoModel?.description ?: "UNDEFINED"
 
+        presenter.attachView(this)
         presenter.onViewCreated()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
     }
 
     // Listener for Back button pressed
@@ -38,8 +47,8 @@ class PhotoView : Fragment(), Photo.View {
 
     override fun getPhotoModel(): PhotoModel = photoModel!!
 
-    override fun showPhoto(photo: Bitmap) {
-        ui_image.setImageBitmap(photo)
+    override fun showPhoto(picasso: RequestCreator) {
+        picasso.into(view!!.ui_image)
     }
 
     companion object {
@@ -47,7 +56,7 @@ class PhotoView : Fragment(), Photo.View {
             val fragment = PhotoView()
 
             val args = Bundle()
-            TODO("ADD PHOTO MODEL TO BUNDLE")
+            args.putSerializable("photo", image)
             fragment.arguments = args
 
             return fragment

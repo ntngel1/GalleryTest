@@ -3,12 +3,13 @@ package com.shepelevkirill.gallerytest.screens.new_photos
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.gateway.PhotoGateway
 import com.shepelevkirill.core.models.PhotoModel
-import com.shepelevkirill.gallerytest.core.NewPhotos
+import com.shepelevkirill.gallerytest.core.screens.NewPhotos
 import com.shepelevkirill.gateway.network.gateway.PhotoApiGateway
 import com.shepelevkirill.gateway.network.retrofit
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+
 
 class NewPhotosPresenter() : NewPhotos.Presenter {
     private var view: NewPhotos.View? = null
@@ -21,6 +22,7 @@ class NewPhotosPresenter() : NewPhotos.Presenter {
 
     override fun onRefresh() {
         view?.clearPhotos()
+        currentPage = 0
         getPhotos()
     }
 
@@ -38,13 +40,14 @@ class NewPhotosPresenter() : NewPhotos.Presenter {
 
     private fun getPhotos() {
         photoGateway.getPhotos(++currentPage, 4, new = true, popular = false)
-            .doOnError { view?.showNetworkError() }
+            .doOnError { it.printStackTrace() }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .flatMapObservable { Observable.fromIterable(it.data) }
-            .observeOn(Schedulers.io())
-            .subscribeOn(AndroidSchedulers.mainThread())
+            .doOnError { view?.showNetworkError() }
+            .doFinally { view?.stopRefreshing() }
             .subscribe {
-                System.out.println("SHOWING PHOTO")
                 view?.showPhoto(it)
-            }.dispose()
+            }
     }
 }

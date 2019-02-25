@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.core
+package com.shepelevkirill.gallerytest.core.screens
 
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.screens.PhotosRecyclerViewAdapter

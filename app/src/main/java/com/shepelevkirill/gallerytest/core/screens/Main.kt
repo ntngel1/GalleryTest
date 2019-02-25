@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.core
+package com.shepelevkirill.gallerytest.core.screens
 
 import androidx.fragment.app.Fragment
 

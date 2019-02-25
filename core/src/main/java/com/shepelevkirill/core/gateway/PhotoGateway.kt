@@ -4,7 +4,7 @@ import com.shepelevkirill.core.models.*
 import io.reactivex.Single
 
 interface PhotoGateway {
-    fun getPhotos(page: Int, limit: Int, new: Boolean, popular: Boolean): Single<PhotosModel>
+    fun getPhotos(page: Int, limit: Int, new: Boolean?, popular: Boolean?): Single<PhotosModel>
     fun getPhotosData(new: Boolean, popular: Boolean): Single<PhotosModel>
 
     fun createPhoto(photo: PhotoCreateRequestModel): Single<PhotoModel>

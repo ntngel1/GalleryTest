@@ -1,6 +1,5 @@
 package com.shepelevkirill.gallerytest.core.screens
 
-import android.graphics.Bitmap
 import com.shepelevkirill.core.models.PhotoModel
 import com.squareup.picasso.RequestCreator
 

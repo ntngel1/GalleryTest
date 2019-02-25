@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.screens
+package com.shepelevkirill.gallerytest.screens.popular_photos
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,10 +7,10 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.core.screens.Photos
+import com.shepelevkirill.gallerytest.core.screens.PopularPhotos
 import com.squareup.picasso.Picasso
 
-class PhotosRecyclerViewAdapter(private val parent: Photos.View): RecyclerView.Adapter<PhotosRecyclerViewAdapter.ViewHolder>() {
+class RecyclerViewAdapter(private val parent: PopularPhotos.View): RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
     private val data: ArrayList<PhotoModel> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -43,7 +43,7 @@ class PhotosRecyclerViewAdapter(private val parent: Photos.View): RecyclerView.A
                 .centerCrop()
                 .into(imageView)
             imageView.setOnClickListener {
-                parent.openPhoto(photo)
+                parent.onPhotoClicked(photo)
             }
         }
     }

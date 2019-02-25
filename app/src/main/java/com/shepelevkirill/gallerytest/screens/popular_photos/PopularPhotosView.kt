@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.scree
+package com.shepelevkirill.gallerytest.screens.popular_photos
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -11,22 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
 import com.shepelevkirill.gallerytest.core.screens.PopularPhotos
-import com.shepelevkirill.gallerytest.screens.PhotosRecyclerViewAdapter
-import com.shepelevkirill.gallerytest.screens.popular_photos.PopularPhotosPresenter
+import com.shepelevkirill.gallerytest.screens.photo.PhotoView
 import kotlinx.android.synthetic.main.fragment_new_photos.*
 import kotlinx.android.synthetic.main.fragment_new_photos.view.*
 
 class PopularPhotosView : Fragment(), PopularPhotos.View {
-    override fun stopRefreshing() {
-        view?.ui_swipeRefreshLayout?.isRefreshing = false
-    }
-
-    override fun clearPhotos() {
-        recyclerAdapter.clear()
-    }
-
     private var presenter: PopularPhotos.Presenter = PopularPhotosPresenter()
-    private var recyclerAdapter: PhotosRecyclerViewAdapter = PhotosRecyclerViewAdapter(this)
+    private var recyclerAdapter: RecyclerViewAdapter = RecyclerViewAdapter(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_popular_photos, container, false)
@@ -45,6 +36,7 @@ class PopularPhotosView : Fragment(), PopularPhotos.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter.attachView(this)
+        presenter.onCreate()
     }
 
     override fun onDestroy() {
@@ -88,16 +80,36 @@ class PopularPhotosView : Fragment(), PopularPhotos.View {
         presenter.onRefresh()
     }
 
+    override fun onPhotoClicked(photo: PhotoModel) {
+        presenter.onPhotoClicked(photo)
+    }
+
+    override fun stopRefreshing() {
+        view?.ui_swipeRefreshLayout?.isRefreshing = false
+    }
+
+    override fun clearPhotos() {
+        recyclerAdapter.clear()
+    }
+
     override fun showNetworkError() {
-        TODO("Show network error screen")
+        ui_network_error_layout.visibility = View.VISIBLE
+    }
+
+    override fun hideNetworkError() {
+        ui_network_error_layout.visibility = View.INVISIBLE
     }
 
     override fun showPhoto(photo: PhotoModel) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        recyclerAdapter.add(photo)
+        recyclerAdapter.notifyDataSetChanged()
     }
 
     override fun openPhoto(photo: PhotoModel) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        activity!!.supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, PhotoView.newInstance(photo))
+            .addToBackStack(null)
+            .commit()
     }
 
     companion object {

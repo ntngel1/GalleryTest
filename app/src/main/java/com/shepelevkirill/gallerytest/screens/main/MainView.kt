@@ -8,7 +8,7 @@ import com.shepelevkirill.gallerytest.screens.new_photos.NewPhotosView
 import com.shepelevkirill.gallerytest.R
 import kotlinx.android.synthetic.main.activity_main.*
 import com.shepelevkirill.gallerytest.core.screens.Main
-import com.shepelevkirill.gallerytest.scree.PopularPhotosView
+import com.shepelevkirill.gallerytest.screens.popular_photos.PopularPhotosView
 
 
 class MainView : AppCompatActivity(), Main.View {

@@ -11,22 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
 import com.shepelevkirill.gallerytest.core.screens.NewPhotos
-import com.shepelevkirill.gallerytest.screens.PhotosRecyclerViewAdapter
 import com.shepelevkirill.gallerytest.screens.photo.PhotoView
 import kotlinx.android.synthetic.main.fragment_new_photos.*
 import kotlinx.android.synthetic.main.fragment_new_photos.view.*
 
 class NewPhotosView : Fragment(), NewPhotos.View {
-    override fun stopRefreshing() {
-        view?.ui_swipeRefreshLayout?.isRefreshing = false
-    }
-
-    override fun clearPhotos() {
-        recyclerAdapter.clear()
-    }
-
     private var presenter: NewPhotos.Presenter = NewPhotosPresenter()
-    private var recyclerAdapter: PhotosRecyclerViewAdapter = PhotosRecyclerViewAdapter(this)
+    private var recyclerAdapter: RecyclerViewAdapter = RecyclerViewAdapter(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_new_photos, container, false)
@@ -45,6 +36,7 @@ class NewPhotosView : Fragment(), NewPhotos.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter.attachView(this)
+        presenter.onCreate()
     }
 
     override fun onDestroy() {
@@ -58,7 +50,6 @@ class NewPhotosView : Fragment(), NewPhotos.View {
             presenter.onRecyclerViewScrolled(recyclerView, dx, dy)
         }
     }
-
 
     // RecyclerView decorator for items' spacing
     private val recyclerViewMarginsDecorator = object: RecyclerView.ItemDecoration() {
@@ -89,8 +80,8 @@ class NewPhotosView : Fragment(), NewPhotos.View {
         presenter.onRefresh()
     }
 
-    override fun showNetworkError() {
-        TODO("Show network error screen")
+    override fun onPhotoClicked(photo: PhotoModel) {
+        presenter.onPhotoClicked(photo)
     }
 
     override fun showPhoto(photo: PhotoModel) {
@@ -103,6 +94,22 @@ class NewPhotosView : Fragment(), NewPhotos.View {
             .add(R.id.fragment_container, PhotoView.newInstance(photo))
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun clearPhotos() {
+        recyclerAdapter.clear()
+    }
+
+    override fun showNetworkError() {
+        ui_network_error_layout.visibility = View.VISIBLE
+    }
+
+    override fun hideNetworkError() {
+        ui_network_error_layout.visibility = View.INVISIBLE
+    }
+
+    override fun stopRefreshing() {
+        view?.ui_swipeRefreshLayout?.isRefreshing = false
     }
 
     companion object {

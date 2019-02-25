@@ -8,7 +8,7 @@ import io.reactivex.Single
 
 class PhotoApiGateway(private var api: Api) : PhotoGateway {
 
-    override fun getPhotos(page: Int, limit: Int, new: Boolean, popular: Boolean): Single<PhotosModel> = api.getPhotos(page, limit, new, popular)
+    override fun getPhotos(page: Int, limit: Int, new: Boolean?, popular: Boolean?): Single<PhotosModel> = api.getPhotos(page, limit, new, popular)
 
     override fun getPhotosData(new: Boolean, popular: Boolean): Single<PhotosModel> = getPhotos(1, 1, new, popular)
 

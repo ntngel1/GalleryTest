@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.core.screens.Photo
 import com.squareup.picasso.RequestCreator
 import kotlinx.android.synthetic.main.fragment_photo.view.*
 

@@ -1,9 +1,9 @@
-package com.shepelevkirill.gallerytest.core.screens
+package com.shepelevkirill.gallerytest.screens.popular_photos
 
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.models.PhotoModel
 
-interface NewPhotos {
+interface PopularPhotos {
     interface View {
         fun showPhoto(photo: PhotoModel)
         fun openPhoto(photo: PhotoModel)

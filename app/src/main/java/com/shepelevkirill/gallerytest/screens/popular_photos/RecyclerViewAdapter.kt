@@ -7,7 +7,6 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.core.screens.PopularPhotos
 import com.squareup.picasso.Picasso
 
 class RecyclerViewAdapter(private val parent: PopularPhotos.View) :

@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.gateway.PhotoGateway
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.App
-import com.shepelevkirill.gallerytest.core.screens.PopularPhotos
 import com.shepelevkirill.gateway.network.gateway.PhotoApiGateway
 import com.shepelevkirill.gateway.network.retrofit
 import io.reactivex.Observable

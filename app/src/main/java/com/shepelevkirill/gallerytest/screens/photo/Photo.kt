@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.core.screens
+package com.shepelevkirill.gallerytest.screens.photo
 
 import com.shepelevkirill.core.models.PhotoModel
 import com.squareup.picasso.RequestCreator

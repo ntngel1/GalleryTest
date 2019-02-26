@@ -1,6 +1,5 @@
 package com.shepelevkirill.gallerytest.screens.photo
 
-import com.shepelevkirill.gallerytest.core.screens.Photo
 import com.squareup.picasso.Picasso
 
 class PhotoPresenter : Photo.Presenter {

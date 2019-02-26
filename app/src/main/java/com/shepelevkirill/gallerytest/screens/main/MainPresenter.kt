@@ -4,9 +4,8 @@ import android.Manifest
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.shepelevkirill.gallerytest.core.screens.Main
-import com.shepelevkirill.gallerytest.core.screens.NewPhotos
-import com.shepelevkirill.gallerytest.core.screens.PopularPhotos
+import com.shepelevkirill.gallerytest.screens.new_photos.NewPhotos
+import com.shepelevkirill.gallerytest.screens.popular_photos.PopularPhotos
 import com.tbruyelle.rxpermissions2.RxPermissions
 
 class MainPresenter : Main.Presenter {

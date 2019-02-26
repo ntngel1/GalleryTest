@@ -41,6 +41,7 @@ class PopularPhotosView : Fragment(), PopularPhotos.View {
 
     override fun onDestroy() {
         super.onDestroy()
+        presenter.onDestroy()
         presenter.detachView()
     }
 

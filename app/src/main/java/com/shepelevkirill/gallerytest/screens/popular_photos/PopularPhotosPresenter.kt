@@ -1,19 +1,30 @@
 package com.shepelevkirill.gallerytest.screens.popular_photos
 
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.gateway.PhotoGateway
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.core.screens.PopularPhotos
+import com.shepelevkirill.gallerytest.screens.new_photos.NewPhotosPresenter
 import com.shepelevkirill.gateway.network.gateway.PhotoApiGateway
 import com.shepelevkirill.gateway.network.retrofit
 import io.reactivex.Observable
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class PopularPhotosPresenter : PopularPhotos.Presenter {
     private var view: PopularPhotos.View? = null
     private var photoGateway: PhotoGateway = PhotoApiGateway(retrofit.getRetrofit())
     private var currentPage: Int = 0
+    private var isRequestSent = false
+
+    companion object {
+        private const val ITEMS_REQUEST_SIZE: Int = 6
+        private const val ITEMS_BUFFER: Int = 4
+    }
 
     override fun attachView(view: PopularPhotos.View) {
         this.view = view
@@ -27,8 +38,17 @@ class PopularPhotosPresenter : PopularPhotos.Presenter {
         getPhotos()
     }
 
+    override fun onDestroy() {
+    }
+
     override fun onRecyclerViewScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-        getPhotos()
+        val layoutManager = recyclerView.layoutManager as GridLayoutManager
+        val lastVisibleItemPos = layoutManager.findLastVisibleItemPosition()
+
+        // if we need to load new content
+        if (lastVisibleItemPos + ITEMS_BUFFER >= layoutManager.itemCount - 1) {
+            getPhotos()
+        }
     }
 
     override fun onRefresh() {
@@ -42,15 +62,31 @@ class PopularPhotosPresenter : PopularPhotos.Presenter {
     }
 
     private fun getPhotos() {
-        photoGateway.getPhotos(++currentPage, 4, new = null, popular = true)
-            .doOnError { it.printStackTrace() }
+        if (isRequestSent)
+            return
+
+        photoGateway.getPhotos(++currentPage, ITEMS_REQUEST_SIZE, new = null, popular = true)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .flatMapObservable { Observable.fromIterable(it.data) }
-            .doOnError { view?.showNetworkError() }
-            .doFinally { view?.stopRefreshing() }
-            .subscribe {
-                view?.showPhoto(it)
+            .subscribe( object: Observer<PhotoModel> {
+            override fun onComplete() {
+                view?.stopRefreshing()
+                isRequestSent = false
             }
+
+            override fun onSubscribe(d: Disposable) {
+            }
+
+            override fun onNext(t: PhotoModel) {
+                view?.showPhoto(t)
+            }
+
+            override fun onError(e: Throwable) {
+                view?.showNetworkError()
+            }
+            })
+
+        isRequestSent = true
     }
 }

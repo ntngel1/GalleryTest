@@ -1,5 +1,6 @@
 package com.shepelevkirill.gallerytest.screens.new_photos
 
+import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.gateway.PhotoGateway
@@ -8,14 +9,18 @@ import com.shepelevkirill.gallerytest.core.screens.NewPhotos
 import com.shepelevkirill.gateway.network.gateway.PhotoApiGateway
 import com.shepelevkirill.gateway.network.retrofit
 import io.reactivex.Observable
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
+// TODO CHECK IF NO INTERNET JUST GET THIS SHIT DOWN
 
 class NewPhotosPresenter : NewPhotos.Presenter {
     private var view: NewPhotos.View? = null
     private var photoGateway: PhotoGateway = PhotoApiGateway(retrofit.getRetrofit())
     private var currentPage: Int = 0
+    private var isRequestSent = false
 
     companion object {
         private const val ITEMS_REQUEST_SIZE: Int = 6
@@ -32,6 +37,9 @@ class NewPhotosPresenter : NewPhotos.Presenter {
 
     override fun onCreate() {
         getPhotos()
+    }
+
+    override fun onDestroy() {
     }
 
     override fun onRecyclerViewScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -55,15 +63,33 @@ class NewPhotosPresenter : NewPhotos.Presenter {
     }
 
     private fun getPhotos() {
+        if (isRequestSent)
+            return
+
         photoGateway.getPhotos(++currentPage, ITEMS_REQUEST_SIZE, new = true, popular = null)
-            .doOnError { it.printStackTrace() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .flatMapObservable { Observable.fromIterable(it.data) }
-            .doOnError { view?.showNetworkError() }
-            .doFinally { view?.stopRefreshing() }
-            .subscribe {
-                view?.showPhoto(it)
-            }
+            .subscribe(object: Observer<PhotoModel> {
+                override fun onComplete() {
+                    view?.stopRefreshing()
+                    isRequestSent = false
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onNext(t: PhotoModel) {
+                    view?.showPhoto(t)
+                }
+
+                override fun onError(e: Throwable) {
+                    view?.showNetworkError()
+                }
+
+            })
+
+        isRequestSent = true
     }
 }

@@ -41,6 +41,7 @@ class NewPhotosView : Fragment(), NewPhotos.View {
 
     override fun onDestroy() {
         super.onDestroy()
+        presenter.onDestroy()
         presenter.detachView()
     }
 

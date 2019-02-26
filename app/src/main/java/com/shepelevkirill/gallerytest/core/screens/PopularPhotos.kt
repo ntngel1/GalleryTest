@@ -20,6 +20,7 @@ interface PopularPhotos {
         fun detachView()
 
         fun onCreate()
+        fun onDestroy()
 
         fun onPhotoClicked(photo: PhotoModel)
         fun onRecyclerViewScrolled(recyclerView: RecyclerView, dx: Int, dy: Int)

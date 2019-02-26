@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.screens.photo
+package com.shepelevkirill.gallerytest.ui.scenes.photo
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import com.shepelevkirill.gallerytest.R
 import com.squareup.picasso.RequestCreator
 import kotlinx.android.synthetic.main.fragment_photo.view.*
 
-class PhotoView : Fragment(), Photo.View {
-    private var presenter: Photo.Presenter = PhotoPresenter()
+class PhotoFragment : Fragment(), PhotoView.View {
+    private var presenter: PhotoView.Presenter = PhotoPresenter()
     private var photoModel: PhotoModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,7 +49,7 @@ class PhotoView : Fragment(), Photo.View {
 
     companion object {
         fun newInstance(image: PhotoModel): Fragment {
-            val fragment = PhotoView()
+            val fragment = PhotoFragment()
 
             val args = Bundle()
             args.putSerializable("photo", image)

@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.screens.photo
+package com.shepelevkirill.gallerytest.ui.scenes.photo
 
 import com.shepelevkirill.core.gateway.PhotoGateway
 import com.shepelevkirill.core.models.PhotoModel
@@ -6,8 +6,8 @@ import com.shepelevkirill.gallerytest.App
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
-class PhotoPresenter : Photo.Presenter {
-    private var view: Photo.View? = null
+class PhotoPresenter : PhotoView.Presenter {
+    private var view: PhotoView.View? = null
     private var photoModel: PhotoModel? = null
     @Inject lateinit var photoGateway: PhotoGateway
 
@@ -27,7 +27,7 @@ class PhotoPresenter : Photo.Presenter {
         view!!.showPhoto(picasso)
     }
 
-    override fun attachView(view: Photo.View) {
+    override fun attachView(view: PhotoView.View) {
         this.view = view
     }
 

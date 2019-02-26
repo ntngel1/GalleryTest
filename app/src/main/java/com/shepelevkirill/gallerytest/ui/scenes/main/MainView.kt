@@ -1,8 +1,8 @@
-package com.shepelevkirill.gallerytest.screens.main
+package com.shepelevkirill.gallerytest.ui.scenes.main
 
 import androidx.fragment.app.Fragment
 
-interface Main {
+interface MainView {
     interface View {
     }
 

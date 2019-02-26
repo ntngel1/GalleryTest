@@ -1,17 +1,17 @@
-package com.shepelevkirill.gallerytest.screens.main
+package com.shepelevkirill.gallerytest.ui.scenes.main
 
 import android.Manifest
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.shepelevkirill.gallerytest.screens.new_photos.NewPhotos
-import com.shepelevkirill.gallerytest.screens.popular_photos.PopularPhotos
+import com.shepelevkirill.gallerytest.ui.scenes.new_photos.NewPhotosView
+import com.shepelevkirill.gallerytest.ui.scenes.popular_photos.PopularPhotosView
 import com.tbruyelle.rxpermissions2.RxPermissions
 
-class MainPresenter : Main.Presenter {
-    private var view: Main.View? = null
+class MainPresenter : MainView.Presenter {
+    private var view: MainView.View? = null
 
-    override fun attachView(view: Main.View) {
+    override fun attachView(view: MainView.View) {
         this.view = view
     }
 
@@ -28,10 +28,10 @@ class MainPresenter : Main.Presenter {
     override fun onFragmentChanged(newFragment: Fragment, oldFragment: Fragment) {
         Log.d("Fragment CHANGEd", "YYYEEE")
         when (newFragment) {
-            is NewPhotos.View -> {
-                (newFragment as NewPhotos.View).onOpen()
+            is NewPhotosView.View -> {
+                (newFragment as NewPhotosView.View).onOpen()
             }
-            is PopularPhotos.View -> (newFragment as PopularPhotos.View).onOpen()
+            is PopularPhotosView.View -> (newFragment as PopularPhotosView.View).onOpen()
         }
     }
 

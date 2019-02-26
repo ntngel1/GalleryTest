@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.screens.new_photos
+package com.shepelevkirill.gallerytest.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +9,11 @@ import com.shepelevkirill.core.gateway.PhotoGateway
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.App
 import com.shepelevkirill.gallerytest.R
+import com.shepelevkirill.gallerytest.ui.scenes.new_photos.NewPhotosView
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
-class RecyclerViewAdapter(private val parent: NewPhotos.View) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+class NewPhotosAdapter(private val parent: NewPhotosView.View) : RecyclerView.Adapter<NewPhotosAdapter.ViewHolder>() {
     private val data: ArrayList<PhotoModel> = ArrayList()
     @Inject lateinit var photoGateway: PhotoGateway
 

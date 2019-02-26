@@ -2,8 +2,8 @@ package com.shepelevkirill.gallerytest
 
 import android.app.Application
 import android.content.Context
-import com.shepelevkirill.gallerytest.data.GatewayModule
-import com.shepelevkirill.gallerytest.data.RetrofitModule
+import com.shepelevkirill.gallerytest.data.network.GatewayModule
+import com.shepelevkirill.gallerytest.data.network.RetrofitModule
 
 class App : Application() {
 

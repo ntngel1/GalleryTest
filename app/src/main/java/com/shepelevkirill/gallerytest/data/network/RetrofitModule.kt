@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.data
+package com.shepelevkirill.gallerytest.data.network
 
 import com.shepelevkirill.gateway.network.Api
 import dagger.Module

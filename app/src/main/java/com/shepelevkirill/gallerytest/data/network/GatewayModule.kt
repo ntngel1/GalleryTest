@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.data
+package com.shepelevkirill.gallerytest.data.network
 
 import com.shepelevkirill.core.gateway.ClientGateway
 import com.shepelevkirill.core.gateway.MediaObjectGateway

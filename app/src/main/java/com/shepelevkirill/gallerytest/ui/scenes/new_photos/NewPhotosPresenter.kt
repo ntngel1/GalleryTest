@@ -1,6 +1,5 @@
-package com.shepelevkirill.gallerytest.screens.new_photos
+package com.shepelevkirill.gallerytest.ui.scenes.new_photos
 
-import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.util.Log
@@ -16,8 +15,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class NewPhotosPresenter : NewPhotos.Presenter {
-    private var view: NewPhotos.View? = null
+class NewPhotosPresenter : NewPhotosView.Presenter {
+    private var view: NewPhotosView.View? = null
     @Inject lateinit var photoGateway: PhotoGateway
     private var currentPage: Int = 0
     private var isRequestSent = false
@@ -31,7 +30,7 @@ class NewPhotosPresenter : NewPhotos.Presenter {
         private const val ITEMS_BUFFER: Int = 4
     }
 
-    override fun attachView(view: NewPhotos.View) {
+    override fun attachView(view: NewPhotosView.View) {
         this.view = view
     }
 

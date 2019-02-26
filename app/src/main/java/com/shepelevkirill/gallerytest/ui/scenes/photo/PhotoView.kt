@@ -1,9 +1,9 @@
-package com.shepelevkirill.gallerytest.screens.photo
+package com.shepelevkirill.gallerytest.ui.scenes.photo
 
 import com.shepelevkirill.core.models.PhotoModel
 import com.squareup.picasso.RequestCreator
 
-interface Photo {
+interface PhotoView {
 
     interface View {
         fun getPhotoModel(): PhotoModel

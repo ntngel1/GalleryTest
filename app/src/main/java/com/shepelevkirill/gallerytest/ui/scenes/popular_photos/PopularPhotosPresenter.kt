@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.screens.popular_photos
+package com.shepelevkirill.gallerytest.ui.scenes.popular_photos
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.gateway.PhotoGateway
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.App
-import com.shepelevkirill.gateway.network.gateway.PhotoApiGateway
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,8 +14,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class PopularPhotosPresenter : PopularPhotos.Presenter {
-    private var view: PopularPhotos.View? = null
+class PopularPhotosPresenter : PopularPhotosView.Presenter {
+    private var view: PopularPhotosView.View? = null
     @Inject lateinit var photoGateway: PhotoGateway
     private var currentPage: Int = 0
     private var isRequestSent = false
@@ -30,7 +29,7 @@ class PopularPhotosPresenter : PopularPhotos.Presenter {
         private const val ITEMS_BUFFER: Int = 4
     }
 
-    override fun attachView(view: PopularPhotos.View) {
+    override fun attachView(view: PopularPhotosView.View) {
         this.view = view
     }
 

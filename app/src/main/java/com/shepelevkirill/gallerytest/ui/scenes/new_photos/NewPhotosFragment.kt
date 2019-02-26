@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.screens.popular_photos
+package com.shepelevkirill.gallerytest.ui.scenes.new_photos
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -10,16 +10,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.screens.photo.PhotoView
+import com.shepelevkirill.gallerytest.ui.adapters.NewPhotosAdapter
+import com.shepelevkirill.gallerytest.ui.scenes.photo.PhotoFragment
 import kotlinx.android.synthetic.main.fragment_new_photos.*
 import kotlinx.android.synthetic.main.fragment_new_photos.view.*
 
-class PopularPhotosView : Fragment(), PopularPhotos.View {
-    private var presenter: PopularPhotos.Presenter = PopularPhotosPresenter()
-    private var recyclerAdapter: RecyclerViewAdapter = RecyclerViewAdapter(this)
+class NewPhotosFragment : Fragment(), NewPhotosView.View {
+    private var presenter: NewPhotosView.Presenter = NewPhotosPresenter()
+    private var recyclerAdapter: NewPhotosAdapter =
+        NewPhotosAdapter(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_popular_photos, container, false)
+        return inflater.inflate(R.layout.fragment_new_photos, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,8 +90,16 @@ class PopularPhotosView : Fragment(), PopularPhotos.View {
         presenter.onOpen()
     }
 
-    override fun stopRefreshing() {
-        view?.ui_swipeRefreshLayout?.isRefreshing = false
+    override fun showPhoto(photo: PhotoModel) {
+        recyclerAdapter.add(photo)
+        recyclerAdapter.notifyDataSetChanged()
+    }
+
+    override fun openPhoto(photo: PhotoModel) {
+        activity!!.supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, PhotoFragment.newInstance(photo))
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun clearPhotos() {
@@ -116,21 +126,13 @@ class PopularPhotosView : Fragment(), PopularPhotos.View {
         ui_progressbar.visibility = View.INVISIBLE
     }
 
-    override fun showPhoto(photo: PhotoModel) {
-        recyclerAdapter.add(photo)
-        recyclerAdapter.notifyDataSetChanged()
-    }
-
-    override fun openPhoto(photo: PhotoModel) {
-        activity!!.supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, PhotoView.newInstance(photo))
-            .addToBackStack(null)
-            .commit()
+    override fun stopRefreshing() {
+        view?.ui_swipeRefreshLayout?.isRefreshing = false
     }
 
     companion object {
-        fun newInstance(): PopularPhotosView {
-            return PopularPhotosView()
+        fun newInstance(): NewPhotosFragment {
+            return NewPhotosFragment()
         }
     }
 

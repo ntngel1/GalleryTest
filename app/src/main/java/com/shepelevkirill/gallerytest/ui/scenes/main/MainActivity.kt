@@ -1,20 +1,20 @@
-package com.shepelevkirill.gallerytest.screens.main
+package com.shepelevkirill.gallerytest.ui.scenes.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.screens.new_photos.NewPhotosView
-import com.shepelevkirill.gallerytest.screens.popular_photos.PopularPhotosView
+import com.shepelevkirill.gallerytest.ui.scenes.new_photos.NewPhotosFragment
+import com.shepelevkirill.gallerytest.ui.scenes.popular_photos.PopularPhotosFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainView : AppCompatActivity(), Main.View {
-    private var presenter: Main.Presenter = MainPresenter()
+class MainActivity : AppCompatActivity(), MainView.View {
+    private var presenter: MainView.Presenter = MainPresenter()
 
-    private val newPhotosFragment = NewPhotosView.newInstance()
-    private val popularPhotosFragment = PopularPhotosView.newInstance()
+    private val newPhotosFragment = NewPhotosFragment.newInstance()
+    private val popularPhotosFragment = PopularPhotosFragment.newInstance()
     private var currentFragment: Fragment = newPhotosFragment
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

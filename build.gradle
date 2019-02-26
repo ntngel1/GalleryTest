@@ -5,6 +5,11 @@ ext {
     retrofit = '2.5.0'
     retrofitConverter = '2.5.0'
     retrofitRx = '2.5.0'
+    rxPermissions = '0.10.2'
+    rxAndroid = '2.1.1'
+    dagger = '2.21'
+    picasso = '2.71828'
+    loggingInterceptor = '3.12.1'
 }
 
 buildscript {

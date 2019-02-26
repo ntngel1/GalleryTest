@@ -12,6 +12,9 @@ class PhotoApiGateway(private var api: Api) : PhotoGateway {
 
     override fun getPhotosData(new: Boolean, popular: Boolean): Single<PhotosModel> = getPhotos(1, 1, new, popular)
 
+    // TODO BASE URL SEPARATELY
+    override fun getPhotoUrl(image: String): String = "http://gallery.dev.webant.ru/media/$image"
+
     override fun createPhoto(photo: PhotoCreateRequestModel): Single<PhotoModel> =
         api.createPhoto(photo)
 

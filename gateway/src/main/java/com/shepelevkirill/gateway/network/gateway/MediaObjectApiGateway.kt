@@ -5,10 +5,11 @@ import com.shepelevkirill.core.models.MediaObjectCreateRequestModel
 import com.shepelevkirill.core.models.MediaObjectModel
 import com.shepelevkirill.core.models.MediaObjectReplaceRequestModel
 import com.shepelevkirill.core.models.MediaObjectUpdateRequestModel
+import com.shepelevkirill.gateway.network.Api
 import io.reactivex.Observable
 import io.reactivex.Single
 
-class MediaObjectApiGateway : MediaObjectGateway {
+class MediaObjectApiGateway(private val api: Api) : MediaObjectGateway {
     override fun getMediaObjects(page: Int, limit: Int): Observable<MediaObjectModel> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

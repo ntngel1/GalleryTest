@@ -8,18 +8,22 @@ import com.shepelevkirill.core.gateway.PhotoGateway
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.App
 import com.shepelevkirill.gateway.network.gateway.PhotoApiGateway
-import com.shepelevkirill.gateway.network.retrofit
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class PopularPhotosPresenter : PopularPhotos.Presenter {
     private var view: PopularPhotos.View? = null
-    private var photoGateway: PhotoGateway = PhotoApiGateway(retrofit.getRetrofit())
+    @Inject lateinit var photoGateway: PhotoGateway
     private var currentPage: Int = 0
     private var isRequestSent = false
+
+    init {
+        App.appComponent.inject(this)
+    }
 
     companion object {
         private const val ITEMS_REQUEST_SIZE: Int = 6
@@ -62,7 +66,7 @@ class PopularPhotosPresenter : PopularPhotos.Presenter {
     }
 
     override fun onOpen() {
-        val cm = App.appContext!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm = App.applicationContext!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val netInfo = cm.activeNetworkInfo
         if (netInfo == null || !netInfo.isConnected) view?.showNetworkError()
     }

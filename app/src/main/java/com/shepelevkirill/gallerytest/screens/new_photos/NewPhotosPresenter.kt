@@ -1,5 +1,6 @@
 package com.shepelevkirill.gallerytest.screens.new_photos
 
+import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.util.Log
@@ -8,19 +9,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.gateway.PhotoGateway
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.App
-import com.shepelevkirill.gateway.network.gateway.PhotoApiGateway
-import com.shepelevkirill.gateway.network.retrofit
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class NewPhotosPresenter : NewPhotos.Presenter {
     private var view: NewPhotos.View? = null
-    private var photoGateway: PhotoGateway = PhotoApiGateway(retrofit.getRetrofit())
+    @Inject lateinit var photoGateway: PhotoGateway
     private var currentPage: Int = 0
     private var isRequestSent = false
+
+    init {
+        App.appComponent.inject(this)
+    }
 
     companion object {
         private const val ITEMS_REQUEST_SIZE: Int = 6
@@ -64,7 +68,7 @@ class NewPhotosPresenter : NewPhotos.Presenter {
 
     override fun onOpen() {
         Log.d("ON OPEN", "CHECKING INTERNET")
-        val cm = App.appContext!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm = App.applicationContext!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val netInfo = cm.activeNetworkInfo
         if (netInfo == null || !netInfo.isConnected) view?.showNetworkError()
     }

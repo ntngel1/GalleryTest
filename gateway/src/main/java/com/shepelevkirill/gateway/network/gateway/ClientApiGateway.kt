@@ -5,10 +5,11 @@ import com.shepelevkirill.core.models.ClientCreateRequestModel
 import com.shepelevkirill.core.models.ClientModel
 import com.shepelevkirill.core.models.ClientReplaceRequestModel
 import com.shepelevkirill.core.models.ClientUpdateRequestModel
+import com.shepelevkirill.gateway.network.Api
 import io.reactivex.Observable
 import io.reactivex.Single
 
-class ClientApiGateway : ClientGateway {
+class ClientApiGateway(private val api: Api) : ClientGateway {
     override fun getClients(page: Int, limit: Int): Observable<ClientModel> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

@@ -42,7 +42,7 @@ dependencies {
 
     implementation "com.squareup.retrofit2:retrofit:${rootProject.retrofit}"
     implementation "com.squareup.retrofit2:converter-gson:${rootProject.retrofitConverter}"
-    implementation "com.squareup.retrofit2:adapter-rxjava:${rootProject.retrofitRx}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${rootProject.retrofitRx}"
     implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.loggingInterceptor}"
 
     implementation "com.squareup.picasso:picasso:${rootProject.picasso}"

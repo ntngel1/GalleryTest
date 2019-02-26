@@ -1,13 +1,9 @@
 package com.shepelevkirill.gallerytest.screens.main
 
 import android.Manifest
-import android.content.Context
-import android.net.ConnectivityManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.shepelevkirill.gallerytest.core.screens.Main
-import com.shepelevkirill.gallerytest.core.screens.NewPhotos
-import com.shepelevkirill.gallerytest.core.screens.PopularPhotos
 import com.tbruyelle.rxpermissions2.RxPermissions
 
 class MainPresenter : Main.Presenter {

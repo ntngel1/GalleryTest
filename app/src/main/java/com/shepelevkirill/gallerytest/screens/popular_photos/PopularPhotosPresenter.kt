@@ -5,13 +5,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.gateway.PhotoGateway
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.core.screens.PopularPhotos
-import com.shepelevkirill.gallerytest.screens.new_photos.NewPhotosPresenter
 import com.shepelevkirill.gateway.network.gateway.PhotoApiGateway
 import com.shepelevkirill.gateway.network.retrofit
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
@@ -69,22 +67,22 @@ class PopularPhotosPresenter : PopularPhotos.Presenter {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .flatMapObservable { Observable.fromIterable(it.data) }
-            .subscribe( object: Observer<PhotoModel> {
-            override fun onComplete() {
-                view?.stopRefreshing()
-                isRequestSent = false
-            }
+            .subscribe(object : Observer<PhotoModel> {
+                override fun onComplete() {
+                    view?.stopRefreshing()
+                    isRequestSent = false
+                }
 
-            override fun onSubscribe(d: Disposable) {
-            }
+                override fun onSubscribe(d: Disposable) {
+                }
 
-            override fun onNext(t: PhotoModel) {
-                view?.showPhoto(t)
-            }
+                override fun onNext(t: PhotoModel) {
+                    view?.showPhoto(t)
+                }
 
-            override fun onError(e: Throwable) {
-                view?.showNetworkError()
-            }
+                override fun onError(e: Throwable) {
+                    view?.showNetworkError()
+                }
             })
 
         isRequestSent = true

@@ -5,8 +5,6 @@ import android.os.Build
 import android.util.AttributeSet
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
-import androidx.annotation.StyleRes
-import java.lang.RuntimeException
 
 class RatioImageView : ImageView {
     private var heightRatio: Float = 0.0F
@@ -25,7 +23,12 @@ class RatioImageView : ImageView {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    ) {
         init(attrs)
     }
 

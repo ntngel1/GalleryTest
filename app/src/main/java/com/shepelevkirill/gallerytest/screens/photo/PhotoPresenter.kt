@@ -1,12 +1,7 @@
 package com.shepelevkirill.gallerytest.screens.photo
 
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.core.screens.Photo
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
-import java.lang.Exception
 
 class PhotoPresenter : Photo.Presenter {
     private var view: Photo.View? = null

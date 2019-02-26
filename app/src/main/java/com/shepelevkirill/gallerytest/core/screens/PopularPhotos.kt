@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.models.PhotoModel
 
 interface PopularPhotos {
-    interface View  {
+    interface View {
         fun showPhoto(photo: PhotoModel)
         fun openPhoto(photo: PhotoModel)
         fun clearPhotos()

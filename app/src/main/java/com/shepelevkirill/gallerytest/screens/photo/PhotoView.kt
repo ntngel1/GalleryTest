@@ -1,6 +1,5 @@
 package com.shepelevkirill.gallerytest.screens.photo
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +8,7 @@ import androidx.fragment.app.Fragment
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
 import com.shepelevkirill.gallerytest.core.screens.Photo
-import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
-import kotlinx.android.synthetic.main.fragment_photo.*
 import kotlinx.android.synthetic.main.fragment_photo.view.*
 
 class PhotoView : Fragment(), Photo.View {

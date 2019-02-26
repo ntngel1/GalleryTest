@@ -1,6 +1,5 @@
 package com.shepelevkirill.gallerytest.screens.new_photos
 
-import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.gateway.PhotoGateway
@@ -70,7 +69,7 @@ class NewPhotosPresenter : NewPhotos.Presenter {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .flatMapObservable { Observable.fromIterable(it.data) }
-            .subscribe(object: Observer<PhotoModel> {
+            .subscribe(object : Observer<PhotoModel> {
                 override fun onComplete() {
                     view?.stopRefreshing()
                     isRequestSent = false

@@ -10,7 +10,7 @@ import com.shepelevkirill.gallerytest.R
 import com.shepelevkirill.gallerytest.core.screens.NewPhotos
 import com.squareup.picasso.Picasso
 
-class RecyclerViewAdapter(private val parent: NewPhotos.View): RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+class RecyclerViewAdapter(private val parent: NewPhotos.View) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
     private val data: ArrayList<PhotoModel> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,7 +33,7 @@ class RecyclerViewAdapter(private val parent: NewPhotos.View): RecyclerView.Adap
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(val view: View): RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         private val imageView: ImageView = view.findViewById(R.id.ui_image)
 
         fun bind(photo: PhotoModel) {

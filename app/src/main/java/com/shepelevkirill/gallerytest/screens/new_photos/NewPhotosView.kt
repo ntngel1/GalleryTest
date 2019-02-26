@@ -46,14 +46,14 @@ class NewPhotosView : Fragment(), NewPhotos.View {
     }
 
     // Listener for RecycleView scroll
-    private val onRecycleViewScrollListener = object: RecyclerView.OnScrollListener() {
+    private val onRecycleViewScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             presenter.onRecyclerViewScrolled(recyclerView, dx, dy)
         }
     }
 
     // RecyclerView decorator for items' spacing
-    private val recyclerViewMarginsDecorator = object: RecyclerView.ItemDecoration() {
+    private val recyclerViewMarginsDecorator = object : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
             val position = parent.getChildLayoutPosition(view)
 

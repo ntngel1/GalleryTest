@@ -95,10 +95,13 @@ class PopularPhotosView : Fragment(), PopularPhotos.View {
 
     override fun showNetworkError() {
         ui_network_error_layout.visibility = View.VISIBLE
+        ui_photos.visibility = View.INVISIBLE
+        stopRefreshing()
     }
 
     override fun hideNetworkError() {
         ui_network_error_layout.visibility = View.INVISIBLE
+        ui_photos.visibility = View.VISIBLE
     }
 
     override fun showPhoto(photo: PhotoModel) {

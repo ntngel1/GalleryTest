@@ -71,12 +71,13 @@ class NewPhotosPresenter : NewPhotos.Presenter {
             .flatMapObservable { Observable.fromIterable(it.data) }
             .subscribe(object : Observer<PhotoModel> {
                 override fun onComplete() {
+                    view?.hideNetworkError()
                     view?.stopRefreshing()
                     isRequestSent = false
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    isRequestSent = true
                 }
 
                 override fun onNext(t: PhotoModel) {
@@ -85,10 +86,9 @@ class NewPhotosPresenter : NewPhotos.Presenter {
 
                 override fun onError(e: Throwable) {
                     view?.showNetworkError()
+                    isRequestSent = false
                 }
 
             })
-
-        isRequestSent = true
     }
 }

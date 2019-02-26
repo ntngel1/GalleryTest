@@ -69,11 +69,13 @@ class PopularPhotosPresenter : PopularPhotos.Presenter {
             .flatMapObservable { Observable.fromIterable(it.data) }
             .subscribe(object : Observer<PhotoModel> {
                 override fun onComplete() {
+                    view?.hideNetworkError()
                     view?.stopRefreshing()
                     isRequestSent = false
                 }
 
                 override fun onSubscribe(d: Disposable) {
+                    isRequestSent = true
                 }
 
                 override fun onNext(t: PhotoModel) {
@@ -82,9 +84,8 @@ class PopularPhotosPresenter : PopularPhotos.Presenter {
 
                 override fun onError(e: Throwable) {
                     view?.showNetworkError()
+                    isRequestSent = false
                 }
             })
-
-        isRequestSent = true
     }
 }

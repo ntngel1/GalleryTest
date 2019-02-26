@@ -34,16 +34,16 @@ interface Api {
     fun getMediaObjects(page: Int, limit: Int): Single<List<MediaObjectModel>>
 
     @POST("/api/media_objects")
-    fun createMediaObject(mediaObject: MediaObjectCreateRequestModel): Single<MediaObjectModel>
+    fun createMediaObject(@Body mediaObject: MediaObjectCreateRequestModel): Single<MediaObjectModel>
 
     @GET("/api/media_objects/{id}")
     fun getMediaObject(@Path("id") id: Int): Single<MediaObjectModel>
 
     @PUT("/api/media_objects/{id}")
-    fun updateMediaObject(@Path("id") id: Int, mediaObject: MediaObjectUpdateRequestModel): Single<MediaObjectModel>
+    fun updateMediaObject(@Path("id") id: Int, @Body mediaObject: MediaObjectUpdateRequestModel): Single<MediaObjectModel>
 
     @PATCH("/api/media_objects/{id}")
-    fun replaceMediaObject(@Path("id") id: Int, mediaObject: MediaObjectReplaceRequestModel): Single<MediaObjectModel>
+    fun replaceMediaObject(@Path("id") id: Int, @Body mediaObject: MediaObjectReplaceRequestModel): Single<MediaObjectModel>
 
     @DELETE("/api/media_objects/{id}")
     fun removeMediaObject(@Path("id") id: Int): Single<Any>
@@ -54,19 +54,19 @@ interface Api {
     // PHOTO
 
     @GET("/api/photos")
-    fun getPhotos(page: Int, limit: Int, new: Boolean, popular: Boolean): Single<List<PhotoModel>>
+    fun getPhotos(@Query("page") page: Int, @Query("limit") limit: Int, @Query("new") new: Boolean?, @Query("popular") popular: Boolean?): Single<PhotosModel>
 
     @POST("/api/photos")
-    fun createPhoto(photo: PhotoCreateRequestModel): Single<PhotoModel>
+    fun createPhoto(@Body photo: PhotoCreateRequestModel): Single<PhotoModel>
 
     @GET("/api/photos/{id}")
     fun getPhoto(@Path("id") id: Int): Single<PhotoModel>
 
     @PUT("/api/photos/{id}")
-    fun updatePhoto(@Path("id") id: Int, photo: PhotoUpdateRequestModel): Single<PhotoModel>
+    fun updatePhoto(@Path("id") id: Int, @Body photo: PhotoUpdateRequestModel): Single<PhotoModel>
 
     @PATCH("/photos/{id}")
-    fun replacePhoto(@Path("id") id: Int, photo: PhotoReplaceRequestModel): Single<PhotoModel>
+    fun replacePhoto(@Path("id") id: Int, @Body photo: PhotoReplaceRequestModel): Single<PhotoModel>
 
     @DELETE("/api/photos/{id}")
     fun removePhoto(@Path("id") id: Int): Single<Any>
@@ -78,13 +78,13 @@ interface Api {
     fun getUsers(page: Int, limit: Int): Single<List<UserModel>>
 
     @POST("/api/users")
-    fun createUser(photo: UserCreateRequestModel): Single<UserModel>
+    fun createUser(@Body photo: UserCreateRequestModel): Single<UserModel>
 
     @GET("/api/users/{id}")
     fun getUser(@Path("id") id: Int): Single<UserModel>
 
     @PUT("/api/users/{id}")
-    fun updateUser(@Path("id") id: Int, photo: UserUpdateRequestModel): Single<UserModel>
+    fun updateUser(@Path("id") id: Int, @Body photo: UserUpdateRequestModel): Single<UserModel>
 
     @DELETE("/api/users/{id}")
     fun removeUser(@Path("id") id: Int): Single<Any>

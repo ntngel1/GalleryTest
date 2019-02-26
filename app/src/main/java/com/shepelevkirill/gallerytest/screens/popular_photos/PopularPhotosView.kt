@@ -31,12 +31,12 @@ class PopularPhotosView : Fragment(), PopularPhotos.View {
         view.ui_photos.setOnScrollListener(onRecycleViewScrollListener)
         view.ui_photos.addItemDecoration(recyclerViewMarginsDecorator)
         ui_swipeRefreshLayout.setOnRefreshListener(onRefreshListener)
+        presenter.onCreate()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter.attachView(this)
-        presenter.onCreate()
     }
 
     override fun onDestroy() {
@@ -85,6 +85,10 @@ class PopularPhotosView : Fragment(), PopularPhotos.View {
         presenter.onPhotoClicked(photo)
     }
 
+    override fun onOpen() {
+        presenter.onOpen()
+    }
+
     override fun stopRefreshing() {
         view?.ui_swipeRefreshLayout?.isRefreshing = false
     }
@@ -94,14 +98,23 @@ class PopularPhotosView : Fragment(), PopularPhotos.View {
     }
 
     override fun showNetworkError() {
-        ui_network_error_layout.visibility = View.VISIBLE
         ui_photos.visibility = View.INVISIBLE
+        ui_network_error_layout.visibility = View.VISIBLE
+        ui_progressbar.visibility = View.INVISIBLE
         stopRefreshing()
     }
 
     override fun hideNetworkError() {
         ui_network_error_layout.visibility = View.INVISIBLE
         ui_photos.visibility = View.VISIBLE
+    }
+
+    override fun showProgress() {
+        ui_progressbar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        ui_progressbar.visibility = View.INVISIBLE
     }
 
     override fun showPhoto(photo: PhotoModel) {

@@ -25,14 +25,13 @@ class MainView : AppCompatActivity(), Main.View {
             else -> return@OnNavigationItemSelectedListener false
         }
 
-        presenter.onFragmentChanged(newFragment, currentFragment)
-
         openFragment(newFragment)
 
         return@OnNavigationItemSelectedListener true
     }
 
     private fun openFragment(fragment: Fragment) {
+        presenter.onFragmentChanged(fragment, currentFragment)
         supportFragmentManager.beginTransaction()
             .replace(fragment_container.id, fragment)
             .commit()

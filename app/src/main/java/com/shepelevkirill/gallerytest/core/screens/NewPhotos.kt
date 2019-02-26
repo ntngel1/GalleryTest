@@ -10,9 +10,12 @@ interface NewPhotos {
         fun clearPhotos()
         fun showNetworkError()
         fun hideNetworkError()
+        fun showProgress()
+        fun hideProgress()
         fun stopRefreshing()
 
         fun onPhotoClicked(photo: PhotoModel)
+        fun onOpen()
     }
 
     interface Presenter {
@@ -21,6 +24,7 @@ interface NewPhotos {
 
         fun onCreate()
         fun onDestroy()
+        fun onOpen()
 
         fun onPhotoClicked(photo: PhotoModel)
         fun onRecyclerViewScrolled(recyclerView: RecyclerView, dx: Int, dy: Int)

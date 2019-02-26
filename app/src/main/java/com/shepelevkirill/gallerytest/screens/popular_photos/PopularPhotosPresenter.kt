@@ -1,9 +1,12 @@
 package com.shepelevkirill.gallerytest.screens.popular_photos
 
+import android.content.Context
+import android.net.ConnectivityManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.core.gateway.PhotoGateway
 import com.shepelevkirill.core.models.PhotoModel
+import com.shepelevkirill.gallerytest.App
 import com.shepelevkirill.gallerytest.core.screens.PopularPhotos
 import com.shepelevkirill.gateway.network.gateway.PhotoApiGateway
 import com.shepelevkirill.gateway.network.retrofit
@@ -59,6 +62,12 @@ class PopularPhotosPresenter : PopularPhotos.Presenter {
         view!!.openPhoto(photo)
     }
 
+    override fun onOpen() {
+        val cm = App.appContext!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val netInfo = cm.activeNetworkInfo
+        if (netInfo == null || !netInfo.isConnected) view?.showNetworkError()
+    }
+
     private fun getPhotos() {
         if (isRequestSent)
             return
@@ -71,11 +80,13 @@ class PopularPhotosPresenter : PopularPhotos.Presenter {
                 override fun onComplete() {
                     view?.hideNetworkError()
                     view?.stopRefreshing()
+                    view?.hideProgress()
                     isRequestSent = false
                 }
 
                 override fun onSubscribe(d: Disposable) {
                     isRequestSent = true
+                    view?.showProgress()
                 }
 
                 override fun onNext(t: PhotoModel) {

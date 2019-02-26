@@ -18,7 +18,7 @@ class MainView : AppCompatActivity(), Main.View {
     private val popularPhotosFragment = PopularPhotosView.newInstance()
     private var currentFragment: Fragment = newPhotosFragment
 
-    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         val newFragment: Fragment = when (item.itemId) {
             R.id.navigation_new -> newPhotosFragment
             R.id.navigation_popular -> popularPhotosFragment
@@ -44,7 +44,7 @@ class MainView : AppCompatActivity(), Main.View {
         setContentView(R.layout.activity_main)
 
         openFragment(newPhotosFragment)
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         presenter.attachView(this)
         presenter.onCreate()

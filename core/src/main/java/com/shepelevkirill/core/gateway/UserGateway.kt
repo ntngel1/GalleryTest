@@ -13,5 +13,5 @@ interface UserGateway {
     fun createUser(user: UserCreateRequestModel): Single<UserModel>
     fun getUser(id: Int): Single<UserModel>
     fun updateUser(id: Int, user: UserUpdateRequestModel): Single<UserModel>
-    fun removeUser(id: Int): Single<Any> // TODO WHAT TO USE? SINGLE<STRING> OR SINGLE<ANY>
+    fun removeUser(id: Int): Single<Any>
 }

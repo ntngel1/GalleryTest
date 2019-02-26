@@ -24,7 +24,7 @@ interface Api {
     fun replaceClient(@Path("id") id: Int, @Body client: ClientReplaceRequestModel): Single<ClientModel>
 
     @DELETE("/api/clients/{id}")
-    fun removeClient(@Path("id") id: Int): Single<Any> // TODO ANY????
+    fun removeClient(@Path("id") id: Int): Single<Any>
 
 
 

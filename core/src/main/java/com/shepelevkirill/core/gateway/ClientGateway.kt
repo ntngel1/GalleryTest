@@ -14,5 +14,5 @@ interface ClientGateway {
     fun getClient(id: Int): Single<ClientModel>
     fun updateClient(id: Int, client: ClientUpdateRequestModel): Single<ClientModel>
     fun replaceClient(id: Int, client: ClientReplaceRequestModel): Single<ClientModel>
-    fun removeClient(id: Int): Single<Any> // TODO ANY????
+    fun removeClient(id: Int): Single<Any>
 }

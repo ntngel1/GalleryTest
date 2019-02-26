@@ -11,5 +11,5 @@ interface PhotoGateway {
     fun getPhoto(id: Int): Single<PhotoModel>
     fun updatePhoto(id: Int, photo: PhotoUpdateRequestModel): Single<PhotoModel>
     fun replacePhoto(id: Int, photo: PhotoReplaceRequestModel): Single<PhotoModel>
-    fun removePhoto(id: Int): Single<Any> // TODO WHAT TO USE? SINGLE<STRING> OR SINGLE<ANY>
+    fun removePhoto(id: Int): Single<Any>
 }

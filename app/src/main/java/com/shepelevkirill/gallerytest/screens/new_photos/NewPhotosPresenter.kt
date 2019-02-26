@@ -17,8 +17,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-// TODO CHECK IF NO INTERNET JUST GET THIS SHIT DOWN
-
 class NewPhotosPresenter : NewPhotos.Presenter {
     private var view: NewPhotos.View? = null
     private var photoGateway: PhotoGateway = PhotoApiGateway(retrofit.getRetrofit())

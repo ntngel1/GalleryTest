@@ -1,9 +1,10 @@
-package com.shepelevkirill.gallerytest.ui.scenes.popular_photos
+package com.shepelevkirill.gallerytest.ui.scenes.photos
 
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.shepelevkirill.core.gateway.NetworkGateway
 import com.shepelevkirill.core.gateway.PhotoGateway
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.App
@@ -14,9 +15,10 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class PopularPhotosPresenter : PopularPhotosView.Presenter {
-    private var view: PopularPhotosView.View? = null
+class PhotosPresenter(private val new: Boolean?, private val popular: Boolean?) : PhotosView.Presenter {
+    private var view: PhotosView.View? = null
     @Inject lateinit var photoGateway: PhotoGateway
+    @Inject lateinit var networkGateway: NetworkGateway
     private var currentPage: Int = 0
     private var isRequestSent = false
 
@@ -29,7 +31,7 @@ class PopularPhotosPresenter : PopularPhotosView.Presenter {
         private const val ITEMS_BUFFER: Int = 4
     }
 
-    override fun attachView(view: PopularPhotosView.View) {
+    override fun attachView(view: PhotosView.View) {
         this.view = view
     }
 
@@ -65,16 +67,16 @@ class PopularPhotosPresenter : PopularPhotosView.Presenter {
     }
 
     override fun onOpen() {
-        val cm = App.applicationContext!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val netInfo = cm.activeNetworkInfo
-        if (netInfo == null || !netInfo.isConnected) view?.showNetworkError()
+        if (!networkGateway.isNetworkAvailable()) {
+            view?.showNetworkError()
+        }
     }
 
     private fun getPhotos() {
         if (isRequestSent)
             return
 
-        photoGateway.getPhotos(++currentPage, ITEMS_REQUEST_SIZE, new = null, popular = true)
+        photoGateway.getPhotos(++currentPage, ITEMS_REQUEST_SIZE, new = new, popular = popular)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .flatMapObservable { Observable.fromIterable(it.data) }
@@ -99,6 +101,7 @@ class PopularPhotosPresenter : PopularPhotosView.Presenter {
                     view?.showNetworkError()
                     isRequestSent = false
                 }
+
             })
     }
 }

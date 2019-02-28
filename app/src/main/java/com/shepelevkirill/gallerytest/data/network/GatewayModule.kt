@@ -1,9 +1,8 @@
 package com.shepelevkirill.gallerytest.data.network
 
-import com.shepelevkirill.core.gateway.ClientGateway
-import com.shepelevkirill.core.gateway.MediaObjectGateway
-import com.shepelevkirill.core.gateway.PhotoGateway
-import com.shepelevkirill.core.gateway.UserGateway
+import android.content.Context
+import com.shepelevkirill.core.gateway.*
+import com.shepelevkirill.gallerytest.data.app.AppModule
 import com.shepelevkirill.gateway.network.Api
 import com.shepelevkirill.gateway.network.gateway.ClientApiGateway
 import com.shepelevkirill.gateway.network.gateway.MediaObjectApiGateway
@@ -14,7 +13,7 @@ import dagger.Provides
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
-@Module(includes = [(RetrofitModule::class)])
+@Module(includes = [(RetrofitModule::class), (AppModule::class)])
 object GatewayModule {
 
     @Provides
@@ -36,4 +35,8 @@ object GatewayModule {
     @Provides
     @Singleton
     fun provideUserGateway(api: Api): UserGateway = UserApiGateway(api)
+
+    @Provides
+    @Singleton
+    fun provideNetworkGateway(context: Context): NetworkGateway = com.shepelevkirill.gateway.network.gateway.NetworkGateway(context)
 }

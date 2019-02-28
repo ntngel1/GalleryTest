@@ -3,6 +3,7 @@ package com.shepelevkirill.gallerytest.ui.scenes.photo
 import com.shepelevkirill.core.gateway.PhotoGateway
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.App
+import com.shepelevkirill.gallerytest.utils.load
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
@@ -22,9 +23,7 @@ class PhotoPresenter : PhotoView.Presenter {
 
     private fun showPhoto() {
         val url = photoGateway.getPhotoUrl(photoModel!!.image.contentUrl)
-        val picasso = Picasso.get()
-            .load(url)
-        view!!.showPhoto(picasso)
+        view?.getImageView()?.load(url)
     }
 
     override fun attachView(view: PhotoView.View) {

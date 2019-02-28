@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
 import com.squareup.picasso.RequestCreator
+import kotlinx.android.synthetic.main.fragment_photo.*
 import kotlinx.android.synthetic.main.fragment_photo.view.*
 
 class PhotoFragment : Fragment(), PhotoView.View {
@@ -42,10 +44,7 @@ class PhotoFragment : Fragment(), PhotoView.View {
     }
 
     override fun getPhotoModel(): PhotoModel = photoModel!!
-
-    override fun showPhoto(picasso: RequestCreator) {
-        picasso.into(view!!.ui_image)
-    }
+    override fun getImageView(): ImageView = ui_image
 
     companion object {
         fun newInstance(image: PhotoModel): Fragment {

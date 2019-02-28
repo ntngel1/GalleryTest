@@ -9,11 +9,13 @@ import com.shepelevkirill.core.gateway.PhotoGateway
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.App
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.ui.scenes.new_photos.NewPhotosView
+import com.shepelevkirill.gallerytest.ui.scenes.photos.PhotosView
+import com.shepelevkirill.gallerytest.utils.load
+import com.shepelevkirill.gallerytest.utils.loadThumbnail
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
-class NewPhotosAdapter(private val parent: NewPhotosView.View) : RecyclerView.Adapter<NewPhotosAdapter.ViewHolder>() {
+class PhotosAdapter(private val parent: PhotosView.View) : RecyclerView.Adapter<PhotosAdapter.ViewHolder>() {
     private val data: ArrayList<PhotoModel> = ArrayList()
     @Inject lateinit var photoGateway: PhotoGateway
 
@@ -46,11 +48,7 @@ class NewPhotosAdapter(private val parent: NewPhotosView.View) : RecyclerView.Ad
 
         fun bind(photo: PhotoModel) {
             val url = photoGateway.getPhotoUrl(photo.image.contentUrl)
-            Picasso.get()
-                .load(url)
-                .fit()
-                .centerCrop()
-                .into(imageView)
+            imageView.loadThumbnail(url)
             imageView.setOnClickListener {
                 parent.onPhotoClicked(photo)
             }

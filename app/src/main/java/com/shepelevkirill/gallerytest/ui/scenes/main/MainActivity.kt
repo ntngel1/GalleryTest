@@ -12,8 +12,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(), MainView.View {
     private var presenter: MainView.Presenter = MainPresenter()
 
-    private val newPhotosFragment = PhotosFragment.newInstance(true, null)
-    private val popularPhotosFragment = PhotosFragment.newInstance(null, true)
+    private val newPhotosFragment = PhotosFragment.newInstance(true, false)
+    private val popularPhotosFragment = PhotosFragment.newInstance(false, true)
     private var currentFragment: Fragment = newPhotosFragment
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

@@ -15,14 +15,19 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class PhotosPresenter(private val new: Boolean?, private val popular: Boolean?) : PhotosView.Presenter {
+class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : PhotosView.Presenter {
     private var view: PhotosView.View? = null
     @Inject lateinit var photoGateway: PhotoGateway
     @Inject lateinit var networkGateway: NetworkGateway
     private var currentPage: Int = 0
     private var isRequestSent = false
 
+    private var isNew: Boolean? = null
+    private var isPopular: Boolean? = null
+
     init {
+        this.isNew = if (isNew) true else null
+        this.isPopular = if (isPopular) true else null
         App.appComponent.inject(this)
     }
 
@@ -76,7 +81,7 @@ class PhotosPresenter(private val new: Boolean?, private val popular: Boolean?) 
         if (isRequestSent)
             return
 
-        photoGateway.getPhotos(++currentPage, ITEMS_REQUEST_SIZE, new = new, popular = popular)
+        photoGateway.getPhotos(++currentPage, ITEMS_REQUEST_SIZE, new = isNew, popular = isPopular)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .flatMapObservable { Observable.fromIterable(it.data) }

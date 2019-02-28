@@ -37,9 +37,8 @@ class PhotosFragment : Fragment(), PhotosView.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val isPopular: Boolean? = if (arguments?.getBoolean("isPopular") == true) true else null
-        val isNew: Boolean? = if (arguments?.getBoolean("isNew") == true) true else null
-
+        val isNew = arguments!!.getBoolean("isNew", false)
+        val isPopular = arguments!!.getBoolean("isPopular", false)
         presenter = PhotosPresenter(isNew, isPopular)
         presenter?.attachView(this)
     }
@@ -110,15 +109,11 @@ class PhotosFragment : Fragment(), PhotosView.View {
 
 
     companion object {
-        fun newInstance(isNew: Boolean?, isPopular: Boolean?): PhotosFragment {
+        fun newInstance(isNew: Boolean, isPopular: Boolean): PhotosFragment {
             val bundle = Bundle()
-            /* TODO So here is just boolean type, not nullable
-            * TODO It does matter
-             */
-            if (isNew != null)
-                bundle.putBoolean("isNew", isNew)
-            if (isPopular != null)
-                bundle.putBoolean("isPopular", isPopular)
+            bundle.putBoolean("isNew", isNew)
+            bundle.putBoolean("isPopular", isPopular)
+
             val fragment = PhotosFragment()
             fragment.arguments = bundle
 

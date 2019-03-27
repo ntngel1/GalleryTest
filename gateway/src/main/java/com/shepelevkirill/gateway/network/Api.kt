@@ -12,7 +12,7 @@ interface Api {
     fun getClients(page: Int, limit: Int): Single<List<ClientModel>>
 
     @POST("/api/clients")
-    fun createClient(@Body client: ClientCreateRequestModel): Single<List<ClientModel>>
+    fun createClient(@Body client: ClientCreateRequestModel): Single<ClientModel>
 
     @GET("/api/clients/{id}")
     fun getClient(@Path("id") id: Int): Single<ClientModel>
@@ -89,4 +89,16 @@ interface Api {
     @DELETE("/api/users/{id}")
     fun removeUser(@Path("id") id: Int): Single<Any>
 
+
+    // AUTHORIZATION
+    @FormUrlEncoded
+    @POST("oauth/v2/token")
+    fun getTokenByUser(@Field("client_id") clientId: String, @Field("client_secret") clientSecret: String,
+                 @Field("username") username: String, @Field("password") password: String,
+                 @Field("grant_type") grantType: String = "password")
+
+    @FormUrlEncoded
+    @POST("oauth/v2/token")
+    fun getTokenByRefreshToken(@Field("client_id") clientId: String, @Field("client_secret") clientSecret: String,
+                               @Field("refresh_token") refreshToken: String, @Field("grant_type") grantType: String = "password")
 }

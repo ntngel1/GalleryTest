@@ -11,13 +11,10 @@ import io.reactivex.Single
 
 class ClientApiGateway(private val api: Api) : ClientGateway {
     override fun getClients(page: Int, limit: Int): Observable<ClientModel> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO()
     }
 
-    override fun createClient(client: ClientCreateRequestModel): Single<ClientModel> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
+    override fun createClient(client: ClientCreateRequestModel): Single<ClientModel> = api.createClient(client)
     override fun getClient(id: Int): Single<ClientModel> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

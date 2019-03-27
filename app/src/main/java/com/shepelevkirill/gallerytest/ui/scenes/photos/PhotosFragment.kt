@@ -1,14 +1,14 @@
 package com.shepelevkirill.gallerytest.ui.scenes.photos
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.arellomobile.mvp.MvpFragment
+import com.arellomobile.mvp.presenter.InjectPresenter
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
 import com.shepelevkirill.gallerytest.ui.adapters.PhotosAdapter
@@ -16,8 +16,10 @@ import com.shepelevkirill.gallerytest.ui.decorators.GridLayoutDecorator
 import com.shepelevkirill.gallerytest.ui.scenes.photo.PhotoFragment
 import kotlinx.android.synthetic.main.fragment_photos.view.*
 
-class PhotosFragment : Fragment(), PhotosView.View {
-    private var presenter: PhotosView.Presenter? = null
+class PhotosFragment : MvpFragment(), PhotosView {
+    @InjectPresenter
+    lateinit var presenter: PhotosPresenter
+
     private var recyclerAdapter: PhotosAdapter = PhotosAdapter(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -32,7 +34,6 @@ class PhotosFragment : Fragment(), PhotosView.View {
         view.ui_photos.setOnScrollListener(onRecycleViewScrollListener)
         view.ui_photos.addItemDecoration(GridLayoutDecorator(this))
         view.ui_swipeRefreshLayout.setOnRefreshListener(onRefreshListener)
-        presenter?.onCreate()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,30 +41,24 @@ class PhotosFragment : Fragment(), PhotosView.View {
         val isNew = arguments!!.getBoolean("isNew", false)
         val isPopular = arguments!!.getBoolean("isPopular", false)
         presenter = PhotosPresenter(isNew, isPopular)
-        presenter?.attachView(this)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter?.onDestroy()
-        presenter?.detachView()
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
     }
 
     // Listener for RecycleView scroll
     private val onRecycleViewScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            presenter?.onRecyclerViewScrolled(recyclerView, dx, dy)
+            presenter.onRecyclerViewScrolled(recyclerView, dx, dy)
         }
     }
 
-    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener { presenter?.onRefresh() }
+    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener { presenter.onRefresh() }
 
     override fun onPhotoClicked(photo: PhotoModel) {
-        presenter?.onPhotoClicked(photo)
-    }
-
-    override fun onOpen() {
-        presenter?.onOpen()
+        presenter.onPhotoClicked(photo)
     }
 
     override fun stopRefreshing() {

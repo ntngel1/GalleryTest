@@ -2,33 +2,39 @@ package com.shepelevkirill.gallerytest.ui.scenes.main
 
 import android.Manifest
 import android.util.Log
+import android.view.MenuItem
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
+import com.arellomobile.mvp.InjectViewState
+import com.arellomobile.mvp.MvpPresenter
+import com.shepelevkirill.gallerytest.R
+import com.shepelevkirill.gallerytest.ui.scenes.photos.PhotosFragment
 import com.shepelevkirill.gallerytest.ui.scenes.photos.PhotosView
-import com.tbruyelle.rxpermissions2.RxPermissions
 
-class MainPresenter : MainView.Presenter {
-    private var view: MainView.View? = null
+@InjectViewState
+class MainPresenter : MvpPresenter<MainView>() {
+    private val newPhotosFragment = PhotosFragment.newInstance(true, false)
+    private val popularPhotosFragment = PhotosFragment.newInstance(false, true)
 
-    override fun attachView(view: MainView.View) {
-        this.view = view
+    private lateinit var currentFragment: Fragment
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        viewState.requestPermissions(Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.INTERNET)
+        viewState.openFragment(newPhotosFragment)
     }
 
-    override fun detachView() {
-        view = null
-    }
-
-    override fun onCreate() {
-        val permissions = RxPermissions(view as FragmentActivity)
-        permissions.request(Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE)
-            .subscribe()
-    }
-
-    override fun onFragmentChanged(newFragment: Fragment, oldFragment: Fragment) {
-        Log.d("Fragment CHANGEd", "YYYEEE")
-        if (newFragment is PhotosView.View) {
-            (newFragment as PhotosView.View).onOpen()
+    fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val newFragment: Fragment = when (item.itemId) {
+            R.id.navigation_new -> newPhotosFragment
+            R.id.navigation_popular -> popularPhotosFragment
+            else -> return false
         }
+
+        if (currentFragment != newFragment) {
+            viewState.openFragment(newFragment)
+        }
+
+        return true
     }
 
 }

@@ -6,14 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import com.arellomobile.mvp.MvpFragment
+import com.arellomobile.mvp.presenter.InjectPresenter
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
+import com.shepelevkirill.gallerytest.utils.load
 import com.squareup.picasso.RequestCreator
 import kotlinx.android.synthetic.main.fragment_photo.*
 import kotlinx.android.synthetic.main.fragment_photo.view.*
 
-class PhotoFragment : Fragment(), PhotoView.View {
-    private var presenter: PhotoView.Presenter = PhotoPresenter()
+class PhotoFragment : MvpFragment(), PhotoView {
+    @InjectPresenter
+    lateinit var presenter: PhotoPresenter
+
     private var photoModel: PhotoModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,13 +34,6 @@ class PhotoFragment : Fragment(), PhotoView.View {
         view.ui_title.text = photoModel?.name ?: "UNDEFINED"
         view.ui_description.text = photoModel?.description ?: "UNDEFINED"
 
-        presenter.attachView(this)
-        presenter.onViewCreated()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.detachView()
     }
 
     // Listener for Back button pressed
@@ -43,8 +41,13 @@ class PhotoFragment : Fragment(), PhotoView.View {
         activity!!.supportFragmentManager.popBackStack()
     }
 
-    override fun getPhotoModel(): PhotoModel = photoModel!!
-    override fun getImageView(): ImageView = ui_image
+    override fun showImage(url: String) {
+        ui_image.load(url)
+    }
+
+    override fun getPhotoModel() {
+        presenter.onGetPhotoModel(photoModel)
+    }
 
     companion object {
         fun newInstance(image: PhotoModel): Fragment {

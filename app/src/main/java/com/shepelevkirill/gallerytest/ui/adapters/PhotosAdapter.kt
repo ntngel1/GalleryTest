@@ -15,7 +15,7 @@ import com.shepelevkirill.gallerytest.utils.loadThumbnail
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
-class PhotosAdapter(private val parent: PhotosView.View) : RecyclerView.Adapter<PhotosAdapter.ViewHolder>() {
+class PhotosAdapter(private val parent: PhotosView) : RecyclerView.Adapter<PhotosAdapter.ViewHolder>() {
     private val data: ArrayList<PhotoModel> = ArrayList()
     @Inject lateinit var photoGateway: PhotoGateway
 

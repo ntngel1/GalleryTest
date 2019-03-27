@@ -1,9 +1,8 @@
 package com.shepelevkirill.gallerytest.ui.scenes.photos
 
-import android.content.Context
-import android.net.ConnectivityManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.arellomobile.mvp.MvpPresenter
 import com.shepelevkirill.core.gateway.NetworkGateway
 import com.shepelevkirill.core.gateway.PhotoGateway
 import com.shepelevkirill.core.models.PhotoModel
@@ -11,19 +10,22 @@ import com.shepelevkirill.gallerytest.App
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : PhotosView.Presenter {
-    private var view: PhotosView.View? = null
+class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosView>() {
     @Inject lateinit var photoGateway: PhotoGateway
     @Inject lateinit var networkGateway: NetworkGateway
+
     private var currentPage: Int = 0
     private var isRequestSent = false
 
     private var isNew: Boolean? = null
     private var isPopular: Boolean? = null
+
+    private val compositeDisposable = CompositeDisposable()
 
     init {
         this.isNew = if (isNew) true else null
@@ -36,22 +38,22 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : PhotosView.Presenter
         private const val ITEMS_BUFFER: Int = 4
     }
 
-    override fun attachView(view: PhotosView.View) {
-        this.view = view
-    }
-
-    override fun detachView() {
-        view = null
-    }
-
-    override fun onCreate() {
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
         getPhotos()
     }
 
-    override fun onDestroy() {
+    fun onResume() {
+        if (!networkGateway.isNetworkAvailable()) {
+            viewState.showNetworkError()
+        }
     }
 
-    override fun onRecyclerViewScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+    override fun onDestroy() {
+        compositeDisposable.dispose()
+    }
+
+    fun onRecyclerViewScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         val layoutManager = recyclerView.layoutManager as GridLayoutManager
         val lastVisibleItemPos = layoutManager.findLastVisibleItemPosition()
 
@@ -61,49 +63,44 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : PhotosView.Presenter
         }
     }
 
-    override fun onRefresh() {
-        view?.clearPhotos()
+    fun onRefresh() {
+        viewState.clearPhotos()
         currentPage = 0
         getPhotos()
     }
 
-    override fun onPhotoClicked(photo: PhotoModel) {
-        view!!.openPhoto(photo)
-    }
-
-    override fun onOpen() {
-        if (!networkGateway.isNetworkAvailable()) {
-            view?.showNetworkError()
-        }
+    fun onPhotoClicked(photo: PhotoModel) {
+        viewState.openPhoto(photo)
     }
 
     private fun getPhotos() {
         if (isRequestSent)
             return
-
+        // TODO Handle disposable
         photoGateway.getPhotos(++currentPage, ITEMS_REQUEST_SIZE, new = isNew, popular = isPopular)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .flatMapObservable { Observable.fromIterable(it.data) }
             .subscribe(object : Observer<PhotoModel> {
                 override fun onComplete() {
-                    view?.hideNetworkError()
-                    view?.stopRefreshing()
-                    view?.hideProgress()
+                    viewState.hideNetworkError()
+                    viewState.stopRefreshing()
+                    viewState.hideProgress()
                     isRequestSent = false
                 }
 
                 override fun onSubscribe(d: Disposable) {
+                    compositeDisposable.add(d)
                     isRequestSent = true
-                    view?.showProgress()
+                    viewState.showProgress()
                 }
 
                 override fun onNext(t: PhotoModel) {
-                    view?.showPhoto(t)
+                    viewState.showPhoto(t)
                 }
 
                 override fun onError(e: Throwable) {
-                    view?.showNetworkError()
+                    viewState.showNetworkError()
                     isRequestSent = false
                 }
 

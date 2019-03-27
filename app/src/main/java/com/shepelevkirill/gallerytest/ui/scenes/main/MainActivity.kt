@@ -1,56 +1,49 @@
 package com.shepelevkirill.gallerytest.ui.scenes.main
 
+import android.Manifest
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.arellomobile.mvp.MvpActivity
+import com.arellomobile.mvp.presenter.InjectPresenter
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.ui.scenes.photos.PhotosFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), MainView.View {
-    private var presenter: MainView.Presenter = MainPresenter()
-
-    private val newPhotosFragment = PhotosFragment.newInstance(true, false)
-    private val popularPhotosFragment = PhotosFragment.newInstance(false, true)
-    private var currentFragment: Fragment = newPhotosFragment
+class MainActivity : MvpActivity(), MainView {
+    @InjectPresenter
+    lateinit var presenter: MainPresenter
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        val newFragment: Fragment = when (item.itemId) {
-            R.id.navigation_new -> newPhotosFragment
-            R.id.navigation_popular -> popularPhotosFragment
-            else -> return@OnNavigationItemSelectedListener false
-        }
-
-        openFragment(newFragment)
-
-        return@OnNavigationItemSelectedListener true
-    }
-
-    private fun openFragment(fragment: Fragment) {
-        presenter.onFragmentChanged(fragment, currentFragment)
-        supportFragmentManager.beginTransaction()
-            .replace(fragment_container.id, fragment)
-            .commit()
-
-        currentFragment = fragment
+        return@OnNavigationItemSelectedListener presenter.onNavigationItemSelected(item)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        openFragment(newPhotosFragment)
         navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-
-        presenter.attachView(this)
-        presenter.onCreate()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun requestPermissions(vararg permissions: String) {
+        Dexter.withActivity(this)
+            .withPermissions(permissions.asList())
+            .withListener(object: MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {}
+                override fun onPermissionRationaleShouldBeShown(permissions: MutableList<PermissionRequest>?, token: PermissionToken?) {}
+            })
+            .onSameThread()
+            .check()
+    }
 
-        presenter.detachView()
+    override fun openFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(fragment_container.id, fragment)
+            .commit()
     }
 }

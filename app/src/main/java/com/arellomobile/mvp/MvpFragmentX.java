@@ -13,10 +13,10 @@ import androidx.fragment.app.Fragment;
  * @author Konstantin Tckhovrebov
  */
 @SuppressWarnings("ConstantConditions")
-public class MvpFragment extends Fragment {
+public class MvpFragmentX extends Fragment {
 
     private boolean mIsStateSaved;
-    private MvpDelegate<? extends MvpFragment> mMvpDelegate;
+    private MvpDelegate<? extends MvpFragmentX> mMvpDelegate;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

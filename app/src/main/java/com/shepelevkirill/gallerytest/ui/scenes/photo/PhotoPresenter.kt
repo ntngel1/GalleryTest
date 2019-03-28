@@ -5,6 +5,7 @@ import com.arellomobile.mvp.MvpPresenter
 import com.shepelevkirill.core.gateway.PhotoGateway
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.App
+import com.shepelevkirill.gallerytest.ui.scenes.main.MainActivity
 import javax.inject.Inject
 
 @InjectViewState

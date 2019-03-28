@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
  * @author Alexander Bliniov
  * @author Konstantin Tckhovrebov
  */
-public class MvpActivity extends AppCompatActivity {
-    private MvpDelegate<? extends MvpActivity> mMvpDelegate;
+public class MvpActivityX extends AppCompatActivity {
+    private MvpDelegate<? extends MvpActivityX> mMvpDelegate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

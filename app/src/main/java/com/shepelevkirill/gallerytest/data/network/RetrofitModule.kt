@@ -1,6 +1,6 @@
 package com.shepelevkirill.gallerytest.data.network
 
-import com.shepelevkirill.gateway.network.Api
+import com.shepelevkirill.gallerytest.App
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -12,7 +12,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [(GatewayModule::class)])
 object RetrofitModule {
 
     @Provides
@@ -31,9 +31,12 @@ object RetrofitModule {
     @Provides
     @Singleton
     fun provideClient(): OkHttpClient {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
+            .build()
 
         return client
     }

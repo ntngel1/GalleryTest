@@ -2,12 +2,10 @@ package com.shepelevkirill.gallerytest.data.network
 
 import android.content.Context
 import com.shepelevkirill.core.gateway.*
+import com.shepelevkirill.core.gateway.NetworkGateway
 import com.shepelevkirill.gallerytest.data.app.AppModule
 import com.shepelevkirill.gateway.network.Api
-import com.shepelevkirill.gateway.network.gateway.ClientApiGateway
-import com.shepelevkirill.gateway.network.gateway.MediaObjectApiGateway
-import com.shepelevkirill.gateway.network.gateway.PhotoApiGateway
-import com.shepelevkirill.gateway.network.gateway.UserApiGateway
+import com.shepelevkirill.gateway.network.gateway.*
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit

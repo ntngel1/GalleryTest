@@ -1,15 +1,14 @@
-package com.shepelevkirill.gallerytest.ui.scenes.photo
+package com.shepelevkirill.gallerytest.ui.scenes.authentication
 
-import android.widget.ImageView
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
+import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
-import com.shepelevkirill.core.models.PhotoModel
-import com.squareup.picasso.RequestCreator
 
-interface PhotoView : MvpView {
+interface AuthenticationView : MvpView {
     @StateStrategyType(AddToEndSingleStrategy::class)
-    fun showImage(url: String)
+    fun showSignInLayout()
+
     @StateStrategyType(AddToEndSingleStrategy::class)
-    fun getPhotoModel()
+    fun showSignOutLayout()
 }

@@ -2,6 +2,7 @@ package com.shepelevkirill.gallerytest.ui.scenes.photos
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.shepelevkirill.core.gateway.NetworkGateway
 import com.shepelevkirill.core.gateway.PhotoGateway
@@ -15,6 +16,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
+@InjectViewState
 class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosView>() {
     @Inject lateinit var photoGateway: PhotoGateway
     @Inject lateinit var networkGateway: NetworkGateway
@@ -96,7 +98,7 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
                 }
 
                 override fun onNext(t: PhotoModel) {
-                    viewState.showPhoto(t)
+                    viewState.addPhoto(t)
                 }
 
                 override fun onError(e: Throwable) {

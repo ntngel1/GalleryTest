@@ -4,6 +4,7 @@ import com.shepelevkirill.gallerytest.data.app.AppModule
 import com.shepelevkirill.gallerytest.data.network.GatewayModule
 import com.shepelevkirill.gallerytest.data.network.RetrofitModule
 import com.shepelevkirill.gallerytest.ui.adapters.PhotosAdapter
+import com.shepelevkirill.gallerytest.ui.scenes.authentication.AuthenticationPresenter
 import com.shepelevkirill.gallerytest.ui.scenes.main.MainPresenter
 import com.shepelevkirill.gallerytest.ui.scenes.photo.PhotoPresenter
 import com.shepelevkirill.gallerytest.ui.scenes.photos.PhotosPresenter
@@ -20,6 +21,7 @@ interface AppComponent {
 
     fun inject(target: PhotoPresenter)
 
+    fun inject(target: AuthenticationPresenter)
 
     @Component.Builder
     interface Builder {

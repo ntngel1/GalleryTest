@@ -1,9 +1,9 @@
 package com.shepelevkirill.gallerytest.ui.scenes.main
 
-import android.Manifest
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
-import com.arellomobile.mvp.MvpActivity
+import com.arellomobile.mvp.MvpActivityX
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.karumi.dexter.Dexter
@@ -15,7 +15,7 @@ import com.shepelevkirill.gallerytest.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : MvpActivity(), MainView {
+class MainActivity : MvpActivityX(), MainView {
     @InjectPresenter
     lateinit var presenter: MainPresenter
 
@@ -41,9 +41,23 @@ class MainActivity : MvpActivity(), MainView {
             .check()
     }
 
-    override fun openFragment(fragment: Fragment) {
+    override fun openScreen(fragment: Fragment) {
+        Log.d("Opening fragment", "$fragment without backstack")
         supportFragmentManager.beginTransaction()
-            .replace(fragment_container.id, fragment)
+            .replace(R.id.fragment_container, fragment)
             .commit()
+    }
+
+    override fun openScreenWithBackStack(fragment: Fragment) {
+        Log.d("Opening fragment", "$fragment WITH BACKSTACK")
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun popFragment() {
+        Log.d("Poping fragment", "FRAGMENT POP")
+        supportFragmentManager.popBackStack()
     }
 }

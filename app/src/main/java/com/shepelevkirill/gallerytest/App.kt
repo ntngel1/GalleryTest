@@ -7,7 +7,6 @@ import com.shepelevkirill.gallerytest.data.network.GatewayModule
 import com.shepelevkirill.gallerytest.data.network.RetrofitModule
 
 class App : Application() {
-
     override fun onCreate() {
         super.onCreate()
         App.applicationContext = applicationContext

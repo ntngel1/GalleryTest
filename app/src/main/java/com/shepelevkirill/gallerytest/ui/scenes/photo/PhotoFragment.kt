@@ -4,18 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import com.arellomobile.mvp.MvpFragment
+import com.arellomobile.mvp.MvpFragmentX
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.shepelevkirill.core.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
+import com.shepelevkirill.gallerytest.ui.scenes.main.MainActivity
 import com.shepelevkirill.gallerytest.utils.load
-import com.squareup.picasso.RequestCreator
 import kotlinx.android.synthetic.main.fragment_photo.*
 import kotlinx.android.synthetic.main.fragment_photo.view.*
 
-class PhotoFragment : MvpFragment(), PhotoView {
+class PhotoFragment : MvpFragmentX(), PhotoView {
     @InjectPresenter
     lateinit var presenter: PhotoPresenter
 
@@ -38,7 +37,7 @@ class PhotoFragment : MvpFragment(), PhotoView {
 
     // Listener for Back button pressed
     private val onBackButtonPressedListener = View.OnClickListener {
-        activity!!.supportFragmentManager.popBackStack()
+        (activity as MainActivity).popFragment()
     }
 
     override fun showImage(url: String) {

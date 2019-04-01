@@ -1,0 +1,12 @@
+package com.shepelevkirill.gallerytest.ui.scenes.photo
+
+import com.arellomobile.mvp.MvpView
+import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+
+interface PhotoView : MvpView {
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun showImage(url: String)
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun getPhotoModel()
+}

@@ -8,4 +8,13 @@
             android:id="@+id/navigation_popular"
             android:icon="@drawable/ic_popular_24dp"
             android:title="@string/photos_popular"/>
+
+    <item
+            android:id="@+id/navigation_upload"
+            android:icon="@drawable/ic_popular_24dp"
+            android:title="@string/app_name"/>
+    <item
+            android:id="@+id/navigation_authentication"
+            android:icon="@drawable/ic_popular_24dp"
+            android:title="@string/app_name"/>
 </menu>

@@ -55,7 +55,4 @@ dependencies {
 
     kapt 'com.arello-mobile:moxy-compiler:1.5.5'
     kapt "com.google.dagger:dagger-compiler:${dagger}"
-
-    implementation project(path: ':core')
-    implementation project(path: ':gateway')
 }

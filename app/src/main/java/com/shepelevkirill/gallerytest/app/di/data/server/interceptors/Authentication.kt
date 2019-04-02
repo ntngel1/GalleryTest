@@ -18,13 +18,15 @@ class Authentication : Interceptor {
     lateinit var authenticationGateway: AuthenticationGateway
 
     override fun intercept(chain: Interceptor.Chain): Response {
+        App.appComponent.inject(this)
+
         val session = authenticationGateway.session
         val request = chain.request()
         val requestBuilder = request.newBuilder()
 
         val isSignedIn = authenticationGateway.isSignedIn()
 
-        if (isSignedIn) {
+        if (!isSignedIn) {
             return chain.proceed(request)
         }
 

@@ -12,12 +12,12 @@ class SignInUseCase : SingleUseCase<SignInUseCase.Params, SessionModel> {
     data class Params(val username: String, val password: String)
 
     private val clientGateway: ClientGateway
-    private val authGateway: AuthenticationGateway
+    private val authenticationGateway: AuthenticationGateway
 
     @Inject
     constructor(clientGateway: ClientGateway, authGateway: AuthenticationGateway) : super() {
         this.clientGateway = clientGateway
-        this.authGateway = authGateway
+        this.authenticationGateway = authGateway
     }
 
     override fun build(param: Params): Single<SessionModel> = Single.create { emitter ->
@@ -35,7 +35,7 @@ class SignInUseCase : SingleUseCase<SignInUseCase.Params, SessionModel> {
                 val request = TokenGetByUserRequestModel(
                     param.username, param.password, clientModel
                 )
-                authGateway.getTokenByUser(request)
+                authenticationGateway.getTokenByUser(request)
             }
             .flatMap { tokenModel ->
                 token = tokenModel
@@ -45,8 +45,9 @@ class SignInUseCase : SingleUseCase<SignInUseCase.Params, SessionModel> {
                 )
                 Single.just(session)
             }
-            .subscribe({
-                emitter.onSuccess(it)
+            .subscribe({ session ->
+                authenticationGateway.session = session
+                emitter.onSuccess(session)
             }, {
                 emitter.onError(it)
             })

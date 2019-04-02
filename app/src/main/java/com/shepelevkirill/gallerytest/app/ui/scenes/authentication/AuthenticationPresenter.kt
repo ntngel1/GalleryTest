@@ -52,7 +52,6 @@ class AuthenticationPresenter : MvpPresenter<AuthenticationView>() {
         signInUseCase.setSchedulers(Schedulers.io(), AndroidSchedulers.mainThread())
             .execute(SignInUseCase.Params(username, password))
             .subscribe({
-                App.session = it
                 viewState.showSignOutLayout()
                 viewState.hideProgressDialog()
             }, {

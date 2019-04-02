@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.ui.scenes.main
+package com.shepelevkirill.gallerytest.app.ui.scenes.main
 
 import androidx.fragment.app.Fragment
 import com.arellomobile.mvp.MvpView

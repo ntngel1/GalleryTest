@@ -7,7 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.shepelevkirill.gallerytest.R
 
-class SignInDialog : DialogFragment() {
+class SigningInDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(context!!)
         val inflater = activity!!.layoutInflater

@@ -9,15 +9,20 @@ import android.widget.Toast
 import com.arellomobile.mvp.MvpFragmentX
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.app.ui.dialogs.ImageUploadDialog
+import com.shepelevkirill.gallerytest.app.ui.dialogs.PhotoUploadingDialog
+import com.shepelevkirill.gallerytest.app.ui.dialogs.PhotoUploadedDialog
 import kotlinx.android.synthetic.main.fragment_upload.*
 
 class UploadFragment : MvpFragmentX(), UploadView {
     @InjectPresenter
     lateinit var presenter: UploadPresenter
 
-    private val progressDialog = ImageUploadDialog().apply {
+    private val progressDialog = PhotoUploadingDialog().apply {
         isCancelable = false
+    }
+    private val photoUploadedDialog = PhotoUploadedDialog().apply {
+        isCancelable = false
+        onShowClickedListener = { showMessage("Show Clicked!") }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -62,6 +67,10 @@ class UploadFragment : MvpFragmentX(), UploadView {
 
     override fun hideProgressDialog() {
         progressDialog.dismiss()
+    }
+
+    override fun showPhotoUploadedDialog() {
+        photoUploadedDialog.show(fragmentManager!!, null)
     }
 
     override fun getInputData() {

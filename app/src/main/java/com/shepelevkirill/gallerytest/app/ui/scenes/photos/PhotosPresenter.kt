@@ -48,6 +48,7 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
     fun onResume() {
         if (!networkGateway.isNetworkAvailable()) {
             viewState.showNetworkError()
+            compositeDisposable.dispose()
         }
     }
 

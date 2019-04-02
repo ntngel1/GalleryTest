@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.ui.adapters
+package com.shepelevkirill.gallerytest.app.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +11,7 @@ import com.shepelevkirill.gallerytest.app.App
 import com.shepelevkirill.gallerytest.R
 import com.shepelevkirill.gallerytest.app.ui.scenes.photos.PhotosView
 import com.shepelevkirill.gallerytest.app.utils.loadThumbnail
+import com.shepelevkirill.gallerytest.app.utils.stopLoading
 import javax.inject.Inject
 
 class PhotosAdapter(private val parent: PhotosView) : RecyclerView.Adapter<PhotosAdapter.ViewHolder>() {
@@ -30,6 +31,7 @@ class PhotosAdapter(private val parent: PhotosView) : RecyclerView.Adapter<Photo
 
     override fun getItemCount(): Int = data.count()
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
+    override fun onViewRecycled(holder: ViewHolder) = holder.cleanup()
 
     fun add(photo: PhotoModel) {
         data.add(photo)
@@ -50,6 +52,10 @@ class PhotosAdapter(private val parent: PhotosView) : RecyclerView.Adapter<Photo
             imageView.setOnClickListener {
                 parent.onPhotoClicked(photo)
             }
+        }
+
+        fun cleanup() {
+            imageView.stopLoading()
         }
     }
 }

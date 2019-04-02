@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.ui.scenes.main
+package com.shepelevkirill.gallerytest.app.ui.scenes.main
 
 import android.Manifest
 import android.view.MenuItem

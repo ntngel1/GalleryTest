@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.ui.scenes.photo
+package com.shepelevkirill.gallerytest.app.ui.scenes.photo
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import com.arellomobile.mvp.MvpFragmentX
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.ui.scenes.main.MainActivity
+import com.shepelevkirill.gallerytest.app.ui.scenes.main.MainActivity
 import com.shepelevkirill.gallerytest.app.utils.load
 import kotlinx.android.synthetic.main.fragment_photo.*
 import kotlinx.android.synthetic.main.fragment_photo.view.*
@@ -32,7 +32,6 @@ class PhotoFragment : MvpFragmentX(), PhotoView {
         // Setting up our title and description
         view.ui_title.text = photoModel?.name ?: "UNDEFINED"
         view.ui_description.text = photoModel?.description ?: "UNDEFINED"
-
     }
 
     // Listener for Back button pressed
@@ -49,11 +48,11 @@ class PhotoFragment : MvpFragmentX(), PhotoView {
     }
 
     companion object {
-        fun newInstance(image: PhotoModel): Fragment {
+        fun newInstance(photoModel: PhotoModel): Fragment {
             val fragment = PhotoFragment()
 
             val args = Bundle()
-            args.putSerializable("photo", image)
+            args.putSerializable("photo", photoModel)
             fragment.arguments = args
 
             return fragment

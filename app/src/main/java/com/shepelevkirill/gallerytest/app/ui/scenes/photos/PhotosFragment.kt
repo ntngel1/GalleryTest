@@ -12,10 +12,10 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.ui.adapters.PhotosAdapter
-import com.shepelevkirill.gallerytest.ui.decorators.GridLayoutDecorator
-import com.shepelevkirill.gallerytest.ui.scenes.main.MainActivity
-import com.shepelevkirill.gallerytest.ui.scenes.photo.PhotoFragment
+import com.shepelevkirill.gallerytest.app.ui.adapters.PhotosAdapter
+import com.shepelevkirill.gallerytest.app.ui.decorators.GridLayoutDecorator
+import com.shepelevkirill.gallerytest.app.ui.scenes.main.MainActivity
+import com.shepelevkirill.gallerytest.app.ui.scenes.photo.PhotoFragment
 import kotlinx.android.synthetic.main.fragment_photos.view.*
 
 class PhotosFragment : MvpFragmentX(), PhotosView {

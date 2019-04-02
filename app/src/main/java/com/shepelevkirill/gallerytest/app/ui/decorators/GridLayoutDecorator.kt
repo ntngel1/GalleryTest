@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.ui.decorators
+package com.shepelevkirill.gallerytest.app.ui.decorators
 
 import android.graphics.Rect
 import android.view.View

@@ -22,6 +22,9 @@ interface UploadView : MvpView {
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun hideProgressDialog()
 
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun showPhotoUploadedDialog()
+
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun getInputData()
 

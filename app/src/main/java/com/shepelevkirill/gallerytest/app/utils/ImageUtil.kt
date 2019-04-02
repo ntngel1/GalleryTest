@@ -16,3 +16,7 @@ fun ImageView.load(url: String) {
         .load(url)
         .into(this)
 }
+
+fun ImageView.stopLoading() {
+    Picasso.get().cancelRequest(this)
+}

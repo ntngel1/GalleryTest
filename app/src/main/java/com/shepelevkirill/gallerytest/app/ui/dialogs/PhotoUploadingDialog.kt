@@ -7,7 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.shepelevkirill.gallerytest.R
 
-class ImageUploadDialog : DialogFragment() {
+class PhotoUploadingDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(context!!)
         val inflater = activity!!.layoutInflater

@@ -18,7 +18,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="21dp" tools:text="Sign In" android:text="@string/photos_popular"/>
+                android:layout_marginStart="21dp" android:text="Sign In"/>
         <TextView
                 android:text="Password"
                 android:layout_width="wrap_content"

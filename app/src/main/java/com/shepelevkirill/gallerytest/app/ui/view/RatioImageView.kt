@@ -1,10 +1,11 @@
-package com.shepelevkirill.gallerytest
+package com.shepelevkirill.gallerytest.app.ui.view
 
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
+import com.shepelevkirill.gallerytest.R
 
 class RatioImageView : ImageView {
     private var heightRatio: Float = 0.0F

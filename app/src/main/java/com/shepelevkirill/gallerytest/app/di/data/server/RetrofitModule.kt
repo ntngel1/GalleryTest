@@ -1,6 +1,6 @@
 package com.shepelevkirill.gallerytest.app.di.data.server
 
-import com.shepelevkirill.gallerytest.app.authentication.Authenticator
+import com.shepelevkirill.gallerytest.app.di.data.server.interceptors.Authentication
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -36,7 +36,7 @@ object RetrofitModule {
 
         val client = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
-            .authenticator(Authenticator())
+            .addInterceptor(Authentication())
             .build()
 
         return client

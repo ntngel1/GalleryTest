@@ -11,6 +11,7 @@ import com.shepelevkirill.gallerytest.app.utils.getPath
 import com.shepelevkirill.gallerytest.domain.gateway.MediaObjectGateway
 import com.shepelevkirill.gallerytest.domain.usecases.photos.UploadPhotoUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
 import java.net.URI
@@ -21,6 +22,7 @@ class UploadPresenter : MvpPresenter<UploadView>() {
     @Inject
     lateinit var uploadPhotoUseCase: UploadPhotoUseCase
 
+    private val compositeDisposable = CompositeDisposable()
     private val photoPickerIntent = Intent(Intent.ACTION_PICK).apply {
         type = "image/*"
     }
@@ -28,6 +30,10 @@ class UploadPresenter : MvpPresenter<UploadView>() {
 
     init {
         App.appComponent.inject(this)
+    }
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
     }
 
     fun onSelectPhotoButtonClicked() {
@@ -64,7 +70,7 @@ class UploadPresenter : MvpPresenter<UploadView>() {
         uploadPhotoUseCase.setSchedulers(Schedulers.io(), AndroidSchedulers.mainThread())
             .execute(UploadPhotoUseCase.Params(title, description, selectedPhoto!!))
             .subscribe({
-                viewState.showMessage("Image uploaded!")
+                viewState.showPhotoUploadedDialog()
                 viewState.clearInputData()
                 viewState.hideProgressDialog()
             }, {
@@ -72,6 +78,7 @@ class UploadPresenter : MvpPresenter<UploadView>() {
                 viewState.showMessage("Error during uploading image to server!")
                 it.printStackTrace()
             })
+            .let(compositeDisposable::add)
     }
 
     companion object {

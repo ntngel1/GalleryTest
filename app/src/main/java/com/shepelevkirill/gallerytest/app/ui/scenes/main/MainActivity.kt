@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.ui.scenes.main
+package com.shepelevkirill.gallerytest.app.ui.scenes.main
 
 import android.os.Bundle
 import android.util.Log

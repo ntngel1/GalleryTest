@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.ui.scenes.photo
+package com.shepelevkirill.gallerytest.app.ui.scenes.photo
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy

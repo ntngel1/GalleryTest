@@ -21,7 +21,6 @@ class UploadFragment : MvpFragmentX(), UploadView {
         isCancelable = false
     }
     private val photoUploadedDialog = PhotoUploadedDialog().apply {
-        isCancelable = false
         onShowClickedListener = { showMessage("Show Clicked!") }
     }
 
@@ -38,12 +37,10 @@ class UploadFragment : MvpFragmentX(), UploadView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            PHOTO_PICKER_RC -> {
-                val photoUri = data?.data
-                if (photoUri != null) {
-                    presenter.onPhotoPicked(photoUri)
-                }
+        if (requestCode == PHOTO_PICKER_RC) {
+            val photoUri = data?.data
+            if (photoUri != null) {
+                presenter.onPhotoPicked(photoUri)
             }
         }
     }

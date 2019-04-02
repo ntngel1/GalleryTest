@@ -20,8 +20,12 @@ class PhotoFragment : MvpFragmentX(), PhotoView {
 
     private var photoModel: PhotoModel? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         photoModel = arguments?.getSerializable("photo") as PhotoModel
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_photo, container, false)
     }
 
@@ -29,17 +33,17 @@ class PhotoFragment : MvpFragmentX(), PhotoView {
         // On Back button clicked listener
         view.toolbar.setNavigationOnClickListener(onBackButtonPressedListener)
 
-        // Setting up our title and description
-        view.ui_title.text = photoModel?.name ?: "UNDEFINED"
-        view.ui_description.text = photoModel?.description ?: "UNDEFINED"
+        view.ui_title.text = photoModel?.name ?: "Empty"
+        view.ui_description.text = photoModel?.description ?: "Empty"
     }
 
     // Listener for Back button pressed
     private val onBackButtonPressedListener = View.OnClickListener {
+        // TODO Is it good or not?
         (activity as MainActivity).popFragment()
     }
 
-    override fun showImage(url: String) {
+    override fun showPhoto(url: String) {
         ui_image.load(url)
     }
 
@@ -58,5 +62,4 @@ class PhotoFragment : MvpFragmentX(), PhotoView {
             return fragment
         }
     }
-
 }

@@ -6,7 +6,7 @@ import com.shepelevkirill.gallerytest.app.di.data.server.ServerGatewayModule
 import com.shepelevkirill.gallerytest.app.di.data.server.RetrofitModule
 import com.shepelevkirill.gallerytest.app.di.data.server.interceptors.Authentication
 import com.shepelevkirill.gallerytest.app.ui.adapters.PhotosAdapter
-import com.shepelevkirill.gallerytest.ui.scenes.authentication.AuthenticationPresenter
+import com.shepelevkirill.gallerytest.app.ui.scenes.authentication.AuthenticationPresenter
 import com.shepelevkirill.gallerytest.app.ui.scenes.main.MainPresenter
 import com.shepelevkirill.gallerytest.app.ui.scenes.photo.PhotoPresenter
 import com.shepelevkirill.gallerytest.app.ui.scenes.photos.PhotosPresenter

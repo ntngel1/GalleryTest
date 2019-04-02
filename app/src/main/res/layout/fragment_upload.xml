@@ -18,10 +18,11 @@
             android:layout_marginStart="21dp" android:text="Upload" android:id="@+id/textView5"/>
     <ScrollView
             android:layout_width="0dp"
-            android:layout_height="wrap_content" android:layout_marginTop="40dp"
+            android:layout_marginTop="40dp"
             app:layout_constraintTop_toBottomOf="@+id/textView5"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="21dp"
-            app:layout_constraintStart_toStartOf="@+id/textView5">
+            app:layout_constraintStart_toStartOf="@+id/textView5" android:layout_height="0dp"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent">
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                       android:orientation="vertical">
             <TextView
@@ -53,20 +54,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/selectedImageLabel"
                     android:textAlignment="center"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <Button
+                        android:text="Clear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/clearButton" app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+                <Button
+                        android:text="Upload"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/uploadButton"
+                        app:layout_constraintStart_toEndOf="@+id/clearButton"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/clearButton"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-    <Button
-            android:text="Upload"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" android:id="@+id/uploadButton"
-            app:layout_constraintStart_toEndOf="@+id/clearButton"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="21dp"
-            app:layout_constraintTop_toTopOf="@+id/clearButton"/>
-    <Button
-            android:text="Clear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/clearButton" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="21dp"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

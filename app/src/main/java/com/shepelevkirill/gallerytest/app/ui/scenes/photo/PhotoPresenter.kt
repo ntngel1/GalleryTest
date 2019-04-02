@@ -9,8 +9,9 @@ import javax.inject.Inject
 
 @InjectViewState
 class PhotoPresenter : MvpPresenter<PhotoView>() {
-    private var photoModel: PhotoModel? = null
     @Inject lateinit var photoGateway: PhotoGateway
+
+    private var photoModel: PhotoModel? = null
 
     init {
         App.appComponent.inject(this)
@@ -28,6 +29,6 @@ class PhotoPresenter : MvpPresenter<PhotoView>() {
 
     private fun showPhoto() {
         val url = photoGateway.getPhotoUrl(photoModel!!.image.contentUrl)
-        viewState.showImage(url)
+        viewState.showPhoto(url)
     }
 }

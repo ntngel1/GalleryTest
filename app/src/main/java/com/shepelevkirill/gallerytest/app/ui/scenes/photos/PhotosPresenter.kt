@@ -77,9 +77,10 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
     }
 
     private fun getPhotos() {
-        if (isRequestSent)
+        if (isRequestSent) {
             return
-        // TODO Handle disposable
+        }
+
         photoGateway.getPhotos(++currentPage, ITEMS_REQUEST_SIZE, new = isNew, popular = isPopular)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -106,7 +107,6 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
                     viewState.showNetworkError()
                     isRequestSent = false
                 }
-
             })
     }
 }

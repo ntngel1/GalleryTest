@@ -1,6 +1,7 @@
 package com.shepelevkirill.gallerytest.app.di.data.server.interceptors
 
 import com.shepelevkirill.gallerytest.app.App
+import com.shepelevkirill.gallerytest.domain.gateway.AuthenticationGateway
 import com.shepelevkirill.gallerytest.domain.models.SessionModel
 import com.shepelevkirill.gallerytest.domain.models.TokenModel
 import com.shepelevkirill.gallerytest.domain.usecases.authentication.RefreshTokenUseCase
@@ -13,17 +14,21 @@ import javax.inject.Inject
 class Authentication : Interceptor {
     @Inject
     lateinit var refreshTokenUseCase: RefreshTokenUseCase
+    @Inject
+    lateinit var authenticationGateway: AuthenticationGateway
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val session = App.session
+        val session = authenticationGateway.session
         val request = chain.request()
         val requestBuilder = request.newBuilder()
 
-        if (session == null) {
+        val isSignedIn = authenticationGateway.isSignedIn()
+
+        if (isSignedIn) {
             return chain.proceed(request)
         }
 
-        val response = sendRequest(chain, requestBuilder, session)
+        val response = sendRequest(chain, requestBuilder, session!!)
         if (!isAuthorizationError(response.code())) {
             return response
         } else {
@@ -60,7 +65,7 @@ class Authentication : Interceptor {
             val request = requestBuilder.build()
             val response = chain.proceed(request)
             if (isAuthorizationError(response.code())) {
-                App.session = null
+                authenticationGateway.invalidateSession()
             }
             return response
         }

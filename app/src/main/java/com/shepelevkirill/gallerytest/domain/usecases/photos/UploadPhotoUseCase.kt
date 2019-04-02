@@ -15,8 +15,8 @@ import javax.inject.Inject
 class UploadPhotoUseCase : SingleUseCase<UploadPhotoUseCase.Params, PhotoModel> {
     data class Params(val title: String, val description: String, val file: File)
 
-    lateinit var mediaObjectGateway: MediaObjectGateway
-    lateinit var photoGateway: PhotoGateway
+    var mediaObjectGateway: MediaObjectGateway
+    var photoGateway: PhotoGateway
 
     @Inject
     constructor(mediaObjectGateway: MediaObjectGateway, photoGateway: PhotoGateway) : super() {

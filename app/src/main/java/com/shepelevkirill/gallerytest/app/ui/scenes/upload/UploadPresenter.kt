@@ -32,10 +32,6 @@ class UploadPresenter : MvpPresenter<UploadView>() {
         App.appComponent.inject(this)
     }
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-    }
-
     fun onSelectPhotoButtonClicked() {
         viewState.showPhotoPicker(photoPickerIntent, PHOTO_PICKER_RC)
     }

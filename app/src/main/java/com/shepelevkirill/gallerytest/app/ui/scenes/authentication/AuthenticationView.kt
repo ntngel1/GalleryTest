@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.ui.scenes.authentication
+package com.shepelevkirill.gallerytest.app.ui.scenes.authentication
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy

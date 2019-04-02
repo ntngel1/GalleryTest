@@ -6,7 +6,8 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
 interface PhotoView : MvpView {
     @StateStrategyType(AddToEndSingleStrategy::class)
-    fun showImage(url: String)
+    fun showPhoto(url: String)
+
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun getPhotoModel()
 }

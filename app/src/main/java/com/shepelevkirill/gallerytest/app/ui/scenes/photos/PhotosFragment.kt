@@ -16,6 +16,7 @@ import com.shepelevkirill.gallerytest.app.ui.adapters.PhotosAdapter
 import com.shepelevkirill.gallerytest.app.ui.decorators.GridLayoutDecorator
 import com.shepelevkirill.gallerytest.app.ui.scenes.main.MainActivity
 import com.shepelevkirill.gallerytest.app.ui.scenes.photo.PhotoFragment
+import kotlinx.android.synthetic.main.fragment_photos.*
 import kotlinx.android.synthetic.main.fragment_photos.view.*
 
 class PhotosFragment : MvpFragmentX(), PhotosView {
@@ -38,18 +39,20 @@ class PhotosFragment : MvpFragmentX(), PhotosView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.ui_title.text = arguments?.getString("title") ?: "Undefined"
-        view.ui_photos.setHasFixedSize(true)
-        view.ui_photos.layoutManager = GridLayoutManager(view.context, 2)
-        view.ui_photos.adapter = recyclerAdapter
-        view.ui_photos.setOnScrollListener(onRecycleViewScrollListener)
-        view.ui_photos.addItemDecoration(GridLayoutDecorator(this))
         view.ui_swipeRefreshLayout.setOnRefreshListener(onRefreshListener)
-        hideProgress()
+        setupPhotosRecycler()
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.onResume()
+    private fun setupPhotosRecycler() {
+        val decorator = GridLayoutDecorator(this)
+        val layoutManager = GridLayoutManager(view?.context, 2)
+        ui_photos.apply {
+            setHasFixedSize(true)
+            this.layoutManager = layoutManager
+            adapter = recyclerAdapter
+            setOnScrollListener(onRecycleViewScrollListener)
+            addItemDecoration(decorator)
+        }
     }
 
     // Listener for RecycleView scroll
@@ -61,6 +64,11 @@ class PhotosFragment : MvpFragmentX(), PhotosView {
 
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener { presenter.onRefresh() }
 
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
+    }
+
     override fun onPhotoClicked(photo: PhotoModel) {
         presenter.onPhotoClicked(photo)
     }
@@ -70,37 +78,38 @@ class PhotosFragment : MvpFragmentX(), PhotosView {
     }
 
     override fun clearPhotos() {
-        recyclerAdapter.clear()
+        recyclerAdapter.clearPhotoModels()
     }
 
     override fun showNetworkError() {
         clearPhotos()
-        view!!.ui_photos.visibility = View.INVISIBLE
-        view!!.ui_network_error_layout.visibility = View.VISIBLE
-        view!!.ui_progressbar.visibility = View.INVISIBLE
+        view?.ui_photos?.visibility = View.INVISIBLE
+        view?.ui_network_error_layout?.visibility = View.VISIBLE
+        view?.ui_progressbar?.visibility = View.INVISIBLE
         stopRefreshing()
     }
 
     override fun hideNetworkError() {
-        view!!.ui_network_error_layout.visibility = View.INVISIBLE
-        view!!.ui_photos.visibility = View.VISIBLE
+        view?.ui_network_error_layout?.visibility = View.INVISIBLE
+        view?.ui_photos?.visibility = View.VISIBLE
     }
 
     override fun showProgress() {
-        view!!.ui_progressbar.visibility = View.VISIBLE
+        view?.ui_progressbar?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        view!!.ui_progressbar.visibility = View.INVISIBLE
+        view?.ui_progressbar?.visibility = View.INVISIBLE
     }
 
     override fun addPhoto(photo: PhotoModel) {
-        recyclerAdapter.add(photo)
+        recyclerAdapter.addPhotoModel(photo)
         recyclerAdapter.notifyDataSetChanged()
     }
 
     override fun openPhoto(photo: PhotoModel) {
         val fragment = PhotoFragment.newInstance(photo)
+        // TODO Is it good or not?
         (activity as MainActivity).openScreenWithBackStack(fragment)
     }
 

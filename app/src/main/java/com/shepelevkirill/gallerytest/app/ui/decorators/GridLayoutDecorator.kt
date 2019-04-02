@@ -5,14 +5,15 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 
+// TODO Remove magic numbers
 class GridLayoutDecorator(private val fragment: Fragment): RecyclerView.ItemDecoration() {
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         val position = parent.getChildLayoutPosition(view)
 
-        // left element margine
+        // left element margin
         if (position % 2 == 0) outRect.right = (9 * fragment.resources.displayMetrics.density).toInt()
 
-        // right element margine
+        // right element margin
         if (position % 2 != 0) outRect.left = (9 * fragment.resources.displayMetrics.density).toInt()
 
         // Top margin

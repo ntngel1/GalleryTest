@@ -1,4 +1,4 @@
-package com.shepelevkirill.gallerytest.ui.scenes.authentication
+package com.shepelevkirill.gallerytest.app.ui.scenes.authentication
 
 import android.os.Bundle
 import android.view.LayoutInflater

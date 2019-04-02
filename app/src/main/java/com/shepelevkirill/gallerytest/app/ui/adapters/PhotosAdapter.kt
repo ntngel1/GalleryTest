@@ -15,8 +15,9 @@ import com.shepelevkirill.gallerytest.app.utils.stopLoading
 import javax.inject.Inject
 
 class PhotosAdapter(private val parent: PhotosView) : RecyclerView.Adapter<PhotosAdapter.ViewHolder>() {
-    private val data: ArrayList<PhotoModel> = ArrayList()
     @Inject lateinit var photoGateway: PhotoGateway
+
+    private val data: ArrayList<PhotoModel> = ArrayList()
 
     init {
         App.appComponent.inject(this)
@@ -33,20 +34,21 @@ class PhotosAdapter(private val parent: PhotosView) : RecyclerView.Adapter<Photo
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position])
     override fun onViewRecycled(holder: ViewHolder) = holder.cleanup()
 
-    fun add(photo: PhotoModel) {
+    fun addPhotoModel(photo: PhotoModel) {
         data.add(photo)
         notifyDataSetChanged()
     }
 
-    fun clear() {
+    fun clearPhotoModels() {
         data.clear()
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val imageView: ImageView = view.findViewById(R.id.ui_image)
 
         fun bind(photo: PhotoModel) {
+            // TODO Maybe move to usecase
             val url = photoGateway.getPhotoUrl(photo.image.contentUrl)
             imageView.loadThumbnail(url)
             imageView.setOnClickListener {

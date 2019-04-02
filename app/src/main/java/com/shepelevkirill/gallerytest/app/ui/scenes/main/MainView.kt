@@ -8,6 +8,7 @@ import com.arellomobile.mvp.viewstate.strategy.SkipStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
 interface MainView : MvpView {
+    @StateStrategyType(OneExecutionStateStrategy::class)
     fun requestPermissions(vararg permissions: String)
 
     @StateStrategyType(OneExecutionStateStrategy::class)

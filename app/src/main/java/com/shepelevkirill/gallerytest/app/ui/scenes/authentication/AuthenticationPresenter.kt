@@ -1,6 +1,5 @@
-package com.shepelevkirill.gallerytest.ui.scenes.authentication
+package com.shepelevkirill.gallerytest.app.ui.scenes.authentication
 
-import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.shepelevkirill.gallerytest.app.App
@@ -13,17 +12,19 @@ import javax.inject.Inject
 
 @InjectViewState
 class AuthenticationPresenter : MvpPresenter<AuthenticationView>() {
-    private val compositeDisposable = CompositeDisposable()
     @Inject
     lateinit var signInUseCase: SignInUseCase
     @Inject
     lateinit var userGateway: UserGateway
+
+    private val compositeDisposable = CompositeDisposable()
 
     init {
         App.appComponent.inject(this)
     }
 
     fun onResume() {
+        // TODO Change to usecase call
         if (App.session == null) {
             viewState.showSignInLayout()
         } else {
@@ -47,21 +48,18 @@ class AuthenticationPresenter : MvpPresenter<AuthenticationView>() {
 
     fun onGetSignInData(username: String, password: String) {
         viewState.showProgressDialog()
+
         signInUseCase.setSchedulers(Schedulers.io(), AndroidSchedulers.mainThread())
             .execute(SignInUseCase.Params(username, password))
             .subscribe({
                 App.session = it
                 viewState.showSignOutLayout()
                 viewState.hideProgressDialog()
-                loadUserData()
             }, {
                 it.printStackTrace()
                 viewState.showMessage("Error during signing in!")
                 viewState.hideProgressDialog()
             })
             .let(compositeDisposable::add)
-    }
-
-    private fun loadUserData() {
     }
 }

@@ -26,6 +26,7 @@ class MainActivity : MvpActivityX(), MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
@@ -41,14 +42,12 @@ class MainActivity : MvpActivityX(), MainView {
     }
 
     override fun openScreen(fragment: Fragment) {
-        Log.d("Opening fragment", "$fragment without backstack")
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
 
     override fun openScreenWithBackStack(fragment: Fragment) {
-        Log.d("Opening fragment", "$fragment WITH BACKSTACK")
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, fragment)
             .addToBackStack(null)
@@ -56,7 +55,6 @@ class MainActivity : MvpActivityX(), MainView {
     }
 
     override fun popFragment() {
-        Log.d("Poping fragment", "FRAGMENT POP")
         supportFragmentManager.popBackStack()
     }
 }

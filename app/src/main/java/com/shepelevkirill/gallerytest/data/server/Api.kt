@@ -59,7 +59,11 @@ interface Api {
     // PHOTO
 
     @GET("/api/photos")
-    fun getPhotos(@Query("page") page: Int, @Query("limit") limit: Int, @Query("new") new: Boolean?, @Query("popular") popular: Boolean?): Single<PhotosModel>
+    fun getPhotos(@Query("page") page: Int,
+                  @Query("limit") limit: Int,
+                  @Query("new") new: Boolean?,
+                  @Query("popular") popular: Boolean?,
+                  @Query("order[id]") orderId: Int = 0): Single<PhotosModel>
 
     @POST("/api/photos")
     fun createPhoto(@Body photo: PhotoCreateRequestModel): Single<PhotoModel>

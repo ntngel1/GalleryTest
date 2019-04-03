@@ -112,8 +112,7 @@ class PhotosFragment : MvpFragmentX(), PhotosView {
         // TODO Is it good or not?
         (activity as MainActivity).openScreenWithBackStack(fragment)
     }
-
-
+    
     companion object {
         fun newInstance(isNew: Boolean, isPopular: Boolean, title: String): PhotosFragment {
             val bundle = Bundle()

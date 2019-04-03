@@ -17,7 +17,7 @@ import javax.inject.Inject
 class PhotosAdapter(private val parent: PhotosView) : RecyclerView.Adapter<PhotosAdapter.ViewHolder>() {
     @Inject lateinit var photoGateway: PhotoGateway
 
-    private val data: ArrayList<PhotoModel> = ArrayList()
+    val data: ArrayList<PhotoModel> = ArrayList()
 
     init {
         App.appComponent.inject(this)
@@ -48,7 +48,6 @@ class PhotosAdapter(private val parent: PhotosView) : RecyclerView.Adapter<Photo
         private val imageView: ImageView = view.findViewById(R.id.ui_image)
 
         fun bind(photo: PhotoModel) {
-            // TODO Maybe move to usecase
             val url = photoGateway.getPhotoUrl(photo.image.contentUrl)
             imageView.loadThumbnail(url)
             imageView.setOnClickListener {

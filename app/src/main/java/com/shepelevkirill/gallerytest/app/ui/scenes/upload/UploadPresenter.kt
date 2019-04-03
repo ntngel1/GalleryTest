@@ -8,6 +8,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.shepelevkirill.gallerytest.app.App
 import com.shepelevkirill.gallerytest.app.utils.getPath
+import com.shepelevkirill.gallerytest.domain.gateway.AuthenticationGateway
 import com.shepelevkirill.gallerytest.domain.gateway.MediaObjectGateway
 import com.shepelevkirill.gallerytest.domain.usecases.photos.UploadPhotoUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,19 +22,28 @@ import javax.inject.Inject
 class UploadPresenter : MvpPresenter<UploadView>() {
     @Inject
     lateinit var uploadPhotoUseCase: UploadPhotoUseCase
+    @Inject
+    lateinit var authenticationGateway: AuthenticationGateway
 
     private val compositeDisposable = CompositeDisposable()
-    private val photoPickerIntent = Intent(Intent.ACTION_PICK).apply {
-        type = "image/*"
-    }
     private var selectedPhoto: File? = null
 
     init {
         App.appComponent.inject(this)
     }
 
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+
+        if (authenticationGateway.isSignedIn()) {
+            viewState.hideSignInMessageLayout()
+        } else {
+            viewState.showSignInMessageLayout()
+        }
+    }
+
     fun onSelectPhotoButtonClicked() {
-        viewState.showPhotoPicker(photoPickerIntent, PHOTO_PICKER_RC)
+        viewState.showPhotoPicker()
     }
 
     fun onClearButtonClicked() {

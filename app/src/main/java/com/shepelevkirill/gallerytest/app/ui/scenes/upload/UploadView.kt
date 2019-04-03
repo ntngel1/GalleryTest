@@ -11,7 +11,7 @@ interface UploadView : MvpView {
     fun showMessage(message: String)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
-    fun showPhotoPicker(intent: Intent, requestCode: Int)
+    fun showPhotoPicker()
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun showSelectedPhoto(filename: String)
@@ -22,10 +22,16 @@ interface UploadView : MvpView {
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun hideProgressDialog()
 
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun showSignInMessageLayout()
+
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun hideSignInMessageLayout()
+
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showPhotoUploadedDialog()
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @StateStrategyType(OneExecutionStateStrategy::class)
     fun getInputData()
 
     @StateStrategyType(AddToEndSingleStrategy::class)

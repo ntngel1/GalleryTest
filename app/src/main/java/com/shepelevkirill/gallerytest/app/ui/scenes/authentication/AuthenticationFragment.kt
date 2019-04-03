@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import com.arellomobile.mvp.MvpFragmentX
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.shepelevkirill.gallerytest.R
@@ -59,14 +60,17 @@ class AuthenticationFragment : MvpFragmentX(), AuthenticationView {
     }
 
     override fun showProgressDialog() {
-        progressDialog.show(fragmentManager!!, null)
+        progressDialog.show(childFragmentManager, SIGNING_IN_DIALOG_TAG)
     }
 
     override fun hideProgressDialog() {
-        progressDialog.dismiss()
+        childFragmentManager.findFragmentByTag(SIGNING_IN_DIALOG_TAG)
+            .let { (it as DialogFragment).dismiss() }
     }
 
     companion object {
+        const val SIGNING_IN_DIALOG_TAG = "signing_in_dialog"
+
         fun newInstance(): AuthenticationFragment {
             val fragment = AuthenticationFragment()
 

@@ -3,6 +3,7 @@ package com.shepelevkirill.gallerytest.app.ui.scenes.authentication
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.shepelevkirill.gallerytest.app.App
+import com.shepelevkirill.gallerytest.domain.gateway.AuthenticationGateway
 import com.shepelevkirill.gallerytest.domain.gateway.UserGateway
 import com.shepelevkirill.gallerytest.domain.usecases.authentication.SignInUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -16,6 +17,8 @@ class AuthenticationPresenter : MvpPresenter<AuthenticationView>() {
     lateinit var signInUseCase: SignInUseCase
     @Inject
     lateinit var userGateway: UserGateway
+    @Inject
+    lateinit var authenticationGateway: AuthenticationGateway
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -24,8 +27,7 @@ class AuthenticationPresenter : MvpPresenter<AuthenticationView>() {
     }
 
     fun onResume() {
-        // TODO Change to usecase call
-        if (App.session == null) {
+        if (!authenticationGateway.isSignedIn()) {
             viewState.showSignInLayout()
         } else {
             viewState.showSignOutLayout()
@@ -42,7 +44,7 @@ class AuthenticationPresenter : MvpPresenter<AuthenticationView>() {
     }
 
     fun onSignOutButtonClicked() {
-        App.session = null
+        authenticationGateway.invalidateSession()
         viewState.showSignInLayout()
     }
 

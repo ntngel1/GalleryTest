@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">GalleryTest</string>
 
+    <string name="navigation_photos_new">New</string>
+    <string name="navigation_photos_popular">Popular</string>
+    <string name="navigation_upload">Upload</string>
+    <string name="navigation_profile">Profile</string>
 
     <!-- Photos Fragment -->
     <string name="photos_new">New</string>

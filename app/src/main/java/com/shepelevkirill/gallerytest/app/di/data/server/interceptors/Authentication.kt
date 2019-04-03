@@ -30,6 +30,7 @@ class Authentication : Interceptor {
             return chain.proceed(request)
         }
 
+
         val response = sendRequest(chain, requestBuilder, session!!)
         if (!isAuthorizationError(response.code())) {
             return response
@@ -61,7 +62,6 @@ class Authentication : Interceptor {
     private fun sendRequestWithTokenRefresh(chain: Interceptor.Chain, requestBuilder: Request.Builder, session: SessionModel) : Response {
         synchronized(this) {
             while (refreshToken(session) != null);
-            App.session = session
             setAuthHeader(requestBuilder, session.token)
 
             val request = requestBuilder.build()

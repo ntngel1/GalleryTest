@@ -24,12 +24,12 @@ class PhotoUploadedDialog : DialogFragment() {
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
         showButton.setOnClickListener {
-            onShowClickedListener?.invoke()
             dismiss()
+            onShowClickedListener?.invoke()
         }
         okButton.setOnClickListener {
-            onOkClickedListener?.invoke()
             dismiss()
+            onOkClickedListener?.invoke()
         }
     }
 }

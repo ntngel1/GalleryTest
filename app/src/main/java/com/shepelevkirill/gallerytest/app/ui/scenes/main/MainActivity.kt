@@ -45,6 +45,7 @@ class MainActivity : MvpActivityX(), MainView {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
+        supportFragmentManager.executePendingTransactions()
     }
 
     override fun openScreenWithBackStack(fragment: Fragment) {

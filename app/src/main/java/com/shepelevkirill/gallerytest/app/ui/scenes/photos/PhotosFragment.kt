@@ -15,6 +15,7 @@ import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
 import com.shepelevkirill.gallerytest.app.ui.adapters.PhotosAdapter
 import com.shepelevkirill.gallerytest.app.ui.decorators.GridLayoutDecorator
+import com.shepelevkirill.gallerytest.app.ui.dialogs.LoadingDialog
 import com.shepelevkirill.gallerytest.app.ui.scenes.main.MainActivity
 import com.shepelevkirill.gallerytest.app.ui.scenes.photo.PhotoFragment
 import kotlinx.android.synthetic.main.fragment_photos.*
@@ -25,6 +26,9 @@ class PhotosFragment : MvpFragmentX(), PhotosView {
     lateinit var presenter: PhotosPresenter
 
     private var recyclerAdapter: PhotosAdapter = PhotosAdapter(this)
+    private val loadingDialog by lazy {
+        LoadingDialog().apply { isCancelable = false }
+    }
 
     @ProvidePresenter
     fun providePhotosPresenter(): PhotosPresenter {
@@ -120,8 +124,18 @@ class PhotosFragment : MvpFragmentX(), PhotosView {
     override fun highlightPhotoWithIndex(index: Int) {
         ui_photos.smoothScrollToPosition(index)
     }
-    
+
+    override fun showLoadingDialog() {
+        loadingDialog.show(childFragmentManager, LOADING_DIALOG_TAG)
+    }
+
+    override fun hideLoadingDialog() {
+        (childFragmentManager.findFragmentByTag(LOADING_DIALOG_TAG) as LoadingDialog).dismiss()
+    }
+
     companion object {
+        const val LOADING_DIALOG_TAG = "loading_dialog"
+
         fun newInstance(isNew: Boolean, isPopular: Boolean, title: String): PhotosFragment {
             val bundle = Bundle()
             bundle.putBoolean("isNew", isNew)

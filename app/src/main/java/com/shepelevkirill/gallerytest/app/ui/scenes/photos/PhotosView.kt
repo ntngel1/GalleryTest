@@ -40,4 +40,10 @@ interface PhotosView : MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun highlightPhotoWithIndex(index: Int)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun showLoadingDialog()
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun hideLoadingDialog()
 }

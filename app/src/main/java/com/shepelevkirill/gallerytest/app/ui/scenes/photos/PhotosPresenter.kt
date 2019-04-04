@@ -13,6 +13,7 @@ import com.shepelevkirill.gallerytest.domain.models.PhotosModel
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.Single
+import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -129,9 +130,9 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
         photoGateway.getPhotos(++currentPage, ITEMS_REQUEST_SIZE, new = isNew, popular = isPopular)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .flatMapObservable { Observable.fromIterable(it.data) }
-            .subscribe(object : Observer<PhotoModel> {
-                override fun onComplete() {
+            .subscribe(object : SingleObserver<PhotosModel> {
+                override fun onSuccess(t: PhotosModel) {
+                    viewState.addPhotos(t.data)
                     viewState.hideNetworkError()
                     viewState.stopRefreshing()
                     viewState.hideProgress()
@@ -144,14 +145,31 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
                     viewState.showProgress()
                 }
 
-                override fun onNext(t: PhotoModel) {
-                    viewState.addPhoto(t)
+                override fun onError(e: Throwable) {
+                    viewState.showNetworkError()
+                    isGetPhotosRequestSent = false
+                }
+                /*override fun onComplete() {
+                    viewState.hideNetworkError()
+                    viewState.stopRefreshing()
+                    viewState.hideProgress()
+                    isGetPhotosRequestSent = false
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    compositeDisposable.add(d)
+                    isGetPhotosRequestSent = true
+                    viewState.showProgress()
+                }
+
+                override fun onNext(t: PhotosModel) {
+                    viewState.addPhotos(t.data)
                 }
 
                 override fun onError(e: Throwable) {
                     viewState.showNetworkError()
                     isGetPhotosRequestSent = false
-                }
+                }*/
             })
     }
 }

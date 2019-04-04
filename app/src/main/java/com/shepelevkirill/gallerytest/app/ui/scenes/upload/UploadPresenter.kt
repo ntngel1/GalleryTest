@@ -75,8 +75,8 @@ class UploadPresenter : MvpPresenter<UploadView>() {
         viewState.showProgressDialog()
         uploadPhotoUseCase.setSchedulers(Schedulers.io(), AndroidSchedulers.mainThread())
             .execute(UploadPhotoUseCase.Params(title, description, selectedPhoto!!))
-            .subscribe({
-                viewState.showPhotoUploadedDialog()
+            .subscribe({ photoModel ->
+                viewState.showPhotoUploadedDialog(photoModel)
                 viewState.clearInputData()
                 viewState.hideProgressDialog()
             }, {

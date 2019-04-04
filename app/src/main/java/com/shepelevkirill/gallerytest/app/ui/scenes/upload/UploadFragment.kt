@@ -13,11 +13,14 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.shepelevkirill.gallerytest.R
 import com.shepelevkirill.gallerytest.app.ui.dialogs.PhotoUploadingDialog
 import com.shepelevkirill.gallerytest.app.ui.dialogs.PhotoUploadedDialog
+import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.fragment_upload.*
 
 class UploadFragment : MvpFragmentX(), UploadView {
     @InjectPresenter
     lateinit var presenter: UploadPresenter
+
+    var onShowPhoto: ((photo: PhotoModel) -> Unit)? = null
 
     private val photoPickerIntent = Intent(Intent.ACTION_PICK).apply {
         type = "image/*"
@@ -26,7 +29,7 @@ class UploadFragment : MvpFragmentX(), UploadView {
         isCancelable = false
     }
     private val photoUploadedDialog = PhotoUploadedDialog().apply {
-        onShowClickedListener = { showMessage("Show Clicked!") }
+        onShowClickedListener = { onShowPhoto?.invoke(photoModel) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -82,7 +85,8 @@ class UploadFragment : MvpFragmentX(), UploadView {
         uploadLayout.visibility = View.VISIBLE
     }
 
-    override fun showPhotoUploadedDialog() {
+    override fun showPhotoUploadedDialog(photoModel: PhotoModel) {
+        photoUploadedDialog.photoModel = photoModel
         photoUploadedDialog.show(childFragmentManager, PHOTO_UPLOADED_DIALOG_TAG)
     }
 

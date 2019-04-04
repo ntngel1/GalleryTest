@@ -14,7 +14,12 @@ import com.shepelevkirill.gallerytest.app.ui.scenes.authentication.Authenticatio
 class MainPresenter : MvpPresenter<MainView>() {
     private val newPhotosFragment = PhotosFragment.newInstance(true, false, "New")
     private val popularPhotosFragment = PhotosFragment.newInstance(false, true, "Popular")
-    private val uploadFragment = UploadFragment.newInstance()
+    private val uploadFragment = UploadFragment.newInstance().apply {
+        onShowPhoto = {
+            viewState.openScreen(newPhotosFragment)
+            newPhotosFragment.presenter.onHighlightPhoto(it)
+        }
+    }
     private val authenticationFragment = AuthenticationFragment.newInstance()
     private lateinit var currentFragment: Fragment
 

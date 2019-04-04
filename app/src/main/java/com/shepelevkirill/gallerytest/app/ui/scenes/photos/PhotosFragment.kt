@@ -1,6 +1,7 @@
 package com.shepelevkirill.gallerytest.app.ui.scenes.photos
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -104,13 +105,20 @@ class PhotosFragment : MvpFragmentX(), PhotosView {
 
     override fun addPhoto(photo: PhotoModel) {
         recyclerAdapter.addPhotoModel(photo)
-        recyclerAdapter.notifyDataSetChanged()
+    }
+
+    override fun addPhotos(photos: List<PhotoModel>) {
+        recyclerAdapter.addPhotos(photos)
     }
 
     override fun openPhoto(photo: PhotoModel) {
         val fragment = PhotoFragment.newInstance(photo)
         // TODO Is it good or not?
         (activity as MainActivity).openScreenWithBackStack(fragment)
+    }
+
+    override fun highlightPhotoWithIndex(index: Int) {
+        ui_photos.smoothScrollToPosition(index)
     }
     
     companion object {

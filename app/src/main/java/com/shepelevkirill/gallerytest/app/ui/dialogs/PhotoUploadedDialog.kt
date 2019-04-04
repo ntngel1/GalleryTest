@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
 import com.shepelevkirill.gallerytest.R
+import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.dialog_photo_uploaded.*
 
 class PhotoUploadedDialog : DialogFragment() {
+    lateinit var photoModel: PhotoModel
     var onShowClickedListener: (() -> Unit)? = null
     var onOkClickedListener: (() -> Unit)? = null
 

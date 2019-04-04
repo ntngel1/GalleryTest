@@ -39,6 +39,11 @@ class PhotosAdapter(private val parent: PhotosView) : RecyclerView.Adapter<Photo
         notifyDataSetChanged()
     }
 
+    fun addPhotos(photos: List<PhotoModel>) {
+        data.addAll(photos)
+        notifyDataSetChanged()
+    }
+
     fun clearPhotoModels() {
         data.clear()
         notifyDataSetChanged()

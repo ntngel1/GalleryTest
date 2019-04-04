@@ -5,6 +5,7 @@ import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 
 interface UploadView : MvpView {
     @StateStrategyType(OneExecutionStateStrategy::class)
@@ -29,7 +30,7 @@ interface UploadView : MvpView {
     fun hideSignInMessageLayout()
 
     @StateStrategyType(OneExecutionStateStrategy::class)
-    fun showPhotoUploadedDialog()
+    fun showPhotoUploadedDialog(photoModel: PhotoModel)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun getInputData()

@@ -1,5 +1,6 @@
 package com.shepelevkirill.gallerytest.app.ui.scenes.photos
 
+import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.InjectViewState
@@ -8,8 +9,10 @@ import com.shepelevkirill.gallerytest.domain.gateway.NetworkGateway
 import com.shepelevkirill.gallerytest.domain.gateway.PhotoGateway
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import com.shepelevkirill.gallerytest.app.App
+import com.shepelevkirill.gallerytest.domain.models.PhotosModel
 import io.reactivex.Observable
 import io.reactivex.Observer
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -18,11 +21,13 @@ import javax.inject.Inject
 
 @InjectViewState
 class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosView>() {
-    @Inject lateinit var photoGateway: PhotoGateway
-    @Inject lateinit var networkGateway: NetworkGateway
+    @Inject
+    lateinit var photoGateway: PhotoGateway
+    @Inject
+    lateinit var networkGateway: NetworkGateway
 
     private var currentPage: Int = 0
-    private var isRequestSent = false
+    private var isGetPhotosRequestSent = false
 
     private var isNew: Boolean? = null
     private var isPopular: Boolean? = null
@@ -48,12 +53,12 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
     fun onResume() {
         if (!networkGateway.isNetworkAvailable()) {
             viewState.showNetworkError()
-            compositeDisposable.dispose()
+            compositeDisposable.clear()
         }
     }
 
     override fun onDestroy() {
-        compositeDisposable.dispose()
+        compositeDisposable.clear()
     }
 
     fun onRecyclerViewScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -76,8 +81,48 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
         viewState.openPhoto(photo)
     }
 
+    fun onHighlightPhoto(photo: PhotoModel) {
+        compositeDisposable.clear()
+        isGetPhotosRequestSent = false
+        currentPage = 0
+
+        var isLoaded = false
+
+        val data = ArrayList<PhotoModel>()
+        var totalItems= -1
+
+        Single.defer {
+            photoGateway.getPhotos(++currentPage, ITEMS_REQUEST_SIZE, isNew, isPopular)
+                .doOnSuccess {
+                    totalItems = it.totalItems
+                    data.addAll(it.data)
+                }
+                .doOnSuccess {
+                    val index = data.indexOfFirst { it.id == photo.id }
+                    if (index != -1) {
+                        isLoaded = true
+                    }
+                }
+        }
+            .repeatUntil {
+                (data.size >= totalItems && totalItems != -1) || isLoaded
+            }
+            .map { data }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ photos ->
+                viewState.clearPhotos()
+                viewState.addPhotos(data)
+                val index = data.indexOfFirst { it.id == photo.id }
+                viewState.highlightPhotoWithIndex(index)
+            }, {
+                it.printStackTrace()
+            })
+            .let(compositeDisposable::add)
+    }
+
     private fun getPhotos() {
-        if (isRequestSent) {
+        if (isGetPhotosRequestSent) {
             return
         }
 
@@ -90,12 +135,12 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
                     viewState.hideNetworkError()
                     viewState.stopRefreshing()
                     viewState.hideProgress()
-                    isRequestSent = false
+                    isGetPhotosRequestSent = false
                 }
 
                 override fun onSubscribe(d: Disposable) {
                     compositeDisposable.add(d)
-                    isRequestSent = true
+                    isGetPhotosRequestSent = true
                     viewState.showProgress()
                 }
 
@@ -105,7 +150,7 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
 
                 override fun onError(e: Throwable) {
                     viewState.showNetworkError()
-                    isRequestSent = false
+                    isGetPhotosRequestSent = false
                 }
             })
     }

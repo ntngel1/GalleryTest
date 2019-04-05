@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -18,6 +19,7 @@ import com.shepelevkirill.gallerytest.app.ui.decorators.GridLayoutDecorator
 import com.shepelevkirill.gallerytest.app.ui.dialogs.LoadingDialog
 import com.shepelevkirill.gallerytest.app.ui.scenes.main.MainActivity
 import com.shepelevkirill.gallerytest.app.ui.scenes.photo.PhotoFragment
+import com.shepelevkirill.gallerytest.app.ui.view.RatioImageView
 import kotlinx.android.synthetic.main.fragment_photos.*
 import kotlinx.android.synthetic.main.fragment_photos.view.*
 
@@ -25,7 +27,8 @@ class PhotosFragment : MvpFragmentX(), PhotosView {
     @InjectPresenter
     lateinit var presenter: PhotosPresenter
 
-    private var recyclerAdapter: PhotosAdapter = PhotosAdapter(this)
+    private val recyclerAdapter: PhotosAdapter = PhotosAdapter(this)
+    private lateinit var layoutManager: GridLayoutManager
     private val loadingDialog by lazy {
         LoadingDialog().apply { isCancelable = false }
     }
@@ -50,10 +53,10 @@ class PhotosFragment : MvpFragmentX(), PhotosView {
 
     private fun setupPhotosRecycler() {
         val decorator = GridLayoutDecorator(this)
-        val layoutManager = GridLayoutManager(view?.context, 2)
+        layoutManager = GridLayoutManager(view?.context, 2)
+        ui_photos.layoutManager = layoutManager
         ui_photos.apply {
             setHasFixedSize(true)
-            this.layoutManager = layoutManager
             adapter = recyclerAdapter
             setOnScrollListener(onRecycleViewScrollListener)
             addItemDecoration(decorator)
@@ -121,8 +124,8 @@ class PhotosFragment : MvpFragmentX(), PhotosView {
         (activity as MainActivity).openScreenWithBackStack(fragment)
     }
 
-    override fun highlightPhotoWithIndex(index: Int) {
-        ui_photos.smoothScrollToPosition(index)
+    override fun hightlightPhoto(id: Int) {
+        recyclerAdapter.highlightPhotoWithId(id)
     }
 
     override fun showLoadingDialog() {

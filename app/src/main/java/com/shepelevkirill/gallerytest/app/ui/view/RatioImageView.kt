@@ -1,6 +1,7 @@
 package com.shepelevkirill.gallerytest.app.ui.view
 
 import android.content.Context
+import android.graphics.*
 import android.os.Build
 import android.util.AttributeSet
 import android.widget.ImageView
@@ -8,8 +9,18 @@ import androidx.annotation.RequiresApi
 import com.shepelevkirill.gallerytest.R
 
 class RatioImageView : ImageView {
+    var isHighlighted: Boolean = false
+
     private var heightRatio: Float = 0.0F
     private var widthRatio: Float = 0.0F
+    private val viewBounds = Rect()
+    private val paint = Paint().apply {
+        color = Color.YELLOW
+        flags = Paint.ANTI_ALIAS_FLAG
+        style = Paint.Style.STROKE
+        maskFilter = BlurMaskFilter(8f, BlurMaskFilter.Blur.NORMAL)
+        strokeWidth = 2.5F * resources.displayMetrics.density
+    }
 
     constructor(context: Context) : super(context) {
         init(null)
@@ -60,6 +71,24 @@ class RatioImageView : ImageView {
             width = (height * widthRatio).toInt()
 
         setMeasuredDimension(width, height)
+    }
+
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
+        hightlight(canvas)
+    }
+
+    private fun hightlight(canvas: Canvas?) {
+        if (isHighlighted) {
+            val density = resources.displayMetrics.density
+            getDrawingRect(viewBounds)
+            canvas?.drawRoundRect(
+                viewBounds.top.toFloat(), viewBounds.left.toFloat(),
+                viewBounds.top.toFloat() + width, viewBounds.left.toFloat() + height,
+                6 * density, 6 * density,
+                paint
+            )
+        }
     }
 
     private fun init(attributeSet: AttributeSet?) {

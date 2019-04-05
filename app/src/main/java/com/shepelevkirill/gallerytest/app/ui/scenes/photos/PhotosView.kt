@@ -39,7 +39,7 @@ interface PhotosView : MvpView {
     fun onPhotoClicked(photo: PhotoModel)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
-    fun highlightPhotoWithIndex(index: Int)
+    fun hightlightPhoto(id: Int)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showLoadingDialog()

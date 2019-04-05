@@ -18,11 +18,9 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:layout_height="0dp"
                                                            android:layout_width="0dp"
                                                            app:layout_constraintStart_toStartOf="parent"
-                                                           android:layout_marginStart="18dp"
                                                            app:layout_constraintTop_toBottomOf="@+id/ui_title"
                                                            android:layout_marginTop="30dp"
                                                            app:layout_constraintEnd_toEndOf="parent"
-                                                           android:layout_marginEnd="18dp"
                                                            app:layout_constraintBottom_toBottomOf="parent"
                                                            android:id="@+id/ui_swipeRefreshLayout">
         <androidx.recyclerview.widget.RecyclerView

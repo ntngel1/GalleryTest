@@ -1,6 +1,5 @@
 package com.shepelevkirill.gallerytest.app.ui.scenes.photos
 
-import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.InjectViewState
@@ -10,8 +9,6 @@ import com.shepelevkirill.gallerytest.domain.gateway.PhotoGateway
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import com.shepelevkirill.gallerytest.app.App
 import com.shepelevkirill.gallerytest.domain.models.PhotosModel
-import io.reactivex.Observable
-import io.reactivex.Observer
 import io.reactivex.Single
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -114,8 +111,7 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
             .subscribe({ photos ->
                 viewState.clearPhotos()
                 viewState.addPhotos(data)
-                val index = data.indexOfFirst { it.id == photo.id }
-                viewState.highlightPhotoWithIndex(index)
+                viewState.hightlightPhoto(photo.id)
             }, {
                 it.printStackTrace()
             })
@@ -149,27 +145,6 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
                     viewState.showNetworkError()
                     isGetPhotosRequestSent = false
                 }
-                /*override fun onComplete() {
-                    viewState.hideNetworkError()
-                    viewState.stopRefreshing()
-                    viewState.hideProgress()
-                    isGetPhotosRequestSent = false
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                    compositeDisposable.add(d)
-                    isGetPhotosRequestSent = true
-                    viewState.showProgress()
-                }
-
-                override fun onNext(t: PhotosModel) {
-                    viewState.addPhotos(t.data)
-                }
-
-                override fun onError(e: Throwable) {
-                    viewState.showNetworkError()
-                    isGetPhotosRequestSent = false
-                }*/
             })
     }
 }

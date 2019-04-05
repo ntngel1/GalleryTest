@@ -1,9 +1,8 @@
 package com.shepelevkirill.gallerytest.app.ui.scenes.main
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
-import com.arellomobile.mvp.MvpActivityX
+import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.karumi.dexter.Dexter
@@ -12,10 +11,12 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.shepelevkirill.gallerytest.R
+import com.shepelevkirill.gallerytest.app.ui.scenes.upload.OnShowPhotoListener
+import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : MvpActivityX(), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView, OnShowPhotoListener {
     @InjectPresenter
     lateinit var presenter: MainPresenter
 
@@ -41,6 +42,10 @@ class MainActivity : MvpActivityX(), MainView {
             .check()
     }
 
+    override fun setNavigationSelection(id: Int) {
+        navigation.selectedItemId = id
+    }
+
     override fun openScreen(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
@@ -57,5 +62,9 @@ class MainActivity : MvpActivityX(), MainView {
 
     override fun popFragment() {
         supportFragmentManager.popBackStack()
+    }
+
+    override fun onShowPhoto(photoModel: PhotoModel) {
+        presenter.onShowPhoto(photoModel)
     }
 }

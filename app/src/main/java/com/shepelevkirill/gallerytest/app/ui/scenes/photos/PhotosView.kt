@@ -17,7 +17,7 @@ interface PhotosView : MvpView {
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun openPhoto(photo: PhotoModel)
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @StateStrategyType(OneExecutionStateStrategy::class)
     fun clearPhotos()
 
     @StateStrategyType(AddToEndSingleStrategy::class)

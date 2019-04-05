@@ -5,16 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.arellomobile.mvp.MvpFragmentX
+import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
 import com.shepelevkirill.gallerytest.app.ui.scenes.main.MainActivity
 import com.shepelevkirill.gallerytest.app.utils.load
+import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.fragment_photo.*
 import kotlinx.android.synthetic.main.fragment_photo.view.*
 
-class PhotoFragment : MvpFragmentX(), PhotoView {
+class PhotoFragment : MvpAppCompatFragment(), PhotoView {
     @InjectPresenter
     lateinit var presenter: PhotoPresenter
 

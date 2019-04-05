@@ -1,14 +1,9 @@
 package com.shepelevkirill.gallerytest.app.ui.adapters
 
-import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.ImageView
-import androidx.annotation.RequiresApi
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shepelevkirill.gallerytest.domain.gateway.PhotoGateway
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
@@ -25,8 +20,7 @@ class PhotosAdapter(private val parent: PhotosView) : RecyclerView.Adapter<Photo
     lateinit var photoGateway: PhotoGateway
 
     private lateinit var recyclerView: RecyclerView
-    private val viewHolders = HashMap<Int, ViewHolder>()
-    private val highlight = HashMap<Int, Boolean>()
+    private val highlight = HashSet<Int>()
 
     val data: ArrayList<PhotoModel> = ArrayList()
 
@@ -51,12 +45,10 @@ class PhotosAdapter(private val parent: PhotosView) : RecyclerView.Adapter<Photo
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.adapterDataIndex = position
         val photoModel = data[position]
-        viewHolders[photoModel.id] = holder
         holder.bind(photoModel)
     }
 
     override fun onViewRecycled(holder: ViewHolder) {
-        viewHolders.remove(holder.adapterDataIndex)
         holder.cleanup()
     }
 
@@ -65,48 +57,56 @@ class PhotosAdapter(private val parent: PhotosView) : RecyclerView.Adapter<Photo
         notifyDataSetChanged()
     }
 
-    fun addPhotos(photos: List<PhotoModel>) {
+    fun addPhotoModels(photos: List<PhotoModel>) {
         data.addAll(photos)
         notifyDataSetChanged()
     }
 
     fun clearPhotoModels() {
         data.clear()
+        highlight.clear()
         notifyDataSetChanged()
     }
 
-    fun highlightPhotoWithId(id: Int) {
-        highlight[id] = true
-        val listener = object: ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-            }
-        }
-        recyclerView.viewTreeObserver.addOnGlobalLayoutListener(listener)
+    fun highlightPhoto(id: Int) {
+        highlight.add(id)
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private lateinit var photoModel: PhotoModel
         var adapterDataIndex: Int = -1
-        var isHighlighted: Boolean = false
-            set(value) {
-                imageView.isHighlighted = value
-                field = value
+        private val imageView: RatioImageView = view.findViewById(R.id.ui_image)
+
+        fun bind(photoModel: PhotoModel) {
+            this.photoModel = photoModel
+
+            if (highlight.contains(photoModel.id)) {
+                highlight(true)
             }
 
-        private val imageView: RatioImageView = view.findViewById(R.id.ui_image)
-        private lateinit var photo: PhotoModel
-        fun bind(photo: PhotoModel) {
-            if (highlight[photo.id] != null) {
-                imageView.isHighlighted = true
-            }
-            this.photo = photo
-            val url = photoGateway.getPhotoUrl(photo.image.contentUrl)
+            val url = photoGateway.getPhotoUrl(photoModel.image.contentUrl)
             imageView.loadThumbnail(url)
             imageView.setOnClickListener {
-                highlight.clear()
-                isHighlighted = false
-                this@PhotosAdapter.notifyItemChanged(adapterDataIndex)
-                parent.onPhotoClicked(photo)
+                highlight(false)
+                parent.onPhotoClicked(photoModel)
+            }
+        }
+
+        private fun highlight(isEnabled: Boolean) {
+            val globalLayoutListener = object: ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    this@PhotosAdapter.notifyItemChanged(adapterDataIndex)
+                    recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                }
+            }
+
+            if (!isEnabled) {
+                highlight.remove(photoModel.id)
+            }
+
+            if (isEnabled != imageView.isHighlighted) {
+                imageView.isHighlighted = isEnabled
+                recyclerView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
             }
         }
 

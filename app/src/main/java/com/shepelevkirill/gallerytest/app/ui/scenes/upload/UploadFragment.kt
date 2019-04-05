@@ -2,37 +2,34 @@ package com.shepelevkirill.gallerytest.app.ui.scenes.upload
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.arellomobile.mvp.MvpFragmentX
+import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.shepelevkirill.gallerytest.R
 import com.shepelevkirill.gallerytest.app.ui.dialogs.PhotoUploadingDialog
-import com.shepelevkirill.gallerytest.app.ui.dialogs.PhotoUploadedDialog
+import com.shepelevkirill.gallerytest.app.ui.dialogs.photo_uploaded_dialog.PhotoUploadedDialog
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.fragment_upload.*
 
-class UploadFragment : MvpFragmentX(), UploadView {
+class UploadFragment : MvpAppCompatFragment(), UploadView {
     @InjectPresenter
     lateinit var presenter: UploadPresenter
-
-    var onShowPhoto: ((photo: PhotoModel) -> Unit)? = null
 
     private val photoPickerIntent = Intent(Intent.ACTION_PICK).apply {
         type = "image/*"
     }
+    private val photoUploadedDialog =
+        PhotoUploadedDialog()
     private val progressDialog = PhotoUploadingDialog().apply {
         isCancelable = false
     }
-    private val photoUploadedDialog = PhotoUploadedDialog().apply {
-        onShowClickedListener = { onShowPhoto?.invoke(photoModel) }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.fragment_upload, container, false)
     }
 
@@ -86,7 +83,7 @@ class UploadFragment : MvpFragmentX(), UploadView {
     }
 
     override fun showPhotoUploadedDialog(photoModel: PhotoModel) {
-        photoUploadedDialog.photoModel = photoModel
+        photoUploadedDialog.setPhotoModel(photoModel)
         photoUploadedDialog.show(childFragmentManager, PHOTO_UPLOADED_DIALOG_TAG)
     }
 

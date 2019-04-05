@@ -1,29 +1,26 @@
 package com.shepelevkirill.gallerytest.app.ui.scenes.photos
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.arellomobile.mvp.MvpFragmentX
+import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
-import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import com.shepelevkirill.gallerytest.R
 import com.shepelevkirill.gallerytest.app.ui.adapters.PhotosAdapter
 import com.shepelevkirill.gallerytest.app.ui.decorators.GridLayoutDecorator
 import com.shepelevkirill.gallerytest.app.ui.dialogs.LoadingDialog
 import com.shepelevkirill.gallerytest.app.ui.scenes.main.MainActivity
 import com.shepelevkirill.gallerytest.app.ui.scenes.photo.PhotoFragment
-import com.shepelevkirill.gallerytest.app.ui.view.RatioImageView
+import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.fragment_photos.*
 import kotlinx.android.synthetic.main.fragment_photos.view.*
 
-class PhotosFragment : MvpFragmentX(), PhotosView {
+class PhotosFragment : MvpAppCompatFragment(), PhotosView {
     @InjectPresenter
     lateinit var presenter: PhotosPresenter
 
@@ -115,7 +112,7 @@ class PhotosFragment : MvpFragmentX(), PhotosView {
     }
 
     override fun addPhotos(photos: List<PhotoModel>) {
-        recyclerAdapter.addPhotos(photos)
+        recyclerAdapter.addPhotoModels(photos)
     }
 
     override fun openPhoto(photo: PhotoModel) {
@@ -125,7 +122,7 @@ class PhotosFragment : MvpFragmentX(), PhotosView {
     }
 
     override fun hightlightPhoto(id: Int) {
-        recyclerAdapter.highlightPhotoWithId(id)
+        recyclerAdapter.highlightPhoto(id)
     }
 
     override fun showLoadingDialog() {

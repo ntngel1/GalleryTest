@@ -49,10 +49,15 @@ dependencies {
     implementation "com.squareup.picasso:picasso:${rootProject.picasso}"
     implementation "com.google.dagger:dagger:${rootProject.dagger}"
 
-    implementation 'com.arello-mobile:moxy:1.5.5'
-    implementation 'com.arello-mobile:moxy-android:1.5.5'
-    implementation 'com.arello-mobile:moxy-app-compat:1.5.5'
+    implementation 'tech.schoolhelper:moxy-x:1.7.0'
+    implementation 'tech.schoolhelper:moxy-x-android:1.7.0'
+    implementation 'tech.schoolhelper:moxy-x-androidx:1.7.0'
 
-    kapt 'com.arello-mobile:moxy-compiler:1.5.5'
+    // LeakCanary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
+
+    kapt 'tech.schoolhelper:moxy-x-compiler:1.7.0'
     kapt "com.google.dagger:dagger-compiler:${dagger}"
 }

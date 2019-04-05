@@ -9,10 +9,12 @@ import com.shepelevkirill.gallerytest.app.di.data.common.CommonGatewayModule
 import com.shepelevkirill.gallerytest.app.di.data.server.ServerGatewayModule
 import com.shepelevkirill.gallerytest.app.di.data.server.RetrofitModule
 import com.shepelevkirill.gallerytest.domain.models.SessionModel
+import com.squareup.leakcanary.LeakCanary
 
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
+        //LeakCanary.install(this);
         Companion.applicationContext = applicationContext
         appComponent = DaggerAppComponent.builder()
             .appModule(AppModule)

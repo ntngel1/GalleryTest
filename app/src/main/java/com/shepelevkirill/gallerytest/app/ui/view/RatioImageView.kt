@@ -18,7 +18,7 @@ class RatioImageView : ImageView {
         color = Color.YELLOW
         flags = Paint.ANTI_ALIAS_FLAG
         style = Paint.Style.STROKE
-        maskFilter = BlurMaskFilter(8f, BlurMaskFilter.Blur.NORMAL)
+        //maskFilter = BlurMaskFilter(8f, BlurMaskFilter.Blur.NORMAL)
         strokeWidth = 2.5F * resources.displayMetrics.density
     }
 

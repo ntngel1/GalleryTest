@@ -22,8 +22,7 @@ class UploadFragment : MvpAppCompatFragment(), UploadView {
     private val photoPickerIntent = Intent(Intent.ACTION_PICK).apply {
         type = "image/*"
     }
-    private val photoUploadedDialog =
-        PhotoUploadedDialog()
+    private val photoUploadedDialog = PhotoUploadedDialog()
     private val progressDialog = PhotoUploadingDialog().apply {
         isCancelable = false
     }
@@ -83,7 +82,7 @@ class UploadFragment : MvpAppCompatFragment(), UploadView {
     }
 
     override fun showPhotoUploadedDialog(photoModel: PhotoModel) {
-        photoUploadedDialog.setPhotoModel(photoModel)
+        photoUploadedDialog.photoModel = photoModel
         photoUploadedDialog.show(childFragmentManager, PHOTO_UPLOADED_DIALOG_TAG)
     }
 

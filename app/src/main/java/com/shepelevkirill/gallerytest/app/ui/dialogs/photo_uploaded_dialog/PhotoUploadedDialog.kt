@@ -14,6 +14,14 @@ import kotlinx.android.synthetic.main.dialog_photo_uploaded.*
 class PhotoUploadedDialog : MvpAppCompatDialogFragment(), PhotoUploadedView {
     @InjectPresenter
     lateinit var presenter: PhotoUploadedPresenter
+    var photoModel: PhotoModel? = null
+        set(value) {
+            if (::presenter.isInitialized && value != null) {
+                presenter.photoModel = value
+            } else {
+                field = value
+            }
+        }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(com.shepelevkirill.gallerytest.R.layout.dialog_photo_uploaded, container, false)
@@ -29,11 +37,17 @@ class PhotoUploadedDialog : MvpAppCompatDialogFragment(), PhotoUploadedView {
                 (activity as OnShowPhotoListener).onShowPhoto(presenter.photoModel)
             }
         }
+        okButton.setOnClickListener {
+            presenter.onOkButtonClicked()
+        }
     }
 
-    override fun setPhotoModel(photoModel: PhotoModel) {
-        onCreate(null)
-        presenter.photoModel = photoModel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (photoModel != null) {
+            presenter.photoModel = photoModel!!
+        }
     }
 
     override fun close() {

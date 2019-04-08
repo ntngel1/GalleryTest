@@ -8,26 +8,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.arellomobile.mvp.MvpAppCompatFragment
+import com.arellomobile.moxy.MvpAppCompatFragmentX
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.PresenterType
+import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.arellomobile.mvp.presenter.ProvidePresenterTag
 import com.shepelevkirill.gallerytest.R
+import com.shepelevkirill.gallerytest.app.App
 import com.shepelevkirill.gallerytest.app.ui.dialogs.PhotoUploadingDialog
 import com.shepelevkirill.gallerytest.app.ui.dialogs.photo_uploaded_dialog.PhotoUploadedDialog
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.fragment_upload.*
 
-class UploadFragment : MvpAppCompatFragment(), UploadView {
-    @InjectPresenter
+class UploadFragment : MvpAppCompatFragmentX(), UploadView {
+    @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var presenter: UploadPresenter
+
+    @ProvidePresenter(type = PresenterType.GLOBAL)
+    fun provideUploadPresenter(): UploadPresenter {
+        return App.appComponent.provideUploadPresenter()
+    }
+
+    @ProvidePresenterTag(presenterClass = UploadPresenter::class, type = PresenterType.GLOBAL)
+    fun provideUploadPresenterTag(): String {
+        return UploadPresenter.PRESENTER_TAG
+    }
 
     private val photoPickerIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
     private val photoUploadedDialog = PhotoUploadedDialog()
     private val progressDialog = PhotoUploadingDialog().apply {
         isCancelable = false
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,6 +50,11 @@ class UploadFragment : MvpAppCompatFragment(), UploadView {
         selectPhotoButton.setOnClickListener { presenter.onSelectPhotoButtonClicked() }
         clearButton.setOnClickListener { presenter.onClearButtonClicked() }
         uploadButton.setOnClickListener { presenter.onUploadButtonClicked() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

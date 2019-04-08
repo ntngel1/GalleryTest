@@ -6,15 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.arellomobile.mvp.MvpAppCompatFragment
+import com.arellomobile.moxy.MvpAppCompatFragmentX
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.shepelevkirill.gallerytest.R
+import com.shepelevkirill.gallerytest.app.App
 import com.shepelevkirill.gallerytest.app.ui.dialogs.SigningInDialog
 import kotlinx.android.synthetic.main.fragment_authentication.*
 
-class AuthenticationFragment : MvpAppCompatFragment(), AuthenticationView {
+class AuthenticationFragment : MvpAppCompatFragmentX(), AuthenticationView {
     @InjectPresenter
     lateinit var presenter: AuthenticationPresenter
+
+    @ProvidePresenter
+    fun provideAuthenticationPresenter(): AuthenticationPresenter {
+        return App.appComponent.provideAuthenticationPresenter()
+    }
 
     private val progressDialog = SigningInDialog().apply {
         isCancelable = false
@@ -24,15 +31,10 @@ class AuthenticationFragment : MvpAppCompatFragment(), AuthenticationView {
         return inflater.inflate(R.layout.fragment_authentication, container, false)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         signInButton.setOnClickListener { presenter.onSignInButtonClicked() }
         signOutButton.setOnClickListener { presenter.onSignOutButtonClicked() }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.onResume()
     }
 
     override fun showSignInLayout() {
@@ -65,7 +67,7 @@ class AuthenticationFragment : MvpAppCompatFragment(), AuthenticationView {
 
     override fun hideProgressDialog() {
         childFragmentManager.findFragmentByTag(SIGNING_IN_DIALOG_TAG)
-            .let { (it as DialogFragment).dismiss() }
+            ?.let { (it as DialogFragment).dismiss() }
     }
 
     companion object {

@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import com.arellomobile.mvp.MvpAppCompatDialogFragment
+import com.arellomobile.moxy.MvpAppCompatDialogFragmentX
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.shepelevkirill.gallerytest.app.ui.scenes.upload.OnShowPhotoListener
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.dialog_photo_uploaded.*
 
-class PhotoUploadedDialog : MvpAppCompatDialogFragment(), PhotoUploadedView {
+class PhotoUploadedDialog : MvpAppCompatDialogFragmentX(), PhotoUploadedView {
     @InjectPresenter
     lateinit var presenter: PhotoUploadedPresenter
     var photoModel: PhotoModel? = null

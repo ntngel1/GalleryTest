@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.arellomobile.mvp.MvpAppCompatFragment
+import com.arellomobile.moxy.MvpAppCompatFragmentX
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.arellomobile.mvp.presenter.ProvidePresenterTag
 import com.shepelevkirill.gallerytest.R
 import com.shepelevkirill.gallerytest.app.ui.decorators.GridLayoutDecorator
 import com.shepelevkirill.gallerytest.app.ui.dialogs.LoadingDialog
@@ -19,25 +21,28 @@ import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.fragment_photos.*
 import kotlinx.android.synthetic.main.fragment_photos.view.*
 
-class PhotosFragment : MvpAppCompatFragment(), PhotosView {
-    @InjectPresenter
+class PhotosFragment : MvpAppCompatFragmentX(), PhotosView {
+    @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var presenter: PhotosPresenter
 
-    private lateinit var layoutManager: GridLayoutManager
-    private val loadingDialog = LoadingDialog().apply {
-        isCancelable = false
-    }
-
-    @ProvidePresenter
+    @ProvidePresenter(type = PresenterType.GLOBAL)
     fun providePhotosPresenter(): PhotosPresenter {
         val isNew = arguments?.getBoolean("isNew", false) ?: false
         val isPopular = arguments?.getBoolean("isPopular", false) ?: false
         return PhotosPresenter(isNew, isPopular)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    @ProvidePresenterTag(presenterClass = PhotosPresenter::class, type = PresenterType.GLOBAL)
+    fun providePhotosPresenterTag(): String {
+        val isNew = arguments?.getBoolean("isNew", false) ?: false
+        val isPopular = arguments?.getBoolean("isPopular", false) ?: false
 
-        super.onCreate(savedInstanceState)
+        return "${PhotosPresenter.PRESENTER_TAG}_isNew=${isNew}_isPopular=${isPopular}"
+    }
+
+    private lateinit var layoutManager: GridLayoutManager
+    private val loadingDialog = LoadingDialog().apply {
+        isCancelable = false
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -69,7 +74,9 @@ class PhotosFragment : MvpAppCompatFragment(), PhotosView {
         }
     }
 
-    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener { presenter.onRefresh() }
+    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        presenter.onRefresh()
+    }
 
     override fun onResume() {
         super.onResume()

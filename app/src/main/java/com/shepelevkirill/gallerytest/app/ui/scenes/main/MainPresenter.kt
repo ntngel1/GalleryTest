@@ -10,9 +10,10 @@ import com.shepelevkirill.gallerytest.app.ui.scenes.authentication.Authenticatio
 import com.shepelevkirill.gallerytest.app.ui.scenes.photos.PhotosFragment
 import com.shepelevkirill.gallerytest.app.ui.scenes.upload.UploadFragment
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
+import javax.inject.Inject
 
 @InjectViewState
-class MainPresenter : MvpPresenter<MainView>() {
+class MainPresenter @Inject constructor() : MvpPresenter<MainView>() {
     private val newPhotosFragment = PhotosFragment.newInstance(true, false, "New")
     private val popularPhotosFragment = PhotosFragment.newInstance(false, true, "Popular")
     private val uploadFragment = UploadFragment.newInstance()
@@ -52,9 +53,6 @@ class MainPresenter : MvpPresenter<MainView>() {
     }
 
     fun onShowPhoto(photoModel: PhotoModel) {
-        /*viewState.openScreen(newPhotosFragment)
-        currentFragment = newPhotosFragment
-        viewState.setNavigationSelection(R.id.navigation_new)*/
         viewState.setNavigationSelection(R.id.navigation_new)
         newPhotosFragment.onHighlightPhoto(photoModel)
     }

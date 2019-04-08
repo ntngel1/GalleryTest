@@ -1,9 +1,11 @@
 package com.shepelevkirill.gallerytest.domain.gateway
 
-import com.shepelevkirill.gallerytest.domain.models.*
+import com.shepelevkirill.gallerytest.domain.models.MediaObjectCreateRequestModel
+import com.shepelevkirill.gallerytest.domain.models.MediaObjectModel
+import com.shepelevkirill.gallerytest.domain.models.MediaObjectReplaceRequestModel
+import com.shepelevkirill.gallerytest.domain.models.MediaObjectUpdateRequestModel
 import io.reactivex.Observable
 import io.reactivex.Single
-import retrofit2.http.Multipart
 import java.io.File
 
 interface MediaObjectGateway {

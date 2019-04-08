@@ -14,22 +14,15 @@ import java.io.File
 import javax.inject.Inject
 
 @InjectViewState
-class UploadPresenter : MvpPresenter<UploadView>() {
-    @Inject
-    lateinit var uploadPhotoUseCase: UploadPhotoUseCase
-    @Inject
-    lateinit var authenticationGateway: AuthenticationGateway
+class UploadPresenter @Inject constructor(
+    private val uploadPhotoUseCase: UploadPhotoUseCase,
+    private val authenticationGateway: AuthenticationGateway
+) : MvpPresenter<UploadView>() {
 
-    private val compositeDisposable = CompositeDisposable()
     private var selectedPhoto: File? = null
+    private val compositeDisposable = CompositeDisposable()
 
-    init {
-        App.appComponent.inject(this)
-    }
-
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-
+    fun onResume() {
         if (authenticationGateway.isSignedIn()) {
             viewState.hideSignInMessageLayout()
         } else {
@@ -62,6 +55,7 @@ class UploadPresenter : MvpPresenter<UploadView>() {
             viewState.showMessage("Please, specify title!")
             return
         }
+
         if (selectedPhoto == null) {
             viewState.showMessage("Please, select image to upload!")
             return
@@ -83,6 +77,7 @@ class UploadPresenter : MvpPresenter<UploadView>() {
     }
 
     companion object {
+        const val PRESENTER_TAG = "upload_presenter"
         const val PHOTO_PICKER_RC = 1
     }
 }

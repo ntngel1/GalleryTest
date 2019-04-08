@@ -23,13 +23,12 @@ interface AppComponent {
     fun inject(target: PhotoPresenter)
     fun inject(target: UploadPresenter)
     fun inject(target: AuthenticationPresenter)
-
     fun inject(target: Authentication)
 
-   /* fun provideAuthenticationPresenter(): AuthenticationPresenter
     fun provideMainPresenter(): MainPresenter
     fun providePhotoPresenter(): PhotoPresenter
-    fun provideUploadPresenter(): UploadPresenter*/
+    fun provideUploadPresenter(): UploadPresenter
+    fun provideAuthenticationPresenter(): AuthenticationPresenter
 
     @Component.Builder
     interface Builder {

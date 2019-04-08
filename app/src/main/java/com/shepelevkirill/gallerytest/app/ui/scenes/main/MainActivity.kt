@@ -2,8 +2,9 @@ package com.shepelevkirill.gallerytest.app.ui.scenes.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.arellomobile.mvp.MvpAppCompatActivity
+import com.arellomobile.moxy.MvpAppCompatActivityX
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -11,14 +12,20 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.shepelevkirill.gallerytest.R
+import com.shepelevkirill.gallerytest.app.App
 import com.shepelevkirill.gallerytest.app.ui.scenes.upload.OnShowPhotoListener
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : MvpAppCompatActivity(), MainView, OnShowPhotoListener {
+class MainActivity : MvpAppCompatActivityX(), MainView, OnShowPhotoListener {
     @InjectPresenter
     lateinit var presenter: MainPresenter
+
+    @ProvidePresenter
+    fun provideMainPresenter(): MainPresenter {
+        return App.appComponent.provideMainPresenter()
+    }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         return@OnNavigationItemSelectedListener presenter.onNavigationItemSelected(item)

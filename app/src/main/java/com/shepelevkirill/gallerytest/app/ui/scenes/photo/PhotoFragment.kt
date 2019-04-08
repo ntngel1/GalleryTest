@@ -5,18 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.arellomobile.mvp.MvpAppCompatFragment
+import com.arellomobile.moxy.MvpAppCompatFragmentX
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.shepelevkirill.gallerytest.R
+import com.shepelevkirill.gallerytest.app.App
 import com.shepelevkirill.gallerytest.app.ui.scenes.main.MainActivity
 import com.shepelevkirill.gallerytest.app.utils.load
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.fragment_photo.*
 import kotlinx.android.synthetic.main.fragment_photo.view.*
 
-class PhotoFragment : MvpAppCompatFragment(), PhotoView {
+class PhotoFragment : MvpAppCompatFragmentX(), PhotoView {
     @InjectPresenter
     lateinit var presenter: PhotoPresenter
+
+    @ProvidePresenter
+    fun providePhotoPresenter(): PhotoPresenter {
+        return App.appComponent.providePhotoPresenter()
+    }
 
     private var photoModel: PhotoModel? = null
 
@@ -30,14 +37,12 @@ class PhotoFragment : MvpAppCompatFragment(), PhotoView {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // On Back button clicked listener
         view.toolbar.setNavigationOnClickListener(onBackButtonPressedListener)
 
         view.ui_title.text = photoModel?.name ?: "Empty"
         view.ui_description.text = photoModel?.description ?: "Empty"
     }
 
-    // Listener for Back button pressed
     private val onBackButtonPressedListener = View.OnClickListener {
         (activity as MainActivity).popFragment()
     }

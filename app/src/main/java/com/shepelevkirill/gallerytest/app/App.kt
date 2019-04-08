@@ -6,10 +6,9 @@ import com.shepelevkirill.gallerytest.app.di.AppComponent
 import com.shepelevkirill.gallerytest.app.di.DaggerAppComponent
 import com.shepelevkirill.gallerytest.app.di.data.app.AppModule
 import com.shepelevkirill.gallerytest.app.di.data.common.CommonGatewayModule
-import com.shepelevkirill.gallerytest.app.di.data.server.ServerGatewayModule
 import com.shepelevkirill.gallerytest.app.di.data.server.RetrofitModule
+import com.shepelevkirill.gallerytest.app.di.data.server.ServerGatewayModule
 import com.shepelevkirill.gallerytest.domain.models.SessionModel
-import com.squareup.leakcanary.LeakCanary
 
 class App : Application() {
     override fun onCreate() {

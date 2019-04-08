@@ -1,12 +1,9 @@
 package com.shepelevkirill.gallerytest.domain.usecases.photos
 
-import com.shepelevkirill.gallerytest.domain.gateway.AuthenticationGateway
-import com.shepelevkirill.gallerytest.domain.gateway.ClientGateway
 import com.shepelevkirill.gallerytest.domain.gateway.MediaObjectGateway
 import com.shepelevkirill.gallerytest.domain.gateway.PhotoGateway
 import com.shepelevkirill.gallerytest.domain.models.PhotoCreateRequestModel
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
-import com.shepelevkirill.gallerytest.domain.usecases.base.CompletableUseCase
 import com.shepelevkirill.gallerytest.domain.usecases.base.SingleUseCase
 import io.reactivex.Single
 import java.io.File

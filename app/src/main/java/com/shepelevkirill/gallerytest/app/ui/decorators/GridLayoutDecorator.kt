@@ -1,8 +1,5 @@
 package com.shepelevkirill.gallerytest.app.ui.decorators
 
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
 import android.graphics.Rect
 import android.view.View
 import androidx.fragment.app.Fragment

@@ -1,10 +1,13 @@
 package com.shepelevkirill.gallerytest.app.di.data.server
 
-import com.shepelevkirill.gallerytest.domain.gateway.*
 import com.shepelevkirill.gallerytest.app.di.data.app.AppModule
 import com.shepelevkirill.gallerytest.data.server.gateway.AuthenticationApiGateway
+import com.shepelevkirill.gallerytest.domain.gateway.*
 import com.shepelevkirill.server.Api
-import com.shepelevkirill.server.gateway.*
+import com.shepelevkirill.server.gateway.ClientApiGateway
+import com.shepelevkirill.server.gateway.MediaObjectApiGateway
+import com.shepelevkirill.server.gateway.PhotoApiGateway
+import com.shepelevkirill.server.gateway.UserApiGateway
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit

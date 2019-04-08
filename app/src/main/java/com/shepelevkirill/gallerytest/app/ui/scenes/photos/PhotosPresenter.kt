@@ -174,6 +174,7 @@ class PhotosPresenter constructor(isNew: Boolean, isPopular: Boolean) : MvpPrese
     }
 
     companion object {
+        const val PRESENTER_TAG = "photos_presenter"
         private const val ITEMS_REQUEST_SIZE: Int = 6
         private const val ITEMS_BUFFER: Int = 4
     }

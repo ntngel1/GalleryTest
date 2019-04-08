@@ -5,7 +5,6 @@ import com.shepelevkirill.gallerytest.domain.models.RefreshTokenRequestModel
 import com.shepelevkirill.gallerytest.domain.models.SessionModel
 import com.shepelevkirill.gallerytest.domain.usecases.base.CompletableUseCase
 import io.reactivex.Completable
-import io.reactivex.Scheduler
 import javax.inject.Inject
 
 class RefreshTokenUseCase : CompletableUseCase<SessionModel> {

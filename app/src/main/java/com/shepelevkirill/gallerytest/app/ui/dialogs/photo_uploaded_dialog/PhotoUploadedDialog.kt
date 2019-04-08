@@ -15,13 +15,22 @@ class PhotoUploadedDialog : MvpAppCompatDialogFragment(), PhotoUploadedView {
     @InjectPresenter
     lateinit var presenter: PhotoUploadedPresenter
     var photoModel: PhotoModel? = null
-        set(value) {
+        /*set(value) {
             if (::presenter.isInitialized && value != null) {
                 presenter.photoModel = value
+                field = value
             } else {
                 field = value
             }
+        }*/
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (photoModel != null) {
+            presenter.photoModel = photoModel!!
         }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(com.shepelevkirill.gallerytest.R.layout.dialog_photo_uploaded, container, false)
@@ -39,14 +48,6 @@ class PhotoUploadedDialog : MvpAppCompatDialogFragment(), PhotoUploadedView {
         }
         okButton.setOnClickListener {
             presenter.onOkButtonClicked()
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        if (photoModel != null) {
-            presenter.photoModel = photoModel!!
         }
     }
 

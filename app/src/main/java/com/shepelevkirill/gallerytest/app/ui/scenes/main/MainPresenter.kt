@@ -21,7 +21,11 @@ class MainPresenter : MvpPresenter<MainView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        viewState.requestPermissions(Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE)
+        viewState.requestPermissions(
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.INTERNET,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE)
         openDefaultFragment()
     }
 
@@ -51,6 +55,6 @@ class MainPresenter : MvpPresenter<MainView>() {
         viewState.openScreen(newPhotosFragment)
         currentFragment = newPhotosFragment
         viewState.setNavigationSelection(R.id.navigation_new)
-        newPhotosFragment.presenter.onHighlightPhoto(photoModel)
+        newPhotosFragment.onHighlightPhoto(photoModel)
     }
 }

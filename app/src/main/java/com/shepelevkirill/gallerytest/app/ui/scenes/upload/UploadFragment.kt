@@ -2,6 +2,7 @@ package com.shepelevkirill.gallerytest.app.ui.scenes.upload
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +20,7 @@ class UploadFragment : MvpAppCompatFragment(), UploadView {
     @InjectPresenter
     lateinit var presenter: UploadPresenter
 
-    private val photoPickerIntent = Intent(Intent.ACTION_PICK).apply {
-        type = "image/*"
-    }
+    private val photoPickerIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
     private val photoUploadedDialog = PhotoUploadedDialog()
     private val progressDialog = PhotoUploadingDialog().apply {
         isCancelable = false

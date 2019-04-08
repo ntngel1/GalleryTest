@@ -4,10 +4,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import com.shepelevkirill.gallerytest.app.App
+import com.shepelevkirill.gallerytest.app.ui.adapters.PhotosAdapter
 import com.shepelevkirill.gallerytest.domain.gateway.NetworkGateway
 import com.shepelevkirill.gallerytest.domain.gateway.PhotoGateway
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
-import com.shepelevkirill.gallerytest.app.App
 import com.shepelevkirill.gallerytest.domain.models.PhotosModel
 import io.reactivex.Single
 import io.reactivex.SingleObserver
@@ -24,6 +25,9 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
     @Inject
     lateinit var networkGateway: NetworkGateway
 
+    private val recyclerAdapter: PhotosAdapter = PhotosAdapter().apply {
+        onPhotoClickedListener = this@PhotosPresenter::onPhotoClicked
+    }
     private var currentPage: Int = 0
     private var isGetPhotosRequestSent = false
 
@@ -45,6 +49,7 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
+        viewState.setAdapter(recyclerAdapter)
         getPhotos()
     }
 
@@ -70,7 +75,7 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
     }
 
     fun onRefresh() {
-        viewState.clearPhotos()
+        clearPhotos()
         currentPage = 0
         getPhotos()
     }
@@ -109,14 +114,35 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ photos ->
-                viewState.clearPhotos()
-                viewState.addPhotos(data)
-                viewState.hightlightPhoto(photo.id)
+                clearPhotos()
+                addPhotos(data)
+                highlightPhoto(photo.id)
             }, {
                 it.printStackTrace()
             })
             .let(compositeDisposable::add)
     }
+
+    private fun addPhoto(photo: PhotoModel)
+    {
+        recyclerAdapter.addPhotoModel(photo)
+    }
+
+    private fun addPhotos(photos: List<PhotoModel>)
+    {
+        recyclerAdapter.addPhotoModels(photos)
+    }
+
+    fun highlightPhoto(id: Int)
+    {
+        recyclerAdapter.highlightPhoto(id)
+    }
+
+    fun clearPhotos()
+    {
+        recyclerAdapter.clearPhotoModels()
+    }
+
 
     private fun getPhotos() {
         if (isGetPhotosRequestSent) {
@@ -128,7 +154,7 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : SingleObserver<PhotosModel> {
                 override fun onSuccess(t: PhotosModel) {
-                    viewState.addPhotos(t.data)
+                    addPhotos(t.data)
                     viewState.hideNetworkError()
                     viewState.stopRefreshing()
                     viewState.hideProgress()

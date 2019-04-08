@@ -24,7 +24,6 @@ class PhotosFragment : MvpAppCompatFragment(), PhotosView {
     @InjectPresenter
     lateinit var presenter: PhotosPresenter
 
-    private val recyclerAdapter: PhotosAdapter = PhotosAdapter(this)
     private lateinit var layoutManager: GridLayoutManager
     private val loadingDialog by lazy {
         LoadingDialog().apply { isCancelable = false }
@@ -54,7 +53,6 @@ class PhotosFragment : MvpAppCompatFragment(), PhotosView {
         ui_photos.layoutManager = layoutManager
         ui_photos.apply {
             setHasFixedSize(true)
-            adapter = recyclerAdapter
             setOnScrollListener(onRecycleViewScrollListener)
             addItemDecoration(decorator)
         }
@@ -74,6 +72,10 @@ class PhotosFragment : MvpAppCompatFragment(), PhotosView {
         presenter.onResume()
     }
 
+    override fun <VH : RecyclerView.ViewHolder> setAdapter(adapter: RecyclerView.Adapter<VH>) {
+        ui_photos.adapter = adapter
+    }
+
     override fun onPhotoClicked(photo: PhotoModel) {
         presenter.onPhotoClicked(photo)
     }
@@ -82,12 +84,8 @@ class PhotosFragment : MvpAppCompatFragment(), PhotosView {
         view?.ui_swipeRefreshLayout?.isRefreshing = false
     }
 
-    override fun clearPhotos() {
-        recyclerAdapter.clearPhotoModels()
-    }
-
     override fun showNetworkError() {
-        clearPhotos()
+        presenter.clearPhotos()
         view?.ui_photos?.visibility = View.INVISIBLE
         view?.ui_network_error_layout?.visibility = View.VISIBLE
         view?.ui_progressbar?.visibility = View.INVISIBLE
@@ -107,22 +105,14 @@ class PhotosFragment : MvpAppCompatFragment(), PhotosView {
         view?.ui_progressbar?.visibility = View.INVISIBLE
     }
 
-    override fun addPhoto(photo: PhotoModel) {
-        recyclerAdapter.addPhotoModel(photo)
-    }
-
-    override fun addPhotos(photos: List<PhotoModel>) {
-        recyclerAdapter.addPhotoModels(photos)
-    }
-
     override fun openPhoto(photo: PhotoModel) {
         val fragment = PhotoFragment.newInstance(photo)
         // TODO Is it good or not?
         (activity as MainActivity).openScreenWithBackStack(fragment)
     }
 
-    override fun hightlightPhoto(id: Int) {
-        recyclerAdapter.highlightPhoto(id)
+    override fun onHighlightPhoto(photo: PhotoModel) {
+        presenter.onHighlightPhoto(photo)
     }
 
     override fun showLoadingDialog() {

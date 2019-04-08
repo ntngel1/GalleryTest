@@ -5,19 +5,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.RecyclerView
-import com.shepelevkirill.gallerytest.domain.gateway.PhotoGateway
-import com.shepelevkirill.gallerytest.domain.models.PhotoModel
-import com.shepelevkirill.gallerytest.app.App
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.app.ui.scenes.photos.PhotosView
+import com.shepelevkirill.gallerytest.app.App
 import com.shepelevkirill.gallerytest.app.ui.view.RatioImageView
 import com.shepelevkirill.gallerytest.app.utils.loadThumbnail
 import com.shepelevkirill.gallerytest.app.utils.stopLoading
+import com.shepelevkirill.gallerytest.domain.gateway.PhotoGateway
+import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import javax.inject.Inject
 
-class PhotosAdapter(private val parent: PhotosView) : RecyclerView.Adapter<PhotosAdapter.ViewHolder>() {
+class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder>() {
     @Inject
     lateinit var photoGateway: PhotoGateway
+    var onPhotoClickedListener: ((photo: PhotoModel) -> Unit)? = null
 
     private lateinit var recyclerView: RecyclerView
     private val highlight = HashSet<Int>()
@@ -88,7 +88,7 @@ class PhotosAdapter(private val parent: PhotosView) : RecyclerView.Adapter<Photo
             imageView.loadThumbnail(url)
             imageView.setOnClickListener {
                 highlight(false)
-                parent.onPhotoClicked(photoModel)
+                onPhotoClickedListener?.invoke(photoModel)
             }
         }
 

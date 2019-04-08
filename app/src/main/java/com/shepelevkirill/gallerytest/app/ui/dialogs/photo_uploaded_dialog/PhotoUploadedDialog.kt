@@ -15,14 +15,6 @@ class PhotoUploadedDialog : MvpAppCompatDialogFragmentX(), PhotoUploadedView {
     @InjectPresenter
     lateinit var presenter: PhotoUploadedPresenter
     var photoModel: PhotoModel? = null
-        /*set(value) {
-            if (::presenter.isInitialized && value != null) {
-                presenter.photoModel = value
-                field = value
-            } else {
-                field = value
-            }
-        }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +34,7 @@ class PhotoUploadedDialog : MvpAppCompatDialogFragmentX(), PhotoUploadedView {
 
         showButton.setOnClickListener {
             presenter.onShowButtonClicked()
+            // TODO нормально ли вызывать листенер из активити а не из фрагмента?
             if (activity is OnShowPhotoListener) {
                 (activity as OnShowPhotoListener).onShowPhoto(presenter.photoModel)
             }

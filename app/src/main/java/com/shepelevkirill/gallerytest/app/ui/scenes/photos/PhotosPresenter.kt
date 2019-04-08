@@ -30,7 +30,6 @@ class PhotosPresenter constructor(isNew: Boolean, isPopular: Boolean) : MvpPrese
     }
     private var currentPage: Int = 0
     private var isGetPhotosRequestSent = false
-
     private var isNew: Boolean? = null
     private var isPopular: Boolean? = null
 

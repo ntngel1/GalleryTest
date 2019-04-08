@@ -1,21 +1,16 @@
 package com.shepelevkirill.gallerytest.app.ui.scenes.upload
 
-import android.content.Intent
 import android.net.Uri
-import android.util.Log
-import androidx.core.net.toFile
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.shepelevkirill.gallerytest.app.App
 import com.shepelevkirill.gallerytest.app.utils.getPath
 import com.shepelevkirill.gallerytest.domain.gateway.AuthenticationGateway
-import com.shepelevkirill.gallerytest.domain.gateway.MediaObjectGateway
 import com.shepelevkirill.gallerytest.domain.usecases.photos.UploadPhotoUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
-import java.net.URI
 import javax.inject.Inject
 
 @InjectViewState
@@ -56,7 +51,7 @@ class UploadPresenter : MvpPresenter<UploadView>() {
     }
 
     fun onPhotoPicked(photo: Uri) {
-        val path = photo.getPath(App.applicationContext!!)
+        val path = photo.getPath(App.applicationContext!!) // TODO Fix this piece of shit.
         selectedPhoto = File(path)
 
         viewState.showSelectedPhoto(selectedPhoto!!.name)

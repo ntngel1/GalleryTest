@@ -2,8 +2,8 @@ package com.shepelevkirill.gallerytest.app.di
 
 import com.shepelevkirill.gallerytest.app.di.data.app.AppModule
 import com.shepelevkirill.gallerytest.app.di.data.common.CommonGatewayModule
-import com.shepelevkirill.gallerytest.app.di.data.server.ServerGatewayModule
 import com.shepelevkirill.gallerytest.app.di.data.server.RetrofitModule
+import com.shepelevkirill.gallerytest.app.di.data.server.ServerGatewayModule
 import com.shepelevkirill.gallerytest.app.di.data.server.interceptors.Authentication
 import com.shepelevkirill.gallerytest.app.ui.adapters.PhotosAdapter
 import com.shepelevkirill.gallerytest.app.ui.scenes.authentication.AuthenticationPresenter
@@ -25,6 +25,11 @@ interface AppComponent {
     fun inject(target: AuthenticationPresenter)
 
     fun inject(target: Authentication)
+
+   /* fun provideAuthenticationPresenter(): AuthenticationPresenter
+    fun provideMainPresenter(): MainPresenter
+    fun providePhotoPresenter(): PhotoPresenter
+    fun provideUploadPresenter(): UploadPresenter*/
 
     @Component.Builder
     interface Builder {

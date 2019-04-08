@@ -1,7 +1,10 @@
 package com.shepelevkirill.gallerytest.app.ui.view
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
 import android.os.Build
 import android.util.AttributeSet
 import android.widget.ImageView
@@ -18,7 +21,6 @@ class RatioImageView : ImageView {
         color = Color.YELLOW
         flags = Paint.ANTI_ALIAS_FLAG
         style = Paint.Style.STROKE
-        //maskFilter = BlurMaskFilter(8f, BlurMaskFilter.Blur.NORMAL)
         strokeWidth = 2.5F * resources.displayMetrics.density
     }
 
@@ -85,7 +87,7 @@ class RatioImageView : ImageView {
             canvas?.drawRoundRect(
                 viewBounds.top.toFloat(), viewBounds.left.toFloat(),
                 viewBounds.top.toFloat() + width, viewBounds.left.toFloat() + height,
-                6 * density, 6 * density,
+                6 * density, 6 * density, // TODO Вынести 6 как константу
                 paint
             )
         }

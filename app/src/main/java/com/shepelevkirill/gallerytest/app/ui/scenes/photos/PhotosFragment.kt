@@ -11,7 +11,6 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.shepelevkirill.gallerytest.R
-import com.shepelevkirill.gallerytest.app.ui.adapters.PhotosAdapter
 import com.shepelevkirill.gallerytest.app.ui.decorators.GridLayoutDecorator
 import com.shepelevkirill.gallerytest.app.ui.dialogs.LoadingDialog
 import com.shepelevkirill.gallerytest.app.ui.scenes.main.MainActivity
@@ -25,8 +24,8 @@ class PhotosFragment : MvpAppCompatFragment(), PhotosView {
     lateinit var presenter: PhotosPresenter
 
     private lateinit var layoutManager: GridLayoutManager
-    private val loadingDialog by lazy {
-        LoadingDialog().apply { isCancelable = false }
+    private val loadingDialog = LoadingDialog().apply {
+        isCancelable = false
     }
 
     @ProvidePresenter
@@ -34,6 +33,11 @@ class PhotosFragment : MvpAppCompatFragment(), PhotosView {
         val isNew = arguments?.getBoolean("isNew", false) ?: false
         val isPopular = arguments?.getBoolean("isPopular", false) ?: false
         return PhotosPresenter(isNew, isPopular)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

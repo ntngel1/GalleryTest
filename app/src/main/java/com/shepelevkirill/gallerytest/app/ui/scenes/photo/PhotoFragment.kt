@@ -39,7 +39,6 @@ class PhotoFragment : MvpAppCompatFragment(), PhotoView {
 
     // Listener for Back button pressed
     private val onBackButtonPressedListener = View.OnClickListener {
-        // TODO Is it good or not?
         (activity as MainActivity).popFragment()
     }
 

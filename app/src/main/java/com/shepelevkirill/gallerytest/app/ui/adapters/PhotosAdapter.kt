@@ -17,11 +17,10 @@ import javax.inject.Inject
 class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder>() {
     @Inject
     lateinit var photoGateway: PhotoGateway
-    var onPhotoClickedListener: ((photo: PhotoModel) -> Unit)? = null
 
+    var onPhotoClickedListener: ((photo: PhotoModel) -> Unit)? = null
     private lateinit var recyclerView: RecyclerView
     private val highlight = HashSet<Int>()
-
     val data: ArrayList<PhotoModel> = ArrayList()
 
     init {

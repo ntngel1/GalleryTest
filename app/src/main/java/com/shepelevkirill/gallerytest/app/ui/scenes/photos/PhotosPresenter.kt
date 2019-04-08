@@ -19,7 +19,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @InjectViewState
-class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosView>() {
+class PhotosPresenter constructor(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosView>() {
     @Inject
     lateinit var photoGateway: PhotoGateway
     @Inject
@@ -40,11 +40,6 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
         this.isNew = if (isNew) true else null
         this.isPopular = if (isPopular) true else null
         App.appComponent.inject(this)
-    }
-
-    companion object {
-        private const val ITEMS_REQUEST_SIZE: Int = 6
-        private const val ITEMS_BUFFER: Int = 4
     }
 
     override fun onFirstViewAttach() {
@@ -75,6 +70,7 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
     }
 
     fun onRefresh() {
+        compositeDisposable?.clear()
         clearPhotos()
         currentPage = 0
         getPhotos()
@@ -85,6 +81,8 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
     }
 
     fun onHighlightPhoto(photo: PhotoModel) {
+        viewState.showLoadingDialog()
+
         compositeDisposable.clear()
         isGetPhotosRequestSent = false
         currentPage = 0
@@ -116,6 +114,7 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
             .subscribe({ photos ->
                 clearPhotos()
                 addPhotos(data)
+                viewState.hideLoadingDialog()
                 highlightPhoto(photo.id)
             }, {
                 it.printStackTrace()
@@ -172,5 +171,10 @@ class PhotosPresenter(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosV
                     isGetPhotosRequestSent = false
                 }
             })
+    }
+
+    companion object {
+        private const val ITEMS_REQUEST_SIZE: Int = 6
+        private const val ITEMS_BUFFER: Int = 4
     }
 }

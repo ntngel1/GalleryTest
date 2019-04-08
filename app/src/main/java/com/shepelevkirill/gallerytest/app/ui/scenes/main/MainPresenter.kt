@@ -52,8 +52,9 @@ class MainPresenter : MvpPresenter<MainView>() {
     }
 
     fun onShowPhoto(photoModel: PhotoModel) {
-        viewState.openScreen(newPhotosFragment)
+        /*viewState.openScreen(newPhotosFragment)
         currentFragment = newPhotosFragment
+        viewState.setNavigationSelection(R.id.navigation_new)*/
         viewState.setNavigationSelection(R.id.navigation_new)
         newPhotosFragment.onHighlightPhoto(photoModel)
     }

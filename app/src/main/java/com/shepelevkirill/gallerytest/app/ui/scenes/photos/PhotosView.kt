@@ -29,7 +29,7 @@ interface PhotosView : MvpView {
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun stopRefreshing()
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @StateStrategyType(OneExecutionStateStrategy::class)
     fun onPhotoClicked(photo: PhotoModel)
 
     @StateStrategyType(OneExecutionStateStrategy::class)

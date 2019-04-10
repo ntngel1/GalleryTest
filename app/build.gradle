@@ -38,7 +38,8 @@ dependencies {
 
     implementation "io.reactivex.rxjava2:rxjava:${rootProject.rxJava}"
     implementation "io.reactivex.rxjava2:rxandroid:${rootProject.rxAndroid}"
-    implementation "com.github.tbruyelle:rxpermissions:${rootProject.rxPermissions}"
+
+    implementation 'com.karumi:dexter:5.0.0'
 
     implementation "com.squareup.retrofit2:retrofit:${rootProject.retrofit}"
     implementation "com.squareup.retrofit2:converter-gson:${rootProject.retrofitConverter}"
@@ -48,8 +49,15 @@ dependencies {
     implementation "com.squareup.picasso:picasso:${rootProject.picasso}"
     implementation "com.google.dagger:dagger:${rootProject.dagger}"
 
-    kapt "com.google.dagger:dagger-compiler:${dagger}"
+    implementation 'com.arello-mobile:moxy:1.5.6'
+    implementation 'com.arello-mobile:moxy-android:1.5.6'
+    implementation 'com.arello-mobile:moxy-app-compat:1.5.6'
 
-    implementation project(path: ':core')
-    implementation project(path: ':gateway')
+    // LeakCanary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
+
+    kapt 'com.arello-mobile:moxy-compiler:1.5.6'
+    kapt "com.google.dagger:dagger-compiler:${dagger}"
 }

@@ -3,9 +3,18 @@
     <item
             android:id="@+id/navigation_new"
             android:icon="@drawable/ic_new_24dp"
-            android:title="@string/photos_new"/>
+            android:title="@string/navigation_photos_new"/>
     <item
             android:id="@+id/navigation_popular"
             android:icon="@drawable/ic_popular_24dp"
-            android:title="@string/photos_popular"/>
+            android:title="@string/navigation_photos_popular"/>
+
+    <item
+            android:id="@+id/navigation_upload"
+            android:icon="@drawable/ic_upload_24dp"
+            android:title="@string/navigation_upload"/>
+    <item
+            android:id="@+id/navigation_authentication"
+            android:icon="@drawable/ic_profile_24dp"
+            android:title="@string/navigation_profile"/>
 </menu>

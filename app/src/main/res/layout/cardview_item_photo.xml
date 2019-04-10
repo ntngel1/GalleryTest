@@ -7,7 +7,7 @@
                                    android:layout_height="wrap_content"
                                    app:cardCornerRadius="6dp"
                                    app:cardElevation="5dp">
-    <com.shepelevkirill.gallerytest.RatioImageView
+    <com.shepelevkirill.gallerytest.app.ui.view.RatioImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent" card_view:srcCompat="@drawable/ic_launcher_background"
             android:id="@+id/ui_image"

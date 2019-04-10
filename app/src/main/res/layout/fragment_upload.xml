@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:orientation="vertical"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:fontFamily="@font/sf_compact_display_semibold"
+            android:textColor="@color/colorTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="21dp" android:text="Upload" android:id="@+id/textView5"/>
+    <ScrollView
+            android:layout_width="0dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView5"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="21dp"
+            app:layout_constraintStart_toStartOf="@+id/textView5" android:layout_height="0dp"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent" android:visibility="gone"
+            android:id="@+id/uploadLayout">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:orientation="vertical">
+            <TextView
+                    android:text="Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/textView7"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/titleInput"/>
+            <TextView
+                    android:text="Description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/textView8"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:id="@+id/descriptionInput"/>
+            <Button
+                    android:text="Select Photo..."
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/selectPhotoButton"
+                    style="@style/Widget.AppCompat.Button"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/selectedImageLabel"
+                    android:textAlignment="center"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <Button
+                        android:text="Clear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/clearButton" app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+                <Button
+                        android:text="Upload"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/uploadButton"
+                        app:layout_constraintStart_toEndOf="@+id/clearButton"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/clearButton"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/SignInMessageLayout" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+                android:text="Please, Sign In!"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:id="@+id/textView"
+                android:fontFamily="@font/sf_compact_display_semibold" android:textSize="24sp"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,17 +18,12 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [RetrofitGatewayModule::class, AndroidGatewayModule::class, UseCaseModule::class])
 interface AppComponent {
-    // TODO REFACTOR THIS
-    fun inject(target: MainPresenter)
     fun inject(target: PhotosAdapter)
-    fun inject(target: PhotosPresenter)
-    fun inject(target: PhotoPresenter)
-    fun inject(target: UploadPresenter)
-    fun inject(target: AuthenticationPresenter)
     fun inject(target: Authentication)
 
     fun provideMainPresenter(): MainPresenter
     fun providePhotoPresenter(): PhotoPresenter
+    fun providePhotosPresenter(): PhotosPresenter
     fun provideUploadPresenter(): UploadPresenter
     fun provideAuthenticationPresenter(): AuthenticationPresenter
 

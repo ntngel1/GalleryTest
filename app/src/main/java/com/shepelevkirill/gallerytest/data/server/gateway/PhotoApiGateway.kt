@@ -1,7 +1,10 @@
 package com.shepelevkirill.server.gateway
 
+import com.shepelevkirill.gallerytest.BuildConfig
 import com.shepelevkirill.gallerytest.domain.gateway.PhotoGateway
-import com.shepelevkirill.gallerytest.domain.models.*
+import com.shepelevkirill.gallerytest.domain.models.PhotoCreateRequestModel
+import com.shepelevkirill.gallerytest.domain.models.PhotoModel
+import com.shepelevkirill.gallerytest.domain.models.PhotosModel
 import com.shepelevkirill.server.Api
 import io.reactivex.Single
 
@@ -11,8 +14,7 @@ class PhotoApiGateway(private var api: Api) : PhotoGateway {
 
     override fun getPhotosData(new: Boolean, popular: Boolean): Single<PhotosModel> = getPhotos(1, 1, new, popular)
 
-    // TODO BASE URL SEPARATELY
-    override fun getPhotoUrl(image: String): String = "http://gallery.dev.webant.ru/media/$image"
+    override fun getPhotoUrl(image: String): String = "${BuildConfig.BASE_URL}/media/$image"
 
     override fun createPhoto(photo: PhotoCreateRequestModel): Single<PhotoModel> = api.createPhoto(photo)
 

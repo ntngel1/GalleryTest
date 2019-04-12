@@ -45,7 +45,9 @@ class UploadPresenter @Inject constructor(
     }
 
     fun onPhotoPicked(photo: Uri) {
-        val path = photo.getPath(App.appContext!!) // TODO Fix this piece of shit.
+        val context = App.appContext
+
+        val path = photo.getPath(context)
         selectedPhoto = File(path)
 
         viewState.showSelectedPhoto(selectedPhoto!!.name)

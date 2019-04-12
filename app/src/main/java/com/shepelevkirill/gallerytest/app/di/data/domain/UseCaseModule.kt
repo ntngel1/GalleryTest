@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Module(includes = [RetrofitGatewayModule::class])
 class UseCaseModule {
-
+// TODO SDELAI SUKAAAA
     @Provides
     @Singleton
     fun provideSignInUseCase(authGateway: AuthenticationGateway, clientGateway: ClientGateway): SignInUseCase =

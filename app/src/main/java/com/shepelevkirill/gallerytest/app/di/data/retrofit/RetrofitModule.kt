@@ -1,5 +1,6 @@
 package com.shepelevkirill.gallerytest.app.di.data.retrofit
 
+import com.shepelevkirill.gallerytest.BuildConfig
 import com.shepelevkirill.gallerytest.app.di.data.retrofit.interceptors.Authentication
 import dagger.Module
 import dagger.Provides
@@ -21,7 +22,7 @@ object RetrofitModule {
                         callAdapterFactory: CallAdapter.Factory,
                         converterFactory: Converter.Factory): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://gallery.dev.webant.ru")
+            .baseUrl(BuildConfig.BASE_URL)
             .client(client)
             .addCallAdapterFactory(callAdapterFactory)
             .addConverterFactory(converterFactory)

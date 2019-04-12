@@ -1,5 +1,6 @@
 package com.shepelevkirill.gallerytest.app.ui.scenes.photos
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.arellomobile.mvp.presenter.PresenterType
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.arellomobile.mvp.presenter.ProvidePresenterTag
 import com.shepelevkirill.gallerytest.R
+import com.shepelevkirill.gallerytest.app.App
 import com.shepelevkirill.gallerytest.app.ui.decorators.GridLayoutDecorator
 import com.shepelevkirill.gallerytest.app.ui.dialogs.LoadingDialog
 import com.shepelevkirill.gallerytest.app.ui.scenes.main.MainActivity
@@ -20,9 +22,14 @@ import com.shepelevkirill.gallerytest.app.ui.scenes.photo.PhotoFragment
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.fragment_photos.*
 import kotlinx.android.synthetic.main.fragment_photos.view.*
+import java.io.Serializable
 
 class PhotosFragment : MvpAppCompatFragmentX(), PhotosView {
 
+    data class PhotosViewParams(val isNew: Boolean?, val isPopular: Boolean?): Serializable
+
+
+    private lateinit var photosViewParams: PhotosViewParams
     private lateinit var layoutManager: GridLayoutManager
     private val loadingDialog = LoadingDialog().apply {
         isCancelable = false
@@ -33,19 +40,22 @@ class PhotosFragment : MvpAppCompatFragmentX(), PhotosView {
 
     @ProvidePresenter(type = PresenterType.GLOBAL)
     fun providePhotosPresenter(): PhotosPresenter {
-        val isNew = arguments?.getBoolean("isNew", false) ?: false
-        val isPopular = arguments?.getBoolean("isPopular", false) ?: false
-        return PhotosPresenter(isNew, isPopular)
+        return App.appComponent.providePhotosPresenter().apply {
+            this.isNew = photosViewParams.isNew
+            this.isPopular = photosViewParams.isPopular
+        }
     }
 
     @ProvidePresenterTag(presenterClass = PhotosPresenter::class, type = PresenterType.GLOBAL)
     fun providePhotosPresenterTag(): String {
-        val isNew = arguments?.getBoolean("isNew", false) ?: false
-        val isPopular = arguments?.getBoolean("isPopular", false) ?: false
-
-        return "${PhotosPresenter.PRESENTER_TAG}_isNew=${isNew}_isPopular=${isPopular}"
+        return "${PhotosPresenter.PRESENTER_TAG}_isNew=${photosViewParams.isNew}_isPopular=${photosViewParams.isPopular}"
     }
 
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        photosViewParams = arguments?.getSerializable(PHOTOS_PARAMS_KEY) as PhotosViewParams
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_photos, container, false)
@@ -53,7 +63,7 @@ class PhotosFragment : MvpAppCompatFragmentX(), PhotosView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.ui_title.text = arguments?.getString("title") ?: "Undefined"
+        view.ui_title.text = arguments?.getString(TITLE_KEY) ?: "Undefined"
         view.ui_swipeRefreshLayout.setOnRefreshListener(onRefreshListener)
         setupPhotosRecycler()
     }
@@ -139,12 +149,25 @@ class PhotosFragment : MvpAppCompatFragmentX(), PhotosView {
 
     companion object {
         const val LOADING_DIALOG_TAG = "loading_dialog"
+        private const val TITLE_KEY = "title"
+        private const val PHOTOS_PARAMS_KEY = "photos_params"
 
-        fun newInstance(isNew: Boolean, isPopular: Boolean, title: String): PhotosFragment {
+        fun newInstance(isNew: Boolean?, isPopular: Boolean?, title: String): PhotosFragment {
             val bundle = Bundle()
-            bundle.putBoolean("isNew", isNew)
-            bundle.putBoolean("isPopular", isPopular)
-            bundle.putString("title", title)
+            val photosViewParams = PhotosViewParams(isNew, isPopular)
+            bundle.putSerializable(PHOTOS_PARAMS_KEY, photosViewParams)
+            bundle.putString(TITLE_KEY, title)
+
+            val fragment = PhotosFragment()
+            fragment.arguments = bundle
+
+            return fragment
+        }
+
+        fun newInstance(photosViewParams: PhotosViewParams, title: String): PhotosFragment {
+            val bundle = Bundle()
+            bundle.putSerializable(PHOTOS_PARAMS_KEY, photosViewParams)
+            bundle.putString(TITLE_KEY, title)
 
             val fragment = PhotosFragment()
             fragment.arguments = bundle

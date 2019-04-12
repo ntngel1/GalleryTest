@@ -88,7 +88,7 @@ class RatioImageView : ImageView {
             canvas?.drawRoundRect(
                 viewBounds.top.toFloat(), viewBounds.left.toFloat(),
                 viewBounds.top.toFloat() + width, viewBounds.left.toFloat() + height,
-                6 * density, 6 * density, // TODO Вынести 6 как константу
+                CORNER_RADIUS_IN_DP * density, CORNER_RADIUS_IN_DP * density,
                 paint
             )
         }
@@ -108,5 +108,10 @@ class RatioImageView : ImageView {
         setWidthRatio(wr)
         setHeightRatio(hr)
         ta.recycle()
+    }
+
+
+    companion object {
+        private const val CORNER_RADIUS_IN_DP = 6
     }
 }

@@ -6,13 +6,11 @@ import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 
 @InjectViewState
 class PhotoUploadedPresenter : MvpPresenter<PhotoUploadedView>() {
+
     lateinit var photoModel: PhotoModel
     var onShowClickedListener: (() -> Unit)? = null
     var onOkClickedListener: (() -> Unit)? = null
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-    }
 
     fun onShowButtonClicked() {
         viewState.close()

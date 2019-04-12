@@ -15,13 +15,14 @@ import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import javax.inject.Inject
 
 class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.ViewHolder>() {
+
     @Inject
     lateinit var photoGateway: PhotoGateway
-
     var onPhotoClickedListener: ((photo: PhotoModel) -> Unit)? = null
     private lateinit var recyclerView: RecyclerView
     private val highlight = HashSet<Int>()
     val data: ArrayList<PhotoModel> = ArrayList()
+
 
     init {
         App.appComponent.inject(this)

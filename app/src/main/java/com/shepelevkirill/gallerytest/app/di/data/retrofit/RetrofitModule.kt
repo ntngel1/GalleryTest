@@ -1,6 +1,6 @@
-package com.shepelevkirill.gallerytest.app.di.data.server
+package com.shepelevkirill.gallerytest.app.di.data.retrofit
 
-import com.shepelevkirill.gallerytest.app.di.data.server.interceptors.Authentication
+import com.shepelevkirill.gallerytest.app.di.data.retrofit.interceptors.Authentication
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -12,7 +12,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@Module(includes = [(ServerGatewayModule::class)])
+@Module(includes = [(RetrofitGatewayModule::class)])
 object RetrofitModule {
 
     @Provides

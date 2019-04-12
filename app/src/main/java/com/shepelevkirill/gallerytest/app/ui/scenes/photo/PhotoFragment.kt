@@ -17,6 +17,9 @@ import kotlinx.android.synthetic.main.fragment_photo.*
 import kotlinx.android.synthetic.main.fragment_photo.view.*
 
 class PhotoFragment : MvpAppCompatFragmentX(), PhotoView {
+
+    private var photoModel: PhotoModel? = null
+
     @InjectPresenter
     lateinit var presenter: PhotoPresenter
 
@@ -25,7 +28,6 @@ class PhotoFragment : MvpAppCompatFragmentX(), PhotoView {
         return App.appComponent.providePhotoPresenter()
     }
 
-    private var photoModel: PhotoModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

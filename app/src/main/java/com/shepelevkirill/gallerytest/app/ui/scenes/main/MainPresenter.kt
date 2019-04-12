@@ -14,11 +14,13 @@ import javax.inject.Inject
 
 @InjectViewState
 class MainPresenter @Inject constructor() : MvpPresenter<MainView>() {
+    // TODO Move to router class
     private val newPhotosFragment = PhotosFragment.newInstance(true, false, "New")
     private val popularPhotosFragment = PhotosFragment.newInstance(false, true, "Popular")
     private val uploadFragment = UploadFragment.newInstance()
     private val authenticationFragment = AuthenticationFragment.newInstance()
     private lateinit var currentFragment: Fragment
+
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

@@ -1,10 +1,11 @@
 package com.shepelevkirill.gallerytest.app.di
 
+import com.shepelevkirill.gallerytest.app.di.data.android.AndroidGatewayModule
 import com.shepelevkirill.gallerytest.app.di.data.app.AppModule
-import com.shepelevkirill.gallerytest.app.di.data.common.CommonGatewayModule
-import com.shepelevkirill.gallerytest.app.di.data.server.RetrofitModule
-import com.shepelevkirill.gallerytest.app.di.data.server.ServerGatewayModule
-import com.shepelevkirill.gallerytest.app.di.data.server.interceptors.Authentication
+import com.shepelevkirill.gallerytest.app.di.data.domain.UseCaseModule
+import com.shepelevkirill.gallerytest.app.di.data.retrofit.RetrofitGatewayModule
+import com.shepelevkirill.gallerytest.app.di.data.retrofit.RetrofitModule
+import com.shepelevkirill.gallerytest.app.di.data.retrofit.interceptors.Authentication
 import com.shepelevkirill.gallerytest.app.ui.adapters.PhotosAdapter
 import com.shepelevkirill.gallerytest.app.ui.scenes.authentication.AuthenticationPresenter
 import com.shepelevkirill.gallerytest.app.ui.scenes.main.MainPresenter
@@ -15,8 +16,9 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [(ServerGatewayModule::class), (CommonGatewayModule::class)])
+@Component(modules = [RetrofitGatewayModule::class, AndroidGatewayModule::class, UseCaseModule::class])
 interface AppComponent {
+    // TODO REFACTOR THIS
     fun inject(target: MainPresenter)
     fun inject(target: PhotosAdapter)
     fun inject(target: PhotosPresenter)
@@ -35,8 +37,8 @@ interface AppComponent {
         fun build(): AppComponent
         fun appModule(app: AppModule): Builder
         fun retrofitModule(retrofit: RetrofitModule): Builder
-
-        fun serverGatewayModule(gateway: ServerGatewayModule): Builder
-        fun commonGatewayModule(gateway: CommonGatewayModule): Builder
+        fun retrofitGatewayModule(gateway: RetrofitGatewayModule): Builder
+        fun androidGatewayModule(gateway: AndroidGatewayModule): Builder
+        fun useCaseModule(useCaseModule: UseCaseModule): Builder
     }
 }

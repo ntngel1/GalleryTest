@@ -3,7 +3,7 @@ package com.shepelevkirill.gallerytest.app.ui.scenes.authentication
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.shepelevkirill.gallerytest.domain.gateway.AuthenticationGateway
-import com.shepelevkirill.gallerytest.domain.usecases.authentication.SignInUseCase
+import com.shepelevkirill.gallerytest.domain.usecases.core.authentication.SignInUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -15,7 +15,8 @@ class AuthenticationPresenter @Inject constructor(
     private val authenticationGateway: AuthenticationGateway
 ) : MvpPresenter<AuthenticationView>() {
 
-    private lateinit var signInParams: SignInUseCase.Params
+    private var username: String = ""
+    private var password: String = ""
     private val compositeDisposable = CompositeDisposable()
 
     override fun onFirstViewAttach() {
@@ -43,20 +44,22 @@ class AuthenticationPresenter @Inject constructor(
     }
 
     fun onGetSignInData(username: String, password: String) {
-        signInParams = SignInUseCase.Params(username, password)
+        this.username = username
+        this.password = password
     }
 
     private fun signIn() {
-        viewState.showProgressDialog()
-        signInUseCase.setSchedulers(Schedulers.io(), AndroidSchedulers.mainThread())
-            .execute(signInParams)
+        signInUseCase.signIn(username, password)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { viewState.showProgressDialog() }
+            .doFinally { viewState.hideProgressDialog() }
             .subscribe({
                 viewState.showSignOutLayout()
-                viewState.hideProgressDialog()
-            }, {
-                it.printStackTrace()
+            }, { error ->
                 viewState.showMessage("Error during signing in!")
-                viewState.hideProgressDialog()
+                viewState.showSignInLayout()
+                error.printStackTrace()
             })
             .let(compositeDisposable::add)
     }

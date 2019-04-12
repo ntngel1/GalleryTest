@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment
 import com.shepelevkirill.gallerytest.R
 
 class SigningInDialog : DialogFragment() {
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.progress_sign_in, container, false)
     }

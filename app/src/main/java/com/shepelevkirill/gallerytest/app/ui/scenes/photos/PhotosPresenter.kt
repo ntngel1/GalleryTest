@@ -20,10 +20,6 @@ import javax.inject.Inject
 
 @InjectViewState
 class PhotosPresenter constructor(isNew: Boolean, isPopular: Boolean) : MvpPresenter<PhotosView>() {
-    @Inject
-    lateinit var photoGateway: PhotoGateway
-    @Inject
-    lateinit var networkGateway: NetworkGateway
 
     private val recyclerAdapter: PhotosAdapter = PhotosAdapter().apply {
         onPhotoClickedListener = this@PhotosPresenter::onPhotoClicked
@@ -32,8 +28,13 @@ class PhotosPresenter constructor(isNew: Boolean, isPopular: Boolean) : MvpPrese
     private var isGetPhotosRequestSent = false
     private var isNew: Boolean? = null
     private var isPopular: Boolean? = null
-
     private val compositeDisposable = CompositeDisposable()
+
+    @Inject
+    lateinit var photoGateway: PhotoGateway
+    @Inject
+    lateinit var networkGateway: NetworkGateway
+
 
     init {
         this.isNew = if (isNew) true else null
@@ -91,6 +92,7 @@ class PhotosPresenter constructor(isNew: Boolean, isPopular: Boolean) : MvpPrese
         val data = ArrayList<PhotoModel>()
         var totalItems= -1
 
+            // TODO Fix this place
         Single.defer {
             photoGateway.getPhotos(++currentPage, ITEMS_REQUEST_SIZE, isNew, isPopular)
                 .doOnSuccess {
@@ -171,6 +173,7 @@ class PhotosPresenter constructor(isNew: Boolean, isPopular: Boolean) : MvpPrese
                 }
             })
     }
+
 
     companion object {
         const val PRESENTER_TAG = "photos_presenter"

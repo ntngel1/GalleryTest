@@ -13,6 +13,7 @@ class PhotoPresenter @Inject constructor(
 
     private var photoModel: PhotoModel? = null
 
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.getPhotoModel()

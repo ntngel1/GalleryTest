@@ -12,14 +12,3 @@ data class ClientCreateRequestModel(
     val name: String,
     val allowedGrantTypes: List<String>
 )
-
-// TODO Может быть можно обощить два интерфейса ниже в один???
-data class ClientUpdateRequestModel(
-    val name: String,
-    val allowedGrantTypes: List<String>
-)
-
-data class ClientReplaceRequestModel(
-    val name: String,
-    val allowedGrantTypes: List<String>
-)

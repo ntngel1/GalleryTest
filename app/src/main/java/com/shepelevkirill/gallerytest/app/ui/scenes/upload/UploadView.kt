@@ -7,6 +7,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 
 interface UploadView : MvpView {
+
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showMessage(message: String)
 

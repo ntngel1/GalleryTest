@@ -12,8 +12,8 @@ import androidx.annotation.RequiresApi
 import com.shepelevkirill.gallerytest.R
 
 class RatioImageView : ImageView {
-    var isHighlighted: Boolean = false
 
+    var isHighlighted: Boolean = false
     private var heightRatio: Float = 0.0F
     private var widthRatio: Float = 0.0F
     private val viewBounds = Rect()
@@ -23,6 +23,7 @@ class RatioImageView : ImageView {
         style = Paint.Style.STROKE
         strokeWidth = 2.5F * resources.displayMetrics.density
     }
+
 
     constructor(context: Context) : super(context) {
         init(null)

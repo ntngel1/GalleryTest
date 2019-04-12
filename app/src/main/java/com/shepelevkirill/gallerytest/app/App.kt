@@ -4,29 +4,29 @@ import android.app.Application
 import android.content.Context
 import com.shepelevkirill.gallerytest.app.di.AppComponent
 import com.shepelevkirill.gallerytest.app.di.DaggerAppComponent
+import com.shepelevkirill.gallerytest.app.di.data.android.AndroidGatewayModule
 import com.shepelevkirill.gallerytest.app.di.data.app.AppModule
-import com.shepelevkirill.gallerytest.app.di.data.common.CommonGatewayModule
-import com.shepelevkirill.gallerytest.app.di.data.server.RetrofitModule
-import com.shepelevkirill.gallerytest.app.di.data.server.ServerGatewayModule
-import com.shepelevkirill.gallerytest.domain.models.SessionModel
+import com.shepelevkirill.gallerytest.app.di.data.domain.UseCaseModule
+import com.shepelevkirill.gallerytest.app.di.data.retrofit.RetrofitGatewayModule
+import com.shepelevkirill.gallerytest.app.di.data.retrofit.RetrofitModule
 
 class App : Application() {
+
     override fun onCreate() {
         super.onCreate()
-        //LeakCanary.install(this);
-        Companion.applicationContext = applicationContext
+        appContext = applicationContext
         appComponent = DaggerAppComponent.builder()
-            .appModule(AppModule)
+            .appModule(AppModule(this))
             .retrofitModule(RetrofitModule)
-            .serverGatewayModule(ServerGatewayModule)
-            .commonGatewayModule(CommonGatewayModule)
+            .retrofitGatewayModule(RetrofitGatewayModule)
+            .androidGatewayModule(AndroidGatewayModule)
+            .useCaseModule(UseCaseModule())
             .build()
     }
 
+
     companion object {
         lateinit var appComponent: AppComponent
-        var applicationContext: Context? = null
-            private set
-        var session: SessionModel? = null
+        lateinit var appContext: Context
     }
 }

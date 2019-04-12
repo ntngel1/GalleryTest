@@ -4,5 +4,6 @@ import com.arellomobile.mvp.MvpView
 
 
 interface PhotoUploadedView : MvpView {
+
     fun close()
 }

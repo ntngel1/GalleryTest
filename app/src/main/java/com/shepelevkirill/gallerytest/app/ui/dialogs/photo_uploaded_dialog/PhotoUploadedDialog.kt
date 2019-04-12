@@ -12,9 +12,11 @@ import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.dialog_photo_uploaded.*
 
 class PhotoUploadedDialog : MvpAppCompatDialogFragmentX(), PhotoUploadedView {
+
     @InjectPresenter
     lateinit var presenter: PhotoUploadedPresenter
     var photoModel: PhotoModel? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

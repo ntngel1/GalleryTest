@@ -1,19 +1,19 @@
 package com.shepelevkirill.gallerytest.app.di.data.app
 
+import android.app.Application
 import android.content.Context
-import com.shepelevkirill.gallerytest.app.App
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-object AppModule {
+class AppModule(private val app: Application) {
 
     @Singleton
     @Provides
-    fun provideApplication(): App.Companion = App
+    fun provideApplication(): Application = app
 
     @Singleton
     @Provides
-    fun provideContext(app: App.Companion): Context = app.applicationContext!!
+    fun provideContext(app: Application): Context = app.applicationContext
 }

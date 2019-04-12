@@ -7,11 +7,11 @@ import com.shepelevkirill.gallerytest.domain.models.TokenModel
 import io.reactivex.Single
 
 interface AuthenticationGateway {
+
     var session: SessionModel?
 
     fun isSignedIn(): Boolean
     fun invalidateSession()
-
     fun getTokenByUser(data: TokenGetByUserRequestModel): Single<TokenModel>
     fun getTokenByRefreshToken(data: RefreshTokenRequestModel): Single<TokenModel>
 }

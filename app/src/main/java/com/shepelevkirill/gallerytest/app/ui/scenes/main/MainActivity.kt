@@ -19,6 +19,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : MvpAppCompatActivityX(), MainView, OnShowPhotoListener {
+
+    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        return@OnNavigationItemSelectedListener presenter.onNavigationItemSelected(item)
+    }
+
     @InjectPresenter
     lateinit var presenter: MainPresenter
 
@@ -27,9 +32,6 @@ class MainActivity : MvpAppCompatActivityX(), MainView, OnShowPhotoListener {
         return App.appComponent.provideMainPresenter()
     }
 
-    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        return@OnNavigationItemSelectedListener presenter.onNavigationItemSelected(item)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

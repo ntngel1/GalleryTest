@@ -21,6 +21,13 @@ import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.fragment_upload.*
 
 class UploadFragment : MvpAppCompatFragmentX(), UploadView {
+
+    private val photoPickerIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+    private val photoUploadedDialog = PhotoUploadedDialog()
+    private val progressDialog = PhotoUploadingDialog().apply {
+        isCancelable = false
+    }
+
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var presenter: UploadPresenter
 
@@ -34,11 +41,6 @@ class UploadFragment : MvpAppCompatFragmentX(), UploadView {
         return UploadPresenter.PRESENTER_TAG
     }
 
-    private val photoPickerIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-    private val photoUploadedDialog = PhotoUploadedDialog()
-    private val progressDialog = PhotoUploadingDialog().apply {
-        isCancelable = false
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -113,6 +115,7 @@ class UploadFragment : MvpAppCompatFragmentX(), UploadView {
         descriptionInput.text.clear()
         selectedImageLabel.text = ""
     }
+
 
     companion object {
         const val PHOTO_PICKER_RC = 1

@@ -32,33 +32,4 @@ class GridLayoutDecorator(private val fragment: Fragment): RecyclerView.ItemDeco
             if (position == parent.adapter!!.itemCount - 1)
                 outRect.bottom = (17 * fragment.resources.displayMetrics.density).toInt()
     }
-
-    /*override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-        super.onDrawOver(c, parent, state)
-
-        val childView = parent.getChildAt(0)
-        if (childView == null)
-            return
-
-
-        val offsetViewBounds = Rect()
-        childView.getDrawingRect(offsetViewBounds)
-        parent.offsetDescendantRectToMyCoords(childView, offsetViewBounds)
-
-        val relativeTop = offsetViewBounds.top
-        val relativeLeft = offsetViewBounds.left
-
-        val paint = Paint().apply {
-            color = Color.RED
-            style = Paint.Style.STROKE
-            strokeWidth = 3F
-            flags = Paint.ANTI_ALIAS_FLAG
-        }
-
-        val startX = relativeTop.toFloat() + ((18 - 8) * fragment.resources.displayMetrics.density)
-        val startY = relativeLeft.toFloat() - ((18 - 8) * fragment.resources.displayMetrics.density)
-
-
-        c.drawRoundRect(startX, startY, startX + childView.width, startY + childView.height, 1F, 1F, paint)
-    }*/
 }

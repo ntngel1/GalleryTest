@@ -22,6 +22,12 @@ import kotlinx.android.synthetic.main.fragment_photos.*
 import kotlinx.android.synthetic.main.fragment_photos.view.*
 
 class PhotosFragment : MvpAppCompatFragmentX(), PhotosView {
+
+    private lateinit var layoutManager: GridLayoutManager
+    private val loadingDialog = LoadingDialog().apply {
+        isCancelable = false
+    }
+
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var presenter: PhotosPresenter
 
@@ -40,10 +46,6 @@ class PhotosFragment : MvpAppCompatFragmentX(), PhotosView {
         return "${PhotosPresenter.PRESENTER_TAG}_isNew=${isNew}_isPopular=${isPopular}"
     }
 
-    private lateinit var layoutManager: GridLayoutManager
-    private val loadingDialog = LoadingDialog().apply {
-        isCancelable = false
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_photos, container, false)
@@ -62,7 +64,7 @@ class PhotosFragment : MvpAppCompatFragmentX(), PhotosView {
         ui_photos.layoutManager = layoutManager
         ui_photos.apply {
             setHasFixedSize(true)
-            setOnScrollListener(onRecycleViewScrollListener)
+            addOnScrollListener(onRecycleViewScrollListener)
             addItemDecoration(decorator)
         }
     }
@@ -133,6 +135,7 @@ class PhotosFragment : MvpAppCompatFragmentX(), PhotosView {
     override fun hideLoadingDialog() {
         (childFragmentManager.findFragmentByTag(LOADING_DIALOG_TAG) as LoadingDialog).dismiss()
     }
+
 
     companion object {
         const val LOADING_DIALOG_TAG = "loading_dialog"

@@ -1,10 +1,10 @@
-package com.shepelevkirill.gallerytest.app.di.data.server.interceptors
+package com.shepelevkirill.gallerytest.app.di.data.retrofit.interceptors
 
 import com.shepelevkirill.gallerytest.app.App
 import com.shepelevkirill.gallerytest.domain.gateway.AuthenticationGateway
 import com.shepelevkirill.gallerytest.domain.models.SessionModel
 import com.shepelevkirill.gallerytest.domain.models.TokenModel
-import com.shepelevkirill.gallerytest.domain.usecases.authentication.RefreshTokenUseCase
+import com.shepelevkirill.gallerytest.domain.usecases.core.authentication.RefreshTokenUseCase
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -12,24 +12,25 @@ import okhttp3.Response
 import javax.inject.Inject
 
 class Authentication : Interceptor {
+
     @Inject
     lateinit var refreshTokenUseCase: RefreshTokenUseCase
     @Inject
-    lateinit var authenticationGateway: AuthenticationGateway
+    lateinit var authGateway: AuthenticationGateway
+
 
     override fun intercept(chain: Interceptor.Chain): Response {
         App.appComponent.inject(this)
 
-        val session = authenticationGateway.session
+        val session = authGateway.session
         val request = chain.request()
         val requestBuilder = request.newBuilder()
 
-        val isSignedIn = authenticationGateway.isSignedIn()
+        val isSignedIn = authGateway.isSignedIn()
 
         if (!isSignedIn) {
             return chain.proceed(request)
         }
-
 
         val response = sendRequest(chain, requestBuilder, session!!)
         if (!isAuthorizationError(response.code())) {
@@ -48,8 +49,10 @@ class Authentication : Interceptor {
     }
 
     private fun refreshToken(session: SessionModel): Throwable? {
-        return refreshTokenUseCase.setSchedulers(Schedulers.io(), Schedulers.io())
-            .execute(session)
+        return refreshTokenUseCase.refreshToken(session)
+            .retry(3)
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
             .blockingGet()
     }
 
@@ -61,15 +64,14 @@ class Authentication : Interceptor {
 
     private fun sendRequestWithTokenRefresh(chain: Interceptor.Chain, requestBuilder: Request.Builder, session: SessionModel) : Response {
         synchronized(this) {
-            while (refreshToken(session) != null);
-            setAuthHeader(requestBuilder, session.token)
+            if (refreshToken(session) == null) {
+                authGateway.invalidateSession()
+            } else {
+                setAuthHeader(requestBuilder, session.token)
+            }
 
             val request = requestBuilder.build()
-            val response = chain.proceed(request)
-            if (isAuthorizationError(response.code())) {
-                authenticationGateway.invalidateSession()
-            }
-            return response
+            return chain.proceed(request)
         }
     }
 }

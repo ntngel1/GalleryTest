@@ -1,20 +1,20 @@
-package com.shepelevkirill.gallerytest.app.di.data.server
+package com.shepelevkirill.gallerytest.app.di.data.retrofit
 
 import com.shepelevkirill.gallerytest.app.di.data.app.AppModule
 import com.shepelevkirill.gallerytest.data.server.gateway.AuthenticationApiGateway
 import com.shepelevkirill.gallerytest.domain.gateway.*
 import com.shepelevkirill.server.Api
-import com.shepelevkirill.server.gateway.ClientApiGateway
-import com.shepelevkirill.server.gateway.MediaObjectApiGateway
+import com.shepelevkirill.gallerytest.data.server.gateway.ClientApiGateway
+import com.shepelevkirill.gallerytest.data.server.gateway.MediaObjectApiGateway
 import com.shepelevkirill.server.gateway.PhotoApiGateway
-import com.shepelevkirill.server.gateway.UserApiGateway
+import com.shepelevkirill.gallerytest.data.server.gateway.UserApiGateway
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module(includes = [(RetrofitModule::class), (AppModule::class)])
-object ServerGatewayModule {
+object RetrofitGatewayModule {
 
     @Provides
     @Singleton

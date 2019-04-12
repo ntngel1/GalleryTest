@@ -9,6 +9,7 @@ import com.shepelevkirill.server.Api
 import io.reactivex.Single
 
 class AuthenticationApiGateway(private val api: Api) : AuthenticationGateway {
+
     override var session: SessionModel? = null
 
     override fun isSignedIn(): Boolean {

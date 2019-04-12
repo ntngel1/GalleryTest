@@ -5,7 +5,7 @@ import android.net.Uri
 import android.provider.MediaStore
 
 fun Uri.getPath(context: Context): String? {
-    var path: String? = null
+    var path: String?
     val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
     val cursor = context.contentResolver.query(this, filePathColumn, null, null, null)
     if (cursor != null && cursor.moveToFirst()) {

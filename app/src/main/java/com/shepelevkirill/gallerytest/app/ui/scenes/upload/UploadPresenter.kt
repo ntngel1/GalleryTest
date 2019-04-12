@@ -6,7 +6,7 @@ import com.arellomobile.mvp.MvpPresenter
 import com.shepelevkirill.gallerytest.app.App
 import com.shepelevkirill.gallerytest.app.utils.getPath
 import com.shepelevkirill.gallerytest.domain.gateway.AuthenticationGateway
-import com.shepelevkirill.gallerytest.domain.usecases.photos.UploadPhotoUseCase
+import com.shepelevkirill.gallerytest.domain.usecases.core.photos.UploadPhotoUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -21,6 +21,7 @@ class UploadPresenter @Inject constructor(
 
     private var selectedPhoto: File? = null
     private val compositeDisposable = CompositeDisposable()
+
 
     fun onResume() {
         if (authenticationGateway.isSignedIn()) {
@@ -44,7 +45,7 @@ class UploadPresenter @Inject constructor(
     }
 
     fun onPhotoPicked(photo: Uri) {
-        val path = photo.getPath(App.applicationContext!!) // TODO Fix this piece of shit.
+        val path = photo.getPath(App.appContext!!) // TODO Fix this piece of shit.
         selectedPhoto = File(path)
 
         viewState.showSelectedPhoto(selectedPhoto!!.name)
@@ -56,25 +57,27 @@ class UploadPresenter @Inject constructor(
             return
         }
 
-        if (selectedPhoto == null) {
+        val photo: File? = selectedPhoto
+        if (photo == null) {
             viewState.showMessage("Please, select image to upload!")
             return
         }
 
-        viewState.showProgressDialog()
-        uploadPhotoUseCase.setSchedulers(Schedulers.io(), AndroidSchedulers.mainThread())
-            .execute(UploadPhotoUseCase.Params(title, description, selectedPhoto!!))
+        uploadPhotoUseCase.uploadPhoto(title, description, photo)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { viewState.showProgressDialog() }
+            .doFinally { viewState.hideProgressDialog() }
             .subscribe({ photoModel ->
                 viewState.showPhotoUploadedDialog(photoModel)
                 viewState.clearInputData()
-                viewState.hideProgressDialog()
-            }, {
-                viewState.hideProgressDialog()
+            }, { error ->
                 viewState.showMessage("Error during uploading image to server!")
-                it.printStackTrace()
+                error.printStackTrace()
             })
             .let(compositeDisposable::add)
     }
+
 
     companion object {
         const val PRESENTER_TAG = "upload_presenter"

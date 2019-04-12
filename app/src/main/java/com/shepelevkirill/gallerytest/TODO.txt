@@ -1,3 +1,9 @@
 //TODO Блики при подсветки загруженной фотки(че-то с тенями)
 //TODO Parcelable encountered IOException writing serializable object при выборе фото тд тп какие-то действия
 //TODO Улучшение: мб вызывать при нажатии кнопки Show после загрузки фото листенер не на активити, а на хост-фрагменте и прокидывать дальше??
+//TODO перед companion object ставить два пробела
+//TODO remove redunant methods, variables, etc.
+//TODO Naming
+//TODO Spaces after single-line methods too
+//TODO Rx use doOnSubscribe and etc.
+// TODO Packages path change

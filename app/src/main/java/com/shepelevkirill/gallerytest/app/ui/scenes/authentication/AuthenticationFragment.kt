@@ -15,6 +15,11 @@ import com.shepelevkirill.gallerytest.app.ui.dialogs.SigningInDialog
 import kotlinx.android.synthetic.main.fragment_authentication.*
 
 class AuthenticationFragment : MvpAppCompatFragmentX(), AuthenticationView {
+
+    private val progressDialog = SigningInDialog().apply {
+        isCancelable = false
+    }
+
     @InjectPresenter
     lateinit var presenter: AuthenticationPresenter
 
@@ -23,9 +28,6 @@ class AuthenticationFragment : MvpAppCompatFragmentX(), AuthenticationView {
         return App.appComponent.provideAuthenticationPresenter()
     }
 
-    private val progressDialog = SigningInDialog().apply {
-        isCancelable = false
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_authentication, container, false)

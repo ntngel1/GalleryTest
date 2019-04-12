@@ -25,20 +25,3 @@ data class PhotoCreateRequestModel(
     val popular: Boolean,
     val image: String
 )
-
-// TODO Может быть можно обощить два интерфейса ниже в один???
-data class PhotoUpdateRequestModel(
-    val name: String,
-    val description: String,
-    val new: Boolean,
-    val popular: Boolean,
-    val image: MediaObjectModel
-)
-
-data class PhotoReplaceRequestModel(
-    val name: String,
-    val description: String,
-    val new: Boolean,
-    val popular: Boolean,
-    val image: MediaObjectModel
-)

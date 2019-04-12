@@ -8,6 +8,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 
 interface PhotosView : MvpView {
+
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun <VH : RecyclerView.ViewHolder> setAdapter(adapter: RecyclerView.Adapter<VH>)
 

@@ -15,6 +15,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.arellomobile.mvp.presenter.ProvidePresenterTag
 import com.shepelevkirill.gallerytest.R
 import com.shepelevkirill.gallerytest.app.App
+import com.shepelevkirill.gallerytest.app.ui.adapters.PhotosAdapter
 import com.shepelevkirill.gallerytest.app.ui.decorators.GridLayoutDecorator
 import com.shepelevkirill.gallerytest.app.ui.dialogs.LoadingDialog
 import com.shepelevkirill.gallerytest.app.ui.scenes.main.MainActivity
@@ -28,7 +29,7 @@ class PhotosFragment : MvpAppCompatFragmentX(), PhotosView {
 
     data class PhotosViewParams(val isNew: Boolean?, val isPopular: Boolean?): Serializable
 
-
+    private lateinit var recyclerAdapter: PhotosAdapter
     private lateinit var photosViewParams: PhotosViewParams
     private lateinit var layoutManager: GridLayoutManager
     private val loadingDialog = LoadingDialog().apply {
@@ -72,17 +73,30 @@ class PhotosFragment : MvpAppCompatFragmentX(), PhotosView {
         val decorator = GridLayoutDecorator(this)
         layoutManager = GridLayoutManager(view?.context, 2)
         ui_photos.layoutManager = layoutManager
+        recyclerAdapter = App.appComponent.providePhotosAdapter().apply {
+            onPhotoClickedListener = presenter::onPhotoClicked
+        }
         ui_photos.apply {
             setHasFixedSize(true)
             addOnScrollListener(onRecycleViewScrollListener)
             addItemDecoration(decorator)
+            adapter = recyclerAdapter
         }
     }
 
     // Listener for RecycleView scroll
     private val onRecycleViewScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            presenter.onRecyclerViewScrolled(recyclerView, dx, dy)
+            val layoutManager = recyclerView.layoutManager as GridLayoutManager
+            val lastVisibleItemPos = layoutManager.findLastVisibleItemPosition()
+
+            // if we need to load new content
+
+
+
+            if (lastVisibleItemPos + PhotosPresenter.ITEMS   _BUFFER >= layoutManager.itemCount - 1) {
+                this@PhotosFragment.presenter.getPhotos()
+            }
         }
     }
 
@@ -95,8 +109,16 @@ class PhotosFragment : MvpAppCompatFragmentX(), PhotosView {
         presenter.onResume()
     }
 
-    override fun <VH : RecyclerView.ViewHolder> setAdapter(adapter: RecyclerView.Adapter<VH>) {
-        ui_photos.adapter = adapter
+    override fun addPhotos(photos: List<PhotoModel>) {
+        recyclerAdapter.addPhotoModels(photos)
+    }
+
+    override fun clearPhotos() {
+        recyclerAdapter.clearPhotoModels()
+    }
+
+    override fun highlightPhoto(id: Int) {
+        recyclerAdapter.highlightPhoto(id)
     }
 
     override fun onPhotoClicked(photo: PhotoModel) {
@@ -108,7 +130,7 @@ class PhotosFragment : MvpAppCompatFragmentX(), PhotosView {
     }
 
     override fun showNetworkError() {
-        presenter.clearPhotos()
+        clearPhotos()
         view?.ui_photos?.visibility = View.INVISIBLE
         view?.ui_network_error_layout?.visibility = View.VISIBLE
         view?.ui_progressbar?.visibility = View.INVISIBLE
@@ -128,7 +150,7 @@ class PhotosFragment : MvpAppCompatFragmentX(), PhotosView {
         view?.ui_progressbar?.visibility = View.INVISIBLE
     }
 
-    override fun openPhoto(photo: PhotoModel) {
+    override fun openPhotoView(photo: PhotoModel) {
         val fragment = PhotoFragment.newInstance(photo)
         // TODO Is it good or not?
         (activity as MainActivity).openScreenWithBackStack(fragment)

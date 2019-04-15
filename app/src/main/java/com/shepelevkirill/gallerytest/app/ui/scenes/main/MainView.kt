@@ -8,6 +8,9 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 interface MainView : MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy::class)
+    fun openDefaultScreen()
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
     fun openScreen(fragment: Fragment)
 
     @StateStrategyType(OneExecutionStateStrategy::class)

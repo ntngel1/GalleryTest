@@ -48,11 +48,10 @@ class MainActivity : MvpAppCompatActivityX(), MainView, OnShowPhotoListener {
         setContentView(R.layout.activity_main)
 
         requestPermissions()
-        openDefaultScreen()
         navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
-    private fun openDefaultScreen() {
+    override fun openDefaultScreen() {
         openScreen(newPhotosFragment)
         currentFragment = newPhotosFragment
     }

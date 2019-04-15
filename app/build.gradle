@@ -15,7 +15,6 @@ android {
     }
     buildTypes {
         debug {
-            // TODO Как сделать общее поле для всех типов сборок
             buildConfigField "String", "BASE_URL", "\"http://gallery.dev.webant.ru\""
         }
         release {

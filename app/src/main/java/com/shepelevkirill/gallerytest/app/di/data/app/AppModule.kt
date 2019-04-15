@@ -1,26 +1,19 @@
 package com.shepelevkirill.gallerytest.app.di.data.app
 
-import android.app.Application
 import android.content.Context
+import com.shepelevkirill.gallerytest.app.App
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@Module(
-    /*includes = [
-        UseCaseModule::class*//*,
-        RetrofitModule::class,
-        RetrofitGatewayModule::class,
-        AndroidGatewayModule::class*//*
-    ]*/
-)
-class AppModule(private val app: Application) {
+@Module
+class AppModule(private val app: App) {
 
     @Singleton
     @Provides
-    fun provideApplication(): Application = app
+    fun provideApplication(): App = app
 
     @Singleton
     @Provides
-    fun provideContext(app: Application): Context = app.applicationContext
+    fun provideContext(app: App): Context = app.applicationContext
 }

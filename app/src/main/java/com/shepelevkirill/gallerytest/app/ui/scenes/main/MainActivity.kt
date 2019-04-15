@@ -15,24 +15,25 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.shepelevkirill.gallerytest.R
 import com.shepelevkirill.gallerytest.app.App
-import com.shepelevkirill.gallerytest.app.ui.scenes.authentication.AuthenticationFragment
-import com.shepelevkirill.gallerytest.app.ui.scenes.photos.PhotosFragment
+import com.shepelevkirill.gallerytest.app.ui.routers.main.AuthenticationScreen
+import com.shepelevkirill.gallerytest.app.ui.routers.main.NewPhotosScreen
+import com.shepelevkirill.gallerytest.app.ui.routers.main.PopularPhotosScreen
+import com.shepelevkirill.gallerytest.app.ui.routers.main.UploadScreen
 import com.shepelevkirill.gallerytest.app.ui.scenes.upload.OnShowPhotoListener
-import com.shepelevkirill.gallerytest.app.ui.scenes.upload.UploadFragment
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.terrakok.cicerone.Screen
+import ru.terrakok.cicerone.android.support.SupportAppNavigator
+import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 
 class MainActivity : MvpAppCompatActivityX(), MainView, OnShowPhotoListener {
 
-    private lateinit var currentFragment: Fragment
-    private val newPhotosFragment = PhotosFragment.newInstance(true, false, "New")
-    private val popularPhotosFragment = PhotosFragment.newInstance(false, true, "Popular")
-    private val uploadFragment = UploadFragment.newInstance()
-    private val authenticationFragment = AuthenticationFragment.newInstance()
+    private lateinit var currentScreen: Screen
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         return@OnNavigationItemSelectedListener onNavigationItemSelected(item)
     }
+    private val navigator = SupportAppNavigator(this, R.id.fragment_container)
 
     @InjectPresenter
     lateinit var presenter: MainPresenter
@@ -48,13 +49,23 @@ class MainActivity : MvpAppCompatActivityX(), MainView, OnShowPhotoListener {
         setContentView(R.layout.activity_main)
 
         requestPermissions()
-        openDefaultScreen()
         navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
+    override fun onResume() {
+        super.onResume()
+        App.navigatorHolder.setNavigator(navigator)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        App.navigatorHolder.removeNavigator()
+    }
+
     private fun openDefaultScreen() {
-        openScreen(newPhotosFragment)
-        currentFragment = newPhotosFragment
+        val screen = NewPhotosScreen()
+        App.router.navigateTo(screen)
+        currentScreen = screen
     }
 
     private fun requestPermissions() {
@@ -73,17 +84,17 @@ class MainActivity : MvpAppCompatActivityX(), MainView, OnShowPhotoListener {
     }
 
     private fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val newFragment: Fragment = when (item.itemId) {
-            R.id.navigation_new -> newPhotosFragment
-            R.id.navigation_popular -> popularPhotosFragment
-            R.id.navigation_upload -> uploadFragment
-            R.id.navigation_authentication -> authenticationFragment
+        val newScreen: SupportAppScreen = when (item.itemId) {
+            R.id.navigation_new -> NewPhotosScreen()
+            R.id.navigation_popular -> PopularPhotosScreen()
+            R.id.navigation_upload -> UploadScreen()
+            R.id.navigation_authentication -> AuthenticationScreen()
             else -> return false
         }
 
-        if (currentFragment != newFragment) {
-            openScreen(newFragment)
-            currentFragment = newFragment
+        if (currentScreen.screenKey != newScreen.screenKey) {
+            App.router.navigateTo(newScreen)
+            currentScreen = newScreen
         }
 
         return true
@@ -112,7 +123,6 @@ class MainActivity : MvpAppCompatActivityX(), MainView, OnShowPhotoListener {
     }
 
     override fun onShowPhoto(photoModel: PhotoModel) {
-        openNewPhotosView()
-        newPhotosFragment.presenter.onHighlightPhoto(photoModel)
+        (currentScreen as NewPhotosScreen).fragmentInstance.presenter.onHighlightPhoto(photoModel)
     }
 }

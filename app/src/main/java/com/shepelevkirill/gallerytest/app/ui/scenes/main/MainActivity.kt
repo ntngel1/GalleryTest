@@ -1,5 +1,6 @@
 package com.shepelevkirill.gallerytest.app.ui.scenes.main
 
+import android.Manifest
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.arellomobile.moxy.MvpAppCompatActivityX
@@ -37,12 +38,17 @@ class MainActivity : MvpAppCompatActivityX(), MainView, OnShowPhotoListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        requestPermissions()
         navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
-    override fun requestPermissions(vararg permissions: String) {
+    fun requestPermissions() {
         Dexter.withActivity(this)
-            .withPermissions(permissions.asList())
+            .withPermissions(
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
             .withListener(object: MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {}
                 override fun onPermissionRationaleShouldBeShown(permissions: MutableList<PermissionRequest>?, token: PermissionToken?) {}

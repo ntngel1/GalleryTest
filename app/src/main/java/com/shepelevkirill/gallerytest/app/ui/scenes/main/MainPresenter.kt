@@ -1,6 +1,5 @@
 package com.shepelevkirill.gallerytest.app.ui.scenes.main
 
-import android.Manifest
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.arellomobile.mvp.InjectViewState
@@ -24,11 +23,6 @@ class MainPresenter @Inject constructor() : MvpPresenter<MainView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        viewState.requestPermissions(
-            Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.INTERNET,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE)
         openDefaultFragment()
     }
 

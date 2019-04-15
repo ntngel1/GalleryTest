@@ -8,9 +8,6 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 interface MainView : MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy::class)
-    fun requestPermissions(vararg permissions: String)
-
-    @StateStrategyType(OneExecutionStateStrategy::class)
     fun setNavigationSelection(id: Int)
 
     @StateStrategyType(OneExecutionStateStrategy::class)

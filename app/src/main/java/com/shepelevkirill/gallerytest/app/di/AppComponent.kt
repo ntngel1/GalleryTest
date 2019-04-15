@@ -26,6 +26,7 @@ interface AppComponent {
     fun providePhotosPresenter(): PhotosPresenter
     fun provideUploadPresenter(): UploadPresenter
     fun provideAuthenticationPresenter(): AuthenticationPresenter
+    fun providePhotosAdapter(): PhotosAdapter
 
     @Component.Builder
     interface Builder {

@@ -1,22 +1,22 @@
 package com.shepelevkirill.gallerytest.app.ui.scenes.upload
 
-import android.net.Uri
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import com.shepelevkirill.gallerytest.app.App
-import com.shepelevkirill.gallerytest.app.utils.getPath
 import com.shepelevkirill.gallerytest.domain.gateway.AuthenticationGateway
+import com.shepelevkirill.gallerytest.domain.gateway.StorageGateway
 import com.shepelevkirill.gallerytest.domain.usecases.core.photos.UploadPhotoUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
+import java.net.URI
 import javax.inject.Inject
 
 @InjectViewState
 class UploadPresenter @Inject constructor(
     private val uploadPhotoUseCase: UploadPhotoUseCase,
-    private val authenticationGateway: AuthenticationGateway
+    private val authenticationGateway: AuthenticationGateway,
+    private val storageGateway: StorageGateway
 ) : MvpPresenter<UploadView>() {
 
     private var selectedPhoto: File? = null
@@ -44,13 +44,17 @@ class UploadPresenter @Inject constructor(
         viewState.getInputData()
     }
 
-    fun onPhotoPicked(photo: Uri) {
-        val context = App.appContext
-
-        val path = photo.getPath(context)
-        selectedPhoto = File(path)
-
-        viewState.showSelectedPhoto(selectedPhoto!!.name)
+    fun onPhotoPicked(photo: URI) {
+        storageGateway.getPhotoFile(photo.toString())
+            .observeOn(Schedulers.io())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .subscribe({ file ->
+                selectedPhoto = file
+                viewState.showSelectedPhoto(file.name)
+            }, { error ->
+                viewState.showMessage("Error during loading photo from storage! Try again!")
+            })
+            .let(compositeDisposable::add)
     }
 
     fun onGetInputData(title: String, description: String) {

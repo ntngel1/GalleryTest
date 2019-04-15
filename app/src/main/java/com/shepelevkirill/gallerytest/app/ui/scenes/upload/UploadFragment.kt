@@ -19,6 +19,7 @@ import com.shepelevkirill.gallerytest.app.ui.dialogs.PhotoUploadingDialog
 import com.shepelevkirill.gallerytest.app.ui.dialogs.photo_uploaded_dialog.PhotoUploadedDialog
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.fragment_upload.*
+import java.net.URI
 
 class UploadFragment : MvpAppCompatFragmentX(), UploadView {
 
@@ -64,7 +65,7 @@ class UploadFragment : MvpAppCompatFragmentX(), UploadView {
         if (requestCode == PHOTO_PICKER_RC) {
             val photoUri = data?.data
             if (photoUri != null) {
-                presenter.onPhotoPicked(photoUri)
+                presenter.onPhotoPicked(URI.create(photoUri.toString()))
             }
         }
     }

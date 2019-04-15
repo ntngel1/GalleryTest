@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import com.shepelevkirill.gallerytest.app.App
 import com.shepelevkirill.gallerytest.app.ui.adapters.PhotosAdapter
 import com.shepelevkirill.gallerytest.domain.gateway.NetworkGateway
 import com.shepelevkirill.gallerytest.domain.gateway.PhotoGateway
@@ -23,15 +24,19 @@ class PhotosPresenter @Inject constructor(
 
     var isNew: Boolean? = null
     var isPopular: Boolean? = null
-    private val recyclerAdapter: PhotosAdapter = PhotosAdapter().apply {
+    private lateinit var recyclerAdapter: PhotosAdapter
+    /*private val recyclerAdapter: PhotosAdapter = PhotosAdapter().apply {
         onPhotoClickedListener = this@PhotosPresenter::onPhotoClicked
-    }
+    }*/
     private var currentPage: Int = 0
     private var isRequestSent = false
     private val compositeDisposable = CompositeDisposable()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
+        recyclerAdapter = App.appComponent.providePhotosAdapter().apply {
+            onPhotoClickedListener = this@PhotosPresenter::onPhotoClicked
+        }
         viewState.setAdapter(recyclerAdapter)
         getPhotos()
     }

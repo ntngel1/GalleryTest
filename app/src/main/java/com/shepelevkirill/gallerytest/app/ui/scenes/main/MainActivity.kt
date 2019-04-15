@@ -2,6 +2,7 @@ package com.shepelevkirill.gallerytest.app.ui.scenes.main
 
 import android.Manifest
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.arellomobile.moxy.MvpAppCompatActivityX
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -14,15 +15,23 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.shepelevkirill.gallerytest.R
 import com.shepelevkirill.gallerytest.app.App
+import com.shepelevkirill.gallerytest.app.ui.scenes.authentication.AuthenticationFragment
+import com.shepelevkirill.gallerytest.app.ui.scenes.photos.PhotosFragment
 import com.shepelevkirill.gallerytest.app.ui.scenes.upload.OnShowPhotoListener
+import com.shepelevkirill.gallerytest.app.ui.scenes.upload.UploadFragment
 import com.shepelevkirill.gallerytest.domain.models.PhotoModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : MvpAppCompatActivityX(), MainView, OnShowPhotoListener {
 
+    private lateinit var currentFragment: Fragment
+    private val newPhotosFragment = PhotosFragment.newInstance(true, false, "New")
+    private val popularPhotosFragment = PhotosFragment.newInstance(false, true, "Popular")
+    private val uploadFragment = UploadFragment.newInstance()
+    private val authenticationFragment = AuthenticationFragment.newInstance()
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        return@OnNavigationItemSelectedListener presenter.onNavigationItemSelected(item)
+        return@OnNavigationItemSelectedListener onNavigationItemSelected(item)
     }
 
     @InjectPresenter
@@ -39,10 +48,16 @@ class MainActivity : MvpAppCompatActivityX(), MainView, OnShowPhotoListener {
         setContentView(R.layout.activity_main)
 
         requestPermissions()
+        openDefaultScreen()
         navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
-    fun requestPermissions() {
+    private fun openDefaultScreen() {
+        openScreen(newPhotosFragment)
+        currentFragment = newPhotosFragment
+    }
+
+    private fun requestPermissions() {
         Dexter.withActivity(this)
             .withPermissions(
                 Manifest.permission.ACCESS_NETWORK_STATE,
@@ -57,8 +72,21 @@ class MainActivity : MvpAppCompatActivityX(), MainView, OnShowPhotoListener {
             .check()
     }
 
-    override fun setNavigationSelection(id: Int) {
-        navigation.selectedItemId = id
+    private fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val newFragment: Fragment = when (item.itemId) {
+            R.id.navigation_new -> newPhotosFragment
+            R.id.navigation_popular -> popularPhotosFragment
+            R.id.navigation_upload -> uploadFragment
+            R.id.navigation_authentication -> authenticationFragment
+            else -> return false
+        }
+
+        if (currentFragment != newFragment) {
+            openScreen(newFragment)
+            currentFragment = newFragment
+        }
+
+        return true
     }
 
     override fun openScreen(fragment: Fragment) {
@@ -79,7 +107,12 @@ class MainActivity : MvpAppCompatActivityX(), MainView, OnShowPhotoListener {
         supportFragmentManager.popBackStack()
     }
 
+    override fun openNewPhotosView() {
+        navigation.selectedItemId = R.id.navigation_new
+    }
+
     override fun onShowPhoto(photoModel: PhotoModel) {
-        presenter.onShowPhoto(photoModel)
+        openNewPhotosView()
+        newPhotosFragment.presenter.onHighlightPhoto(photoModel)
     }
 }

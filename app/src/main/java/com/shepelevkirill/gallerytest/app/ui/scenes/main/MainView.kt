@@ -8,9 +8,6 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 interface MainView : MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy::class)
-    fun setNavigationSelection(id: Int)
-
-    @StateStrategyType(OneExecutionStateStrategy::class)
     fun openScreen(fragment: Fragment)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
@@ -18,4 +15,7 @@ interface MainView : MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun popFragment()
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun openNewPhotosView()
 }
